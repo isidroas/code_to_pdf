@@ -1,4 +1,6 @@
 gurux/
+gurux_small/
+__pycache__/
 *.swp
 *.pdf
 *.html
