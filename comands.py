@@ -6,6 +6,8 @@ from pygments.formatters import HtmlFormatter
 file = open("gurux/Gurux.DLMS.python/setup.py")
 file_str = file.read()
 
+# Remove copyright and add header
+
 formater = HtmlFormatter(full=True, style="colorful", linenos=True)
 output_str = highlight(file_str, PythonLexer(), formater)
 
