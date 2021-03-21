@@ -10,10 +10,11 @@ def _get_temp_file():
         return file.name
 
 
-def numerize_pdf(input_html, output_pdf, start_page):
-
+def html_to_numerized_pdf(input_html, output_pdf, start_page):
     input_pdf = _get_temp_file()
-    pdfkit.from_file(input_html, input_pdf)
+    options = {'quiet':'',}
+#              'margin-bottom': '0.75in'}
+    pdfkit.from_file(input_html, input_pdf, options=options)
 
     pdf_reader = PyPDF2.PdfFileReader(input_pdf)
     pdf_writer = PyPDF2.PdfFileWriter()
@@ -46,12 +47,12 @@ def numerize_pdf(input_html, output_pdf, start_page):
 
     with open(output_pdf, "wb") as file:
         pdf_writer.write(file)
-    return absolute_page
+    return absolute_page + 1
 
 
-input_html = "output.html"
-input_pdf = "input.pdf"
-output_pdf = "output.pdf"
+#input_html = "output.html"
+#input_pdf = "input.pdf"
+#output_pdf = "output.pdf"
 
 
-numerize_pdf(input_html, output_pdf, 250)
+#html_to_numerized_pdf(input_html, output_pdf, 250)
