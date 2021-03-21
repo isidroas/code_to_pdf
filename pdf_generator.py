@@ -12,8 +12,8 @@ def _get_temp_file():
 
 def html_to_numerized_pdf(input_html, output_pdf, start_page):
     input_pdf = _get_temp_file()
-    options = {'quiet':'',}
-#              'margin-bottom': '0.75in'}
+    options = {"quiet": ""}
+    #              'margin-bottom': '0.75in'}
     pdfkit.from_file(input_html, input_pdf, options=options)
 
     pdf_reader = PyPDF2.PdfFileReader(input_pdf)
@@ -50,9 +50,19 @@ def html_to_numerized_pdf(input_html, output_pdf, start_page):
     return absolute_page + 1
 
 
-#input_html = "output.html"
-#input_pdf = "input.pdf"
-#output_pdf = "output.pdf"
+# input_html = "output.html"
+# input_pdf = "input.pdf"
+# output_pdf = "output.pdf"
 
 
-#html_to_numerized_pdf(input_html, output_pdf, 250)
+# html_to_numerized_pdf(input_html, output_pdf, 250)
+def merge_pdfs(pdf_list, output_pdf):
+    pdf_writer = PyPDF2.PdfFileWriter()
+    for pdf in pdf_list:
+        pdf_reader = PyPDF2.PdfFileReader(pdf)
+        n_pages = pdf_reader.getNumPages()
+        for n_page in range(n_pages):
+            pdf_writer.addPage(pdf_reader.getPage(n_page))
+
+    with open(output_pdf, "wb") as file:
+        pdf_writer.write(file)

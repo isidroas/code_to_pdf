@@ -1,6 +1,6 @@
 import os
 from html_generator import code_to_html
-from pdf_generator import html_to_numerized_pdf
+from pdf_generator import html_to_numerized_pdf, merge_pdfs
 
 PROYECT_FOLDER = "gurux_small"
 # exclude containg the following in path name
@@ -16,6 +16,7 @@ def is_excluded(exclude_list, path):
 
 
 page_number = 0
+pdf_list = []
 for root, subdirs, files in os.walk(PROYECT_FOLDER):
     for file in files:
         file_path = os.path.join(root, file)
@@ -28,4 +29,7 @@ for root, subdirs, files in os.walk(PROYECT_FOLDER):
         code_to_html(file_path, output_html)
 
         page_number = html_to_numerized_pdf(output_html, output_pdf, page_number)
-        print(page_number)
+        pdf_list.append(output_pdf)
+        print("Generated {} pages".format(page_number))
+
+merge_pdfs(pdf_list, "all_contents.pdf")
