@@ -4,41 +4,54 @@ import tempfile
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 
-INPUT_PDF = "input.pdf"
-OUTPUT_PDF = "output.pdf"
-INPUT_HTML = "output.html"
-
 
 def _get_temp_file():
     with tempfile.NamedTemporaryFile(suffix=".pdf") as file:
         return file.name
 
 
-pdfkit.from_file(INPUT_HTML, INPUT_PDF)
+def numerize_pdf(input_html, output_pdf, start_page):
 
-pdf_reader = PyPDF2.PdfFileReader(INPUT_PDF)
-pdf_writer = PyPDF2.PdfFileWriter()
-page = pdf_reader.getPage(0)
+    input_pdf = _get_temp_file()
+    pdfkit.from_file(input_html, input_pdf)
 
-## Create
-temp_file = _get_temp_file()
-c = canvas.Canvas(temp_file)
-width, height = A4
-x = width * 0.05
-y = height * 0.03
-c.drawString(x, y, "233")
-x = width * 0.92
-c.drawString(x, y, "233")
-c.showPage()
-c.save()
+    pdf_reader = PyPDF2.PdfFileReader(input_pdf)
+    pdf_writer = PyPDF2.PdfFileWriter()
 
-pdf_text = open(temp_file, "rb")
-pdf_text_reader = PyPDF2.PdfFileReader(temp_file)
-page_text_reader = pdf_text_reader.getPage(0)
-page.mergePage(page_text_reader)
+    n_pages = pdf_reader.getNumPages()
+
+    for n_page in range(n_pages):
+        page = pdf_reader.getPage(n_page)
+
+        ## Create
+        temp_file = _get_temp_file()
+        c = canvas.Canvas(temp_file)
+        width, height = A4
+        y = height * 0.03
+        absolute_page = n_page + start_page
+        if absolute_page % 2:
+            x = width * 0.05
+        else:
+            x = width * 0.92
+        c.drawString(x, y, str(absolute_page))
+        c.showPage()
+        c.save()
+
+        pdf_text = open(temp_file, "rb")
+        pdf_text_reader = PyPDF2.PdfFileReader(temp_file)
+        page_text_reader = pdf_text_reader.getPage(0)
+        page.mergePage(page_text_reader)
+
+        pdf_writer.addPage(page)
+
+    with open(output_pdf, "wb") as file:
+        pdf_writer.write(file)
+    return absolute_page
 
 
-pdf_writer.addPage(page)
+input_html = "output.html"
+input_pdf = "input.pdf"
+output_pdf = "output.pdf"
 
-with open(OUTPUT_PDF, "wb") as file:
-    pdf_writer.write(file)
+
+numerize_pdf(input_html, output_pdf, 250)
