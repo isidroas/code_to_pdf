@@ -66,3 +66,20 @@ def merge_pdfs(pdf_list, output_pdf):
 
     with open(output_pdf, "wb") as file:
         pdf_writer.write(file)
+
+
+def add_blank_page(pdf_file):
+    pdf_reader = PyPDF2.PdfFileReader(pdf_file)
+    pdf_writer = PyPDF2.PdfFileWriter()
+    n_pages = pdf_reader.getNumPages()
+
+    pdf_writer.appendPagesFromReader(pdf_reader)
+    pdf_writer.addBlankPage()
+
+    with open(pdf_file, "wb") as file:
+        pdf_writer.write(file)
+
+
+def number_of_pages(pdf_file):
+    pdf_reader = PyPDF2.PdfFileReader(pdf_file)
+    return pdf_reader.getNumPages()

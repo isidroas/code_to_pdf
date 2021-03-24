@@ -3,4 +3,6 @@ gurux_small/
 __pycache__/
 *.swp
 *.pdf
-*.html
+*.pyc
+/*.html
+/*.pdf
