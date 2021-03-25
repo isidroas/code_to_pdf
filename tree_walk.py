@@ -2,12 +2,14 @@ import os
 from html_generator import code_to_html
 from pdf_generator import html_to_numerized_pdf, merge_pdfs
 from toc_generator import render_toc, get_entry
+from temporal import get_temp_folder, get_temp_file
 
-PROYECT_FOLDER = "gurux_small"
+PROYECT_FOLDER = "gurux_black"
 # exclude containg the following in path name
 EXCLUDE_LIST = [".git"]
 EXCLUDE_FOLDER = [".git"]
-temp_folder = "tmp"
+
+temp_folder = get_temp_folder()
 
 
 def is_excluded(exclude_list, path):
@@ -44,6 +46,12 @@ for root, subdirs, files in os.walk(PROYECT_FOLDER):
         pdf_list.append(output_pdf)
         # print("Generated {} pages".format(page_number))
 
-merge_pdfs(pdf_list, "all_contents.pdf")
-render_toc(entries, "output_toc.pdf")
-merge_pdfs(["output_toc.pdf", "all_contents.pdf"], "final_output.pdf")
+all_contents_pdf = os.path.join(temp_folder, "all_contents.pdf")
+merge_pdfs(pdf_list, all_contents_pdf)
+
+output_toc_pdf = os.path.join(temp_folder, "output_toc.pdf")
+render_toc(entries, output_toc_pdf)
+merge_pdfs([output_toc_pdf, all_contents_pdf], "final_output.pdf")
+
+print("Success!")
+print(f"Temporal files written in {temp_folder}")

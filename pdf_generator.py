@@ -3,16 +3,31 @@ import PyPDF2
 import tempfile
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
-
-
-def _get_temp_file():
-    with tempfile.NamedTemporaryFile(suffix=".pdf") as file:
-        return file.name
+from temporal import get_temp_file
 
 
 def html_to_numerized_pdf(input_html, output_pdf, start_page):
-    input_pdf = _get_temp_file()
-    options = {"quiet": ""}
+    #    input_pdf = _get_temp_file()
+    input_pdf = input_html[:-5] + "_tmp.pdf"
+    # options = {"quiet": "",
+    #          'margin-left': '20000in'}
+    options = {
+        "quiet": "",
+        "page-size": "A4",
+        "margin-top": "0.1in",
+        "margin-right": "0.3in",
+        "margin-bottom": "0.7in",
+        "margin-left": "0.3in",
+        #        'encoding': "UTF-8",
+        #        'custom-header' : [
+        #            ('Accept-Encoding', 'gzip')
+        #        ],
+        #        'cookie': [
+        #            ('cookie-name1', 'cookie-value1'),
+        #            ('cookie-name2', 'cookie-value2'),
+        #        ],
+        "outline": None,
+    }
     #              'margin-bottom': '0.75in'}
     pdfkit.from_file(input_html, input_pdf, options=options)
 
@@ -25,12 +40,12 @@ def html_to_numerized_pdf(input_html, output_pdf, start_page):
         page = pdf_reader.getPage(n_page)
 
         ## Create
-        temp_file = _get_temp_file()
+        temp_file = get_temp_file()
         c = canvas.Canvas(temp_file)
         width, height = A4
         y = height * 0.03
         absolute_page = n_page + start_page
-        if absolute_page % 2:
+        if (absolute_page + 1) % 2:
             x = width * 0.05
         else:
             x = width * 0.92

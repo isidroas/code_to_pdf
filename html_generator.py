@@ -22,7 +22,9 @@ def code_to_html(file_path, output_html):
     new_header = REGEX_SUB.format(file_path)
     sub_str = new_header + sub_str
 
-    formater = HtmlFormatter(full=True, style="colorful", linenos=True)
+    formater = HtmlFormatter(
+        full=True, style="colorful", linenos=True, wrapcode=True, linesparator=True
+    )
     try:
         lexer = get_lexer_for_filename(file_path)
     except pygments.util.ClassNotFound:
