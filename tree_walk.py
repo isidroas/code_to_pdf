@@ -3,8 +3,9 @@ from html_generator import code_to_html
 from pdf_generator import html_to_numerized_pdf, merge_pdfs
 from toc_generator import render_toc, get_entry
 from temporal import get_temp_folder, get_temp_file
+from tree_generator import DisplayablePath
 
-PROYECT_FOLDER = "gurux_black"
+PROYECT_FOLDER = "gurux_small"
 # exclude containg the following in path name
 EXCLUDE_LIST = [".git"]
 EXCLUDE_FOLDER = [".git"]
@@ -23,6 +24,11 @@ page_number = 1
 pdf_list = []
 entries = ""
 for root, subdirs, files in os.walk(PROYECT_FOLDER):
+#for path_object in DisplayablePath(PROYECT_FOLDER):
+#    path_str = str(path_object.path)
+#    file_name = path_object.displayname
+
+
     path_list = root.split(os.sep)
     depth = len(path_list)
     folder = path_list[-1]
