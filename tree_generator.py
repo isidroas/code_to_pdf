@@ -50,24 +50,20 @@ class DisplayablePath(object):
 
     @classmethod
     def _default_criteria(cls, path):
-        return True
+        return True if path.name not in ('.git', '__pycache__') else False
 
-    @property
-    def displayname(self):
-        if self.path.is_dir():
-            return self.path.name + '/'
-        return self.path.name
 
     def displayable(self):
         if self.parent is None:
-            return self.displayname
+            return ""
 
         _filename_prefix = (self.display_filename_prefix_last
                             if self.is_last
                             else self.display_filename_prefix_middle)
 
-        parts = ['{!s} {!s}'.format(_filename_prefix,
-                                    self.displayname)]
+#        parts = ['{!s} {!s}'.format(_filename_prefix,
+#                                    self.displayname)]
+        parts = [_filename_prefix]
 
         parent = self.parent
         while parent and parent.parent is not None:

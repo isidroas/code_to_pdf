@@ -18,14 +18,10 @@ def html_to_numerized_pdf(input_html, output_pdf, start_page):
         "margin-right": "0.3in",
         "margin-bottom": "0.7in",
         "margin-left": "0.3in",
-        #        'encoding': "UTF-8",
-        #        'custom-header' : [
-        #            ('Accept-Encoding', 'gzip')
-        #        ],
-        #        'cookie': [
-        #            ('cookie-name1', 'cookie-value1'),
-        #            ('cookie-name2', 'cookie-value2'),
-        #        ],
+                'encoding': "UTF-8",
+                'custom-header' : [
+                    ('Accept-Encoding', 'gzip')
+                ],
         "outline": None,
     }
     #              'margin-bottom': '0.75in'}

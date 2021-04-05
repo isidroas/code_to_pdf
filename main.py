@@ -4,8 +4,9 @@ from pdf_generator import html_to_numerized_pdf, merge_pdfs
 from toc_generator import render_toc, get_entry
 from temporal import get_temp_folder, get_temp_file
 from tree_generator import DisplayablePath
+from pathlib import Path
 
-PROYECT_FOLDER = "gurux_small"
+PROYECT_FOLDER = "gurux"
 # exclude containg the following in path name
 EXCLUDE_LIST = [".git"]
 EXCLUDE_FOLDER = [".git"]
@@ -23,34 +24,37 @@ def is_excluded(exclude_list, path):
 page_number = 1
 pdf_list = []
 entries = ""
-for root, subdirs, files in os.walk(PROYECT_FOLDER):
-#for path_object in DisplayablePath(PROYECT_FOLDER):
-#    path_str = str(path_object.path)
-#    file_name = path_object.displayname
 
+for path_object in DisplayablePath.make_tree(Path(PROYECT_FOLDER)):
+#for root, subdirs, files in os.walk(PROYECT_FOLDER):
+    path_str = str(path_object.path)
+    file_name = path_object.displayname
+    is_dir = path_object.path.is_dir()
+    depth = path_object.depth
+    parent = path_object.parent
+    current_folder = str(parent.path) if parent else '.'
+    tree_string = path_object.displayable()
 
-    path_list = root.split(os.sep)
-    depth = len(path_list)
-    folder = path_list[-1]
-    if is_excluded(EXCLUDE_FOLDER, root):
-        continue
-    print(depth * "   " + "Folder: {}".format(folder))
-    entries = entries + get_entry(folder, depth, page_number, is_dir=True)
-    for file in files:
-        file_path = os.path.join(root, file)
-        if is_excluded(EXCLUDE_LIST, file_path):
-            continue
-        output_html = os.path.join(temp_folder, file_path + ".html")
-        output_pdf = os.path.join(temp_folder, file_path + ".pdf")
-        output_folder = os.path.join(temp_folder, root)
+    if is_dir:
+        print(depth * "   " + "Folder: {}".format(file_name))
+#        entries = entries + get_entry(tree_string, depth, page_number, is_dir=True)
+#    for file in files:
+    else:
+#        file_path = os.path.join(root, file)
+#        if is_excluded(EXCLUDE_LIST, file_path):
+#            continue
+        output_html = os.path.join(temp_folder, path_str + ".html")
+        output_pdf = os.path.join(temp_folder, path_str + ".pdf")
+        output_folder = os.path.join(temp_folder, current_folder)
         os.makedirs(output_folder, exist_ok=True)
-        code_to_html(file_path, output_html)
+        code_to_html(path_str, output_html)
 
-        print((depth + 1) * "   " + "File: {}: {}".format(file, page_number))
-        entries = entries + get_entry(file, depth + 1, page_number)
+        print((depth + 1) * "   " + "File: {}: {}".format(file_name, page_number))
         page_number = html_to_numerized_pdf(output_html, output_pdf, page_number)
         pdf_list.append(output_pdf)
         # print("Generated {} pages".format(page_number))
+
+    entries = entries + get_entry(file_name, depth + 1, page_number, tree_string, is_dir=is_dir)
 
 all_contents_pdf = os.path.join(temp_folder, "all_contents.pdf")
 merge_pdfs(pdf_list, all_contents_pdf)
