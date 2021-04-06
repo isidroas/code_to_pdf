@@ -6,10 +6,7 @@ from temporal import get_temp_folder, get_temp_file
 from tree_generator import DisplayablePath
 from pathlib import Path
 
-PROYECT_FOLDER = "gurux"
-# exclude containg the following in path name
-EXCLUDE_LIST = [".git"]
-EXCLUDE_FOLDER = [".git"]
+PROYECT_FOLDER = "Gurux.DLMS.python"
 
 temp_folder = get_temp_folder()
 
@@ -26,23 +23,18 @@ pdf_list = []
 entries = ""
 
 for path_object in DisplayablePath.make_tree(Path(PROYECT_FOLDER)):
-#for root, subdirs, files in os.walk(PROYECT_FOLDER):
+    # for root, subdirs, files in os.walk(PROYECT_FOLDER):
     path_str = str(path_object.path)
     file_name = path_object.displayname
     is_dir = path_object.path.is_dir()
     depth = path_object.depth
     parent = path_object.parent
-    current_folder = str(parent.path) if parent else '.'
+    current_folder = str(parent.path) if parent else "."
     tree_string = path_object.displayable()
 
     if is_dir:
         print(depth * "   " + "Folder: {}".format(file_name))
-#        entries = entries + get_entry(tree_string, depth, page_number, is_dir=True)
-#    for file in files:
     else:
-#        file_path = os.path.join(root, file)
-#        if is_excluded(EXCLUDE_LIST, file_path):
-#            continue
         output_html = os.path.join(temp_folder, path_str + ".html")
         output_pdf = os.path.join(temp_folder, path_str + ".pdf")
         output_folder = os.path.join(temp_folder, current_folder)
@@ -52,9 +44,10 @@ for path_object in DisplayablePath.make_tree(Path(PROYECT_FOLDER)):
         print((depth + 1) * "   " + "File: {}: {}".format(file_name, page_number))
         page_number = html_to_numerized_pdf(output_html, output_pdf, page_number)
         pdf_list.append(output_pdf)
-        # print("Generated {} pages".format(page_number))
 
-    entries = entries + get_entry(file_name, depth + 1, page_number, tree_string, is_dir=is_dir)
+    entries = entries + get_entry(
+        file_name, depth + 1, page_number, tree_string, is_dir=is_dir
+    )
 
 all_contents_pdf = os.path.join(temp_folder, "all_contents.pdf")
 merge_pdfs(pdf_list, all_contents_pdf)

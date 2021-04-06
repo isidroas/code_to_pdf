@@ -1,19 +1,18 @@
 import pdfkit
 import os
+import re
 from jinja2 import Template
 from pdf_generator import add_blank_page, number_of_pages
 from temporal import get_temp_folder
-import re
+from pdf_generator import PDFKIT_OPTIONS
 
 
-ENTRY_DIR = """<div class=row>{{ 125*'.' }}<span class="row_text"> {{tree}}<span class="dir">{{ name }} </span>&nbsp</span><span class="right">{{ page }}</div>"""
-# ENTRY_DIR = """<div class=row><span class="d{{ depth }}"> {{ 2*depth*"&nbsp;" }} {{ name }}</span></div></br>"""
-ENTRY_FILE = """<div class=row>{{ 125*'.' }}<span class="row_text">{{tree}} <span class="file">{{ name }}&nbsp</span></span><span class="right">{{ page }}</div>"""
+ENTRY_DIR = """<div class=row>{{ 157*'.' }}<span class="row_text"> {{tree}}<span class="dir">{{ name }} </span>&nbsp</span><span class="right">{{ page }}</div>"""
+ENTRY_FILE = """<div class=row>{{ 157*'.' }}<span class="row_text">{{tree}} <span class="file">{{ name }}&nbsp</span></span><span class="right">{{ page }}</div>"""
 
 
 def get_entry(name, depth, page, tree, is_dir=False):
-    tree = re.sub(" ","&nbsp;&nbsp;",tree)
-    n_dots = 60
+    tree = re.sub(" ", "&nbsp;&nbsp;", tree)
     if is_dir:
         template = Template(ENTRY_DIR)
     else:
@@ -25,7 +24,7 @@ def render_toc(entries, output_pdf):
     with open("toc_template/template.html", "r") as html_temp:
         template = Template(html_temp.read())
 
-    output_html = template.render(entries=entries)
+    output_html = template.render(entries=entries, page_number_pos=800)
 
     temp_file = os.path.join(get_temp_folder(), "toc_output.html")
 
@@ -33,6 +32,6 @@ def render_toc(entries, output_pdf):
         output_file.write(output_html)
 
     options = {"quiet": ""}
-    pdfkit.from_file(temp_file, output_pdf, options=options)
+    pdfkit.from_file(temp_file, output_pdf, options=PDFKIT_OPTIONS)
     if number_of_pages(output_pdf) % 2:
         add_blank_page(output_pdf)

@@ -5,27 +5,23 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from temporal import get_temp_file
 
+PDFKIT_OPTIONS = {
+    "quiet": "",
+    "page-size": "A4",
+    "margin-top": "0.4in",
+    "margin-right": "0.3in",
+    "margin-bottom": "0.7in",
+    "margin-left": "0.3in",
+    "encoding": "UTF-8",
+    "custom-header": [("Accept-Encoding", "gzip")],
+    "outline": None,
+}
+
 
 def html_to_numerized_pdf(input_html, output_pdf, start_page):
-    #    input_pdf = _get_temp_file()
+    # remove .html exension and change it to .pdf
     input_pdf = input_html[:-5] + "_tmp.pdf"
-    # options = {"quiet": "",
-    #          'margin-left': '20000in'}
-    options = {
-        "quiet": "",
-        "page-size": "A4",
-        "margin-top": "0.1in",
-        "margin-right": "0.3in",
-        "margin-bottom": "0.7in",
-        "margin-left": "0.3in",
-                'encoding': "UTF-8",
-                'custom-header' : [
-                    ('Accept-Encoding', 'gzip')
-                ],
-        "outline": None,
-    }
-    #              'margin-bottom': '0.75in'}
-    pdfkit.from_file(input_html, input_pdf, options=options)
+    pdfkit.from_file(input_html, input_pdf, options=PDFKIT_OPTIONS)
 
     pdf_reader = PyPDF2.PdfFileReader(input_pdf)
     pdf_writer = PyPDF2.PdfFileWriter()

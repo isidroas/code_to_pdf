@@ -5,7 +5,7 @@ from pygments import highlight
 from pygments.lexers import get_lexer_for_filename, get_lexer_by_name
 from pygments.formatters import HtmlFormatter
 
-REGEX_PATTERN = "#\n#..-+\n#...Gurux.Ltd(\n.*){31}"
+REGEX_PATTERN = "#\n#..-+\n#...Gurux.Ltd(\n.*){30}"
 REGEX_SUB = """
 #######################################################################
 # File {}
