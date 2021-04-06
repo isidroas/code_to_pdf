@@ -7,6 +7,7 @@ from tree_generator import DisplayablePath
 from pathlib import Path
 
 PROYECT_FOLDER = "Gurux.DLMS.python"
+#PROYECT_FOLDER = "gurux_small"
 
 temp_folder = get_temp_folder()
 
@@ -32,6 +33,10 @@ for path_object in DisplayablePath.make_tree(Path(PROYECT_FOLDER)):
     current_folder = str(parent.path) if parent else "."
     tree_string = path_object.displayable()
 
+    entries = entries + get_entry(
+        file_name, depth + 1, page_number, tree_string, is_dir=is_dir
+    )
+
     if is_dir:
         print(depth * "   " + "Folder: {}".format(file_name))
     else:
@@ -45,9 +50,6 @@ for path_object in DisplayablePath.make_tree(Path(PROYECT_FOLDER)):
         page_number = html_to_numerized_pdf(output_html, output_pdf, page_number)
         pdf_list.append(output_pdf)
 
-    entries = entries + get_entry(
-        file_name, depth + 1, page_number, tree_string, is_dir=is_dir
-    )
 
 all_contents_pdf = os.path.join(temp_folder, "all_contents.pdf")
 merge_pdfs(pdf_list, all_contents_pdf)

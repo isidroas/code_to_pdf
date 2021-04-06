@@ -65,6 +65,9 @@ class DisplayablePath(object):
                 ".gitattributes",
                 "gurux_dlms.pyproj",
                 "gurux_dlms.sln",
+                ".pylintrc",
+                "LICENSE",
+                "requirements.txt",
             )
             else False
         )

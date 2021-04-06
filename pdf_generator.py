@@ -8,9 +8,9 @@ from temporal import get_temp_file
 PDFKIT_OPTIONS = {
     "quiet": "",
     "page-size": "A4",
-    "margin-top": "0.4in",
+    "margin-top": "0.3in",
     "margin-right": "0.3in",
-    "margin-bottom": "0.7in",
+    "margin-bottom": "0.5in",
     "margin-left": "0.3in",
     "encoding": "UTF-8",
     "custom-header": [("Accept-Encoding", "gzip")],
