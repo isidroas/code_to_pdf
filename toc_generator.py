@@ -5,6 +5,7 @@ from jinja2 import Template
 from pdf_generator import add_blank_page, number_of_pages
 from temporal import get_temp_folder
 from pdf_generator import PDFKIT_OPTIONS
+from art import text2art
 
 
 ENTRY_DIR = """<div class=row>{{ 157*'.' }}<span class="row_text"> {{tree}}<span class="dir">{{ name }} </span>&nbsp</span><span class="right">{{ page }}</div>"""
@@ -20,11 +21,14 @@ def get_entry(name, depth, page, tree, is_dir=False):
     return template.render(name=name, depth=depth, page=page, tree=tree) + "\n"
 
 
-def render_toc(entries, output_pdf):
+def render_toc(entries, output_pdf, project_name):
     with open("./template.html", "r") as html_temp:
         template = Template(html_temp.read())
 
-    output_html = template.render(entries=entries, page_number_pos=800)
+    ascii_title = text2art(project_name)
+    output_html = template.render(
+        entries=entries, page_number_pos=800, ascii_title=ascii_title
+    )
 
     temp_file = os.path.join(get_temp_folder(), "toc_output.html")
 

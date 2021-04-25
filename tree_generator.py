@@ -33,16 +33,15 @@ class DisplayablePath(object):
         displayable_root = cls(root, parent, is_last)
         yield displayable_root
 
-        #children = sorted(
+        # children = sorted(
         #    list(path for path in root.iterdir() if criteria(path)),
         #    key=lambda s: str(s).lower() if not s.is_dir() else 'z' + str(s).lower()
-        #)
-        
+        # )
+
         children = sorted(
-            list(path for path in root.iterdir() if criteria(path)),
-            key=cls._sorter
+            list(path for path in root.iterdir() if criteria(path)), key=cls._sorter
         )
-        
+
         count = 1
         for path in children:
             is_last = count == len(children)
@@ -75,9 +74,9 @@ class DisplayablePath(object):
     @classmethod
     def _sorter(cls, path):
         if path.is_dir():
-            return  'z' + str(path).lower()
+            return "z" + str(path).lower()
         else:
-            return  str(path).lower()
+            return str(path).lower()
 
     def displayable(self):
         if self.parent is None:

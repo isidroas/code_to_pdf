@@ -69,7 +69,7 @@ def merge_pdfs(pdf_list, output_pdf):
     :param pdf_list: List of PDF paths
     :param output_pdf: Path of generated pdf
     :type output_pdf: str"""
-    
+
     pdf_writer = PyPDF2.PdfFileWriter()
     for pdf in pdf_list:
         pdf_reader = PyPDF2.PdfFileReader(pdf)
