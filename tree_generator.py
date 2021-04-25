@@ -103,9 +103,3 @@ class DisplayablePath(object):
             parent = parent.parent
 
         return "".join(reversed(parts))
-
-
-# Usage example
-# paths = DisplayablePath.make_tree(Path('doc'))
-# for path in paths:
-#    print(path.displayable())

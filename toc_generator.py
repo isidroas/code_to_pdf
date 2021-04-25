@@ -21,7 +21,7 @@ def get_entry(name, depth, page, tree, is_dir=False):
 
 
 def render_toc(entries, output_pdf):
-    with open("toc_template/template.html", "r") as html_temp:
+    with open("./template.html", "r") as html_temp:
         template = Template(html_temp.read())
 
     output_html = template.render(entries=entries, page_number_pos=800)

@@ -19,6 +19,15 @@ PDFKIT_OPTIONS = {
 
 
 def html_to_numerized_pdf(input_html, output_pdf, start_page):
+    """Generate numerized pdf pages from a html file
+
+    :param input_html: Path to input html
+    :param output: Path where output pdf will be generated
+    :param start_page: number written in the first page of the PDF
+    :type start_page: int
+    :return: last page number written + 1
+    :rtype: int
+    """
     # remove .html exension and change it to .pdf
     input_pdf = input_html[:-5] + "_tmp.pdf"
     pdfkit.from_file(input_html, input_pdf, options=PDFKIT_OPTIONS)
@@ -37,10 +46,7 @@ def html_to_numerized_pdf(input_html, output_pdf, start_page):
         width, height = A4
         y = height * 0.03
         absolute_page = n_page + start_page
-        if (absolute_page + 1) % 2:
-            x = width * 0.05
-        else:
-            x = width * 0.92
+        x = width * 0.92
         c.drawString(x, y, str(absolute_page))
         c.showPage()
         c.save()
@@ -57,13 +63,13 @@ def html_to_numerized_pdf(input_html, output_pdf, start_page):
     return absolute_page + 1
 
 
-# input_html = "output.html"
-# input_pdf = "input.pdf"
-# output_pdf = "output.pdf"
-
-
-# html_to_numerized_pdf(input_html, output_pdf, 250)
 def merge_pdfs(pdf_list, output_pdf):
+    """Join various pdf files.
+
+    :param pdf_list: List of PDF paths
+    :param output_pdf: Path of generated pdf
+    :type output_pdf: str"""
+    
     pdf_writer = PyPDF2.PdfFileWriter()
     for pdf in pdf_list:
         pdf_reader = PyPDF2.PdfFileReader(pdf)
@@ -88,5 +94,6 @@ def add_blank_page(pdf_file):
 
 
 def number_of_pages(pdf_file):
+    """ Get number of pages of a PDF """
     pdf_reader = PyPDF2.PdfFileReader(pdf_file)
     return pdf_reader.getNumPages()
