@@ -22,7 +22,9 @@ def get_entry(name, depth, page, tree, is_dir=False):
 
 
 def render_toc(entries, output_pdf, project_name):
-    with open("./template.html", "r") as html_temp:
+    folder, _ = os.path.split(__file__)
+    template_path = os.path.join(folder, 'template.html')
+    with open(template_path, "r") as html_temp:
         template = Template(html_temp.read())
 
     ascii_title = text2art(project_name)

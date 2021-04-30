@@ -2,6 +2,7 @@
 
 
 from pathlib import Path
+import re
 
 
 class DisplayablePath(object):
@@ -55,21 +56,33 @@ class DisplayablePath(object):
 
     @staticmethod
     def _default_criteria(path):
-        return (
-            True
-            if path.name
-            not in (
-                ".git",
-                "__pycache__",
-                ".gitattributes",
-                "gurux_dlms.pyproj",
-                "gurux_dlms.sln",
-                ".pylintrc",
-                "LICENSE",
-                "requirements.txt",
-            )
-            else False
-        )
+        if path.name in (
+            ".git",
+            "__pycache__",
+            ".gitattributes",
+            "gurux_dlms.pyproj",
+            "gurux_dlms.sln",
+            ".pylintrc",
+            "LICENSE",
+            "requirements.txt",
+        ):
+            return False
+        if path.name == "__init__.py":
+            return False
+
+        if re.search(r".*\.egg-info",path.name):
+            return False
+
+        if not path.is_dir():
+            if not re.search(r".*\.py",path.name):
+                return False
+            # detect if it is a binary file, instead of text file
+            try:
+                with open(path, 'r') as file:
+                    file.read()
+            except UnicodeDecodeError:
+                return False
+        return True
 
     @classmethod
     def _sorter(cls, path):
