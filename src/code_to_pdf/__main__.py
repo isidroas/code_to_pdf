@@ -1,10 +1,10 @@
 import os
 import argparse
-from html_generator import code_to_html
-from pdf_generator import html_to_numerized_pdf, merge_pdfs
-from toc_generator import render_toc, get_entry
-from temporal import get_temp_folder, get_temp_file
-from tree_generator import DisplayablePath
+from code_to_pdf.html_generator import code_to_html
+from code_to_pdf.pdf_generator import html_to_numerized_pdf, merge_pdfs
+from code_to_pdf.toc_generator import render_toc, get_entry
+from code_to_pdf.temporal import get_temp_folder, get_temp_file
+from code_to_pdf.tree_generator import DisplayablePath
 from pathlib import Path
 
 

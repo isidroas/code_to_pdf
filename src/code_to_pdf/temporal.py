@@ -2,6 +2,7 @@ import tempfile
 import os
 
 
+# TODO: make a class
 temp_folder = "tmp"
 with tempfile.TemporaryDirectory() as file:
     temp_folder = file

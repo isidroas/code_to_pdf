@@ -2,9 +2,9 @@ import pdfkit
 import os
 import re
 from jinja2 import Template
-from pdf_generator import add_blank_page, number_of_pages
-from temporal import get_temp_folder
-from pdf_generator import PDFKIT_OPTIONS
+from code_to_pdf.pdf_generator import add_blank_page, number_of_pages
+from code_to_pdf.temporal import get_temp_folder
+from code_to_pdf.pdf_generator import PDFKIT_OPTIONS
 from art import text2art
 
 
@@ -22,7 +22,6 @@ def get_entry(name, depth, page, tree, is_dir=False):
 
 
 def render_toc(entries, output_pdf, project_name):
-    folder, _ = os.path.split(__file__)
     template_path = os.path.join(folder, 'template.html')
     with open(template_path, "r") as html_temp:
         template = Template(html_temp.read())

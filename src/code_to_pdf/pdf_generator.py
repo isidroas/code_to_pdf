@@ -1,9 +1,8 @@
 import pdfkit
 import PyPDF2
-import tempfile
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
-from temporal import get_temp_file
+from code_to_pdf.temporal import get_temp_file
 
 PDFKIT_OPTIONS = {
     "quiet": "",
