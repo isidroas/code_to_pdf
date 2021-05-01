@@ -10,6 +10,9 @@ Welcome to doc_to_pdf's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   modules
+
+.. image:: _static/conversion.svg
 
 
 Indices and tables

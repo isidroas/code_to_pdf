@@ -9,3 +9,4 @@ __pycache__/
 Gurux.DLMS.Python
 Gurux.DLMS.python
 docs/build/
+*.egg-info
