@@ -1,7 +1,7 @@
 name: Code to pdf test
 on: push
 jobs:
-    Test 1:
+    test-1:
         runs-on: ubuntu-latest
         steps:
             - run: echo "Hola soy un string"
