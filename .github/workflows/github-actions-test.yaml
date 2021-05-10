@@ -13,6 +13,8 @@ jobs:
                 ls 
                 pwd
             - name: Install dependencies
-              run: python -m pip install --upgrade setuptools wheel
-            - run: python -m pip install  ${{ github.workspace }}
+              run: |
+                  python -m pip install --upgrade setuptools wheel
+                  sudo apt install wkhtmltopdf
+            - run: python -m pip install  ./
             - run: python ${{ github.workspace }}/tests/test_cli.py
