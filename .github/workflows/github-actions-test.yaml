@@ -21,7 +21,6 @@ jobs:
             - name: Run test 
               run: python ./tests/test_cli.py
             - name: Run coverage 
-              run: python -m coverage run --source=code_to_pdf -m code_to_pdf ./
               run: | 
                    python -m pip install --upgrade coverage
                    python -m coverage run --source=code_to_pdf -m code_to_pdf ./
