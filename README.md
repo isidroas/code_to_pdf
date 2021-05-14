@@ -1,5 +1,5 @@
 [![codecov](https://codecov.io/gh/isidroas/code_to_pdf/branch/main/graph/badge.svg)](https://codecov.io/gh/isidroas/code_to_pdf)
-![example workflow](https://github.com/isidroas/code_to_pdf/actions/workflows/github-actions-test.yaml/badge.svg)
+[![example workflow](https://github.com/isidroas/code_to_pdf/actions/workflows/github-actions-test.yaml/badge.svg)](https://github.com/isidroas/code_to_pdf/actions/workflows/github-actions-test.yaml)
 
 
 # PDF code proyect generator
@@ -8,8 +8,3 @@ Passing a lot of hours in front of a screen is tired. Sometimes we need to analy
 
 ![Image conversion](./docs/conversion.svg)
 
-## Coverage
-    ```
-    python -m coverage run --source=code_to_pdf -m code_to_pdf ../wat/bridge
-    python -m coverage report
-    ```
