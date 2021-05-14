@@ -7,6 +7,7 @@ temp_folder = "tmp"
 with tempfile.TemporaryDirectory() as file:
     temp_folder = file
 os.mkdir(temp_folder)
+print(f"Temporal files will be written in {temp_folder}")
 
 sub_temp_folder = os.path.join(temp_folder, "tmp")
 os.mkdir(sub_temp_folder)

@@ -5,7 +5,7 @@ from pathlib import Path
 import re
 
 
-class DisplayablePath(object):
+class TreeGenerator(object):
     display_filename_prefix_middle = "├──"
     display_filename_prefix_last = "└──"
     display_parent_prefix_middle = "    "
@@ -70,15 +70,15 @@ class DisplayablePath(object):
         if path.name == "__init__.py":
             return False
 
-        if re.search(r".*\.egg-info",path.name):
+        if re.search(r".*\.egg-info", path.name):
             return False
 
         if not path.is_dir():
-            if not re.search(r".*\.py",path.name):
+            if not re.search(r".*\.py", path.name):
                 return False
             # detect if it is a binary file, instead of text file
             try:
-                with open(path, 'r') as file:
+                with open(path, "r") as file:
                     file.read()
             except UnicodeDecodeError:
                 return False
@@ -115,3 +115,16 @@ class DisplayablePath(object):
             parent = parent.parent
 
         return "".join(reversed(parts))
+
+    @classmethod
+    def get_iterable(cls, path):
+        for path_object in cls.make_tree(path):
+            path_str = str(path_object.path)
+            file_name = path_object.displayname
+            is_dir = path_object.path.is_dir()
+            depth = path_object.depth
+            parent = path_object.parent
+            current_folder = str(parent.path) if parent else "."
+            tree_string = path_object.displayable()
+
+            yield path_str, file_name, is_dir, depth, parent, current_folder, tree_string

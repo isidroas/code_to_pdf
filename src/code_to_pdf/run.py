@@ -1,50 +1,58 @@
 import os
 import argparse
+from pathlib import Path
 from code_to_pdf.html_generator import code_to_html
 from code_to_pdf.pdf_generator import html_to_numerized_pdf, merge_pdfs
-from code_to_pdf.toc_generator import render_toc, get_entry
+from code_to_pdf.toc_generator import TocGenerator
 from code_to_pdf.temporal import get_temp_folder, get_temp_file
-from code_to_pdf.tree_generator import DisplayablePath
-from pathlib import Path
+from code_to_pdf.tree_generator import TreeGenerator
 
 
 def argument_parser(raw_args):
     parser = argparse.ArgumentParser(description="Code to PDF generator")
     parser.add_argument("source", type=str, help="Source code folder")
     parser.add_argument("--project-name", type=str, help="Title of the document")
+    parser.add_argument(
+        "--output-pdf", type=str, help="Path where pdf will be generated"
+    )
     args_obj = parser.parse_args(raw_args)
-    args = {}
-    args["source_code"] = args_obj.source
 
+    args = {}
+    args["source_code"] = os.path.abspath(args_obj.source)
     args["project_name"] = (
         args_obj.project_name
         if args_obj.project_name
-        else os.path.dirname(args_obj.source) # TODO: this fails if not end by '/'
+        else os.path.basename(args["source_code"])  # TODO: this fails if not end by '/'
     )
+    args["output_pdf"] = (
+        args_obj.output_pdf
+        if args_obj.output_pdf
+        else args["project_name"] + ".pdf"
+    )
+    import pdb; pdb.set_trace()
     return args
 
 
 def main(raw_args=None):
     page_number = 1
     pdf_list = []
-    entries = ""
+    toc = TocGenerator()
 
     temp_folder = get_temp_folder()
 
     args = argument_parser(raw_args)
 
-    for path_object in DisplayablePath.make_tree(Path(args["source_code"])):
-        path_str = str(path_object.path)
-        file_name = path_object.displayname
-        is_dir = path_object.path.is_dir()
-        depth = path_object.depth
-        parent = path_object.parent
-        current_folder = str(parent.path) if parent else "."
-        tree_string = path_object.displayable()
+    for (
+        path_str,
+        file_name,
+        is_dir,
+        depth,
+        parent,
+        current_folder,
+        tree_string,
+    ) in TreeGenerator.get_iterable(args["source_code"]):
 
-        entries = entries + get_entry(
-            file_name, depth + 1, page_number, tree_string, is_dir=is_dir
-        )
+        toc.add_entry(file_name, depth + 1, page_number, tree_string, is_dir=is_dir)
 
         if is_dir:
             print(depth * "   " + "Folder: {}".format(file_name))
@@ -63,11 +71,12 @@ def main(raw_args=None):
     merge_pdfs(pdf_list, all_contents_pdf)
 
     output_toc_pdf = os.path.join(temp_folder, "output_toc.pdf")
-    render_toc(entries, output_toc_pdf, args["project_name"])
-    merge_pdfs([output_toc_pdf, all_contents_pdf], "final_output.pdf")
+    toc.render_toc(output_toc_pdf, args["project_name"])
+    merge_pdfs([output_toc_pdf, all_contents_pdf], args["output_pdf"])
 
     print("Success!")
-    print(f"Temporal files written in {temp_folder}")
+    print(f"File written in {args['output_pdf']}")
+
 
 if __name__ == "__main__":
     main()
