@@ -29,7 +29,6 @@ def argument_parser(raw_args):
         if args_obj.output_pdf
         else args["project_name"] + ".pdf"
     )
-    import pdb; pdb.set_trace()
     return args
 
 
@@ -50,16 +49,17 @@ def main(raw_args=None):
         parent,
         current_folder,
         tree_string,
-    ) in TreeGenerator.get_iterable(args["source_code"]):
+    ) in TreeGenerator.get_iterable(args['source_code']):
 
         toc.add_entry(file_name, depth + 1, page_number, tree_string, is_dir=is_dir)
 
         if is_dir:
             print(depth * "   " + "Folder: {}".format(file_name))
         else:
-            output_html = os.path.join(temp_folder, path_str + ".html")
-            output_pdf = os.path.join(temp_folder, path_str + ".pdf")
-            output_folder = os.path.join(temp_folder, current_folder)
+            path_rel = os.path.relpath(path_str, args['source_code']) 
+            output_folder = os.path.join(temp_folder, path_rel)
+            output_html = os.path.join(temp_folder, path_rel + ".html")
+            output_pdf = os.path.join(temp_folder, path_rel + ".pdf")
             os.makedirs(output_folder, exist_ok=True)
             code_to_html(path_str, output_html)
 
@@ -71,8 +71,8 @@ def main(raw_args=None):
     merge_pdfs(pdf_list, all_contents_pdf)
 
     output_toc_pdf = os.path.join(temp_folder, "output_toc.pdf")
-    toc.render_toc(output_toc_pdf, args["project_name"])
-    merge_pdfs([output_toc_pdf, all_contents_pdf], args["output_pdf"])
+    toc.render_toc(output_toc_pdf, args['project_name'])
+    merge_pdfs([output_toc_pdf, all_contents_pdf], args['output_pdf'])
 
     print("Success!")
     print(f"File written in {args['output_pdf']}")

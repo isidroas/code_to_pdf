@@ -13,20 +13,20 @@ REGEX_SUB = """
 """
 
 
-def code_to_html(file_path, output_html):
-    with open(file_path) as file:
+def code_to_html(intput_code, output_html):
+    with open(intput_code) as file:
         file_str = file.read()
 
     # Remove copyright and add header
     sub_str = re.sub(REGEX_PATTERN, "", file_str)
-    new_header = REGEX_SUB.format(file_path)
+    new_header = REGEX_SUB.format(intput_code)
     sub_str = new_header + sub_str
 
     formater = HtmlFormatter(
         full=True, style="colorful", linenos=True, wrapcode=True, linesparator=True
     )
     try:
-        lexer = get_lexer_for_filename(file_path)
+        lexer = get_lexer_for_filename(intput_code)
     except pygments.util.ClassNotFound:
         lexer = get_lexer_by_name("python")
     output_str = highlight(sub_str, lexer, formater)
