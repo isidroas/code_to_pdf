@@ -29,6 +29,6 @@ jobs:
               with:
                 token: c70aa5e5-5e97-45e5-8c04-5fe781a1f5e0
                 files: ./coverage.xml
-                #                name: codecov-umbrella # optional
-                #fail_ci_if_error: true # optional (default = false)
-                #                verbose: true # optional (default = false)
+            - name: Run coverage 
+              run: | 
+                   python -m pylint code_to_pdf
