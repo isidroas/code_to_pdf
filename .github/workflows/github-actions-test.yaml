@@ -8,13 +8,27 @@ jobs:
               uses: actions/checkout@v2
               with: 
                 python-version: '3.x'
-            - name: List files in the repository
-              run: |
-                ls 
-                pwd
+                #            - name: List files in the repository
+                #              run: |
+                #                ls 
+                #                pwd
             - name: Install dependencies
               run: |
                   python -m pip install --upgrade setuptools wheel
                   sudo apt install wkhtmltopdf
-            - run: python -m pip install  ./
-            - run: python ${{ github.workspace }}/tests/test_cli.py
+            - name: Install package 
+              run: python -m pip install  ./
+            - name: Run test 
+              run: python ./tests/test_cli.py
+            - name: Run coverage 
+              run: python -m coverage run --source=code_to_pdf -m code_to_pdf ./
+              run: | 
+                   python -m pip install --upgrade coverage
+                   python -m coverage run --source=code_to_pdf -m code_to_pdf ./
+                   python -m coverage xml -i
+            - uses: codecov/codecov-action@v1
+              with:
+                files: ./coverage.xml
+                name: codecov-umbrella # optional
+                fail_ci_if_error: true # optional (default = false)
+                verbose: true # optional (default = false)
