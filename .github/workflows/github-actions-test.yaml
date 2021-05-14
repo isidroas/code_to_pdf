@@ -25,9 +25,9 @@ jobs:
                    python -m pip install --upgrade coverage
                    python -m coverage run --source=code_to_pdf -m code_to_pdf ./
                    python -m coverage xml -i
-            - uses: codecov/codecov-action@v1
+            - uses: codecov/codecov-action@v2
               with:
                 files: ./coverage.xml
-                name: codecov-umbrella # optional
+                #                name: codecov-umbrella # optional
                 fail_ci_if_error: true # optional (default = false)
                 verbose: true # optional (default = false)
