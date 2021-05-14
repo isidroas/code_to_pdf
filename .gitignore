@@ -8,5 +8,5 @@ __pycache__/
 /*.pdf
 Gurux.DLMS.Python
 Gurux.DLMS.python
-docs/build/
+docs/build/doctrees/
 *.egg-info
