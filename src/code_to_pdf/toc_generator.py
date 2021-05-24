@@ -4,7 +4,6 @@ import re
 from art import text2art
 from jinja2 import Template
 from code_to_pdf.pdf_generator import add_blank_page, number_of_pages
-from code_to_pdf.temporal import get_temp_folder
 from code_to_pdf.pdf_generator import PDFKIT_OPTIONS
 
 
@@ -39,12 +38,8 @@ class TocGenerator:
             entries=self.entries, page_number_pos=800, ascii_title=ascii_title
         )
 
-        temp_file = os.path.join(get_temp_folder(), "toc_output.html")
-
-        with open(temp_file, "w") as output_file:
-            output_file.write(output_html)
-
         options = {"quiet": ""}
-        pdfkit.from_file(temp_file, output_pdf, options=PDFKIT_OPTIONS)
+        pdfkit.from_string(output_html, output_pdf, options=PDFKIT_OPTIONS)
+
         if number_of_pages(output_pdf) % 2:
             add_blank_page(output_pdf)

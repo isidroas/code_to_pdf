@@ -1,29 +1,23 @@
 import tempfile
+import logging
 import os
 
 
-# TODO: make a class
-temp_folder = "tmp"
-with tempfile.TemporaryDirectory() as file:
-    temp_folder = file
-os.mkdir(temp_folder)
-print(f"Temporal files will be written in {temp_folder}")
-
-sub_temp_folder = os.path.join(temp_folder, "tmp")
-os.mkdir(sub_temp_folder)
-
-
-def get_temp_folder():
-    return temp_folder
-
-
-def is_excluded(exclude_list, path):
-    for exclude in exclude_list:
-        if exclude in path:
-            return True
-    return False
-
-
-def get_temp_file(suffix=".pdf"):
-    with tempfile.NamedTemporaryFile(suffix=suffix, dir=sub_temp_folder) as file:
-        return file.name
+class Temporal:
+    def __init__(self):
+        with tempfile.TemporaryDirectory() as file:
+            self.temp_folder = file
+        os.mkdir(self.temp_folder)
+        logging.info(f"Temporal files will be written in {self.temp_folder}")
+    
+        self.sub_temp_folder = os.path.join(self.temp_folder, "tmp")
+        os.mkdir(self.sub_temp_folder)
+    
+    
+    def get_temp_folder(self):
+        return self.temp_folder
+    
+    
+    def get_temp_file(self, suffix=".pdf"):
+        with tempfile.NamedTemporaryFile(suffix=suffix, dir=self.sub_temp_folder) as file:
+            return file.name

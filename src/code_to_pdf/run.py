@@ -1,10 +1,13 @@
 import os
 import argparse
+import logging
+logging.basicConfig(level=logging.DEBUG)
 from pathlib import Path
 from code_to_pdf.html_generator import code_to_html
 from code_to_pdf.pdf_generator import html_to_numerized_pdf, merge_pdfs
 from code_to_pdf.toc_generator import TocGenerator
-from code_to_pdf.temporal import get_temp_folder, get_temp_file
+#from code_to_pdf.temporal import get_temp_folder, get_temp_file
+from code_to_pdf.temporal import Temporal
 from code_to_pdf.tree_generator import TreeGenerator
 
 
@@ -37,9 +40,11 @@ def main(raw_args=None):
     pdf_list = []
     toc = TocGenerator()
 
-    temp_folder = get_temp_folder()
+    temp = Temporal()
+    temp_folder = temp.get_temp_folder()
 
     args = argument_parser(raw_args)
+
 
     for (
         path_str,
@@ -54,7 +59,7 @@ def main(raw_args=None):
         toc.add_entry(file_name, depth + 1, page_number, tree_string, is_dir=is_dir)
 
         if is_dir:
-            print(depth * "   " + "Folder: {}".format(file_name))
+            logging.info(depth * "   " + "Folder: {}".format(file_name))
         else:
             path_rel = os.path.relpath(path_str, args['source_code']) 
             output_folder = os.path.join(temp_folder, path_rel)
@@ -63,7 +68,7 @@ def main(raw_args=None):
             os.makedirs(output_folder, exist_ok=True)
             code_to_html(path_str, output_html)
 
-            print((depth + 1) * "   " + "File: {}: {}".format(file_name, page_number))
+            logging.info((depth + 1) * "   " + "File: {}: {}".format(file_name, page_number))
             page_number = html_to_numerized_pdf(output_html, output_pdf, page_number)
             pdf_list.append(output_pdf)
 

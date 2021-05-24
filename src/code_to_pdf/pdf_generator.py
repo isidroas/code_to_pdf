@@ -1,8 +1,9 @@
 import pdfkit
 import PyPDF2
+import tempfile
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
-from code_to_pdf.temporal import get_temp_file
+
 
 PDFKIT_OPTIONS = {
     "quiet": "",
@@ -40,22 +41,22 @@ def html_to_numerized_pdf(input_html, output_pdf, start_page):
         page = pdf_reader.getPage(n_page)
 
         ## Create
-        temp_file = get_temp_file()
-        c = canvas.Canvas(temp_file)
-        width, height = A4
-        y = height * 0.03
-        absolute_page = n_page + start_page
-        x = width * 0.92
-        c.drawString(x, y, str(absolute_page))
-        c.showPage()
-        c.save()
+#        temp_file = get_temp_file()
+        with tempfile.NamedTemporaryFile(suffix="pdf") as temp_file:
+            c = canvas.Canvas(temp_file)
+            width, height = A4
+            y = height * 0.03
+            absolute_page = n_page + start_page
+            x = width * 0.92
+            c.drawString(x, y, str(absolute_page))
+            c.showPage()
+            c.save()
 
-        pdf_text = open(temp_file, "rb")
-        pdf_text_reader = PyPDF2.PdfFileReader(temp_file)
-        page_text_reader = pdf_text_reader.getPage(0)
-        page.mergePage(page_text_reader)
+            pdf_text_reader = PyPDF2.PdfFileReader(temp_file)
+            page_text_reader = pdf_text_reader.getPage(0)
+            page.mergePage(page_text_reader)
 
-        pdf_writer.addPage(page)
+            pdf_writer.addPage(page)
 
     with open(output_pdf, "wb") as file:
         pdf_writer.write(file)
