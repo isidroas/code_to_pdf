@@ -6,7 +6,6 @@ from pathlib import Path
 from code_to_pdf.html_generator import code_to_html
 from code_to_pdf.pdf_generator import html_to_numerized_pdf, merge_pdfs
 from code_to_pdf.toc_generator import TocGenerator
-#from code_to_pdf.temporal import get_temp_folder, get_temp_file
 from code_to_pdf.temporal import Temporal
 from code_to_pdf.tree_generator import TreeGenerator
 
@@ -69,7 +68,7 @@ def main(raw_args=None):
             code_to_html(path_str, output_html)
 
             logging.info((depth + 1) * "   " + "File: {}: {}".format(file_name, page_number))
-            page_number = html_to_numerized_pdf(output_html, output_pdf, page_number)
+            page_number = html_to_numerized_pdf(output_html, output_pdf, page_number, path_rel)
             pdf_list.append(output_pdf)
 
     all_contents_pdf = os.path.join(temp_folder, "all_contents.pdf")

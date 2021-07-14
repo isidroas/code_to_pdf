@@ -8,7 +8,7 @@ from reportlab.lib.pagesizes import A4
 PDFKIT_OPTIONS = {
     "quiet": "",
     "page-size": "A4",
-    "margin-top": "0.3in",
+    "margin-top": "0.45in",
     "margin-right": "0.3in",
     "margin-bottom": "0.5in",
     "margin-left": "0.3in",
@@ -18,7 +18,7 @@ PDFKIT_OPTIONS = {
 }
 
 
-def html_to_numerized_pdf(input_html, output_pdf, start_page):
+def html_to_numerized_pdf(input_html: str, output_pdf: str, start_page: int, header_name: str):
     """Generate numerized pdf pages from a html file
 
     :param input_html: Path to input html
@@ -42,21 +42,36 @@ def html_to_numerized_pdf(input_html, output_pdf, start_page):
 
         ## Create
 #        temp_file = get_temp_file()
-        with tempfile.NamedTemporaryFile(suffix="pdf") as temp_file:
-            c = canvas.Canvas(temp_file)
-            width, height = A4
-            y = height * 0.03
-            absolute_page = n_page + start_page
-            x = width * 0.92
-            c.drawString(x, y, str(absolute_page))
-            c.showPage()
-            c.save()
+        #with tempfile.NamedTemporaryFile(suffix="pdf") as temp_file:
+        #with open(input_html[:-5] + "_canvas.pdf",'+') as temp_file:
+        temp_file = input_html[:-5] + "_canvas.pdf"
+        c = canvas.Canvas(temp_file)
+        width, height = A4
+        y = height * 0.03
+        absolute_page = n_page + start_page
+        x = width * 0.92
+        c.drawString(x, y, str(absolute_page))
+        # Print file header for the first page
+        if n_page==0:
+            # TODO: add this header in html. This is not mantenible because 
+            # the positions depends on the margins
 
-            pdf_text_reader = PyPDF2.PdfFileReader(temp_file)
-            page_text_reader = pdf_text_reader.getPage(0)
-            page.mergePage(page_text_reader)
+            textobject = c.beginText(width*0.075, height*0.97)
+            textobject.setFillGray(0.8)
+            c.setFont("Helvetica", 10)
+            textobject.textLine("#")
+            textobject.textLine('# ' + header_name)
+            textobject.textLine("#")
+            c.drawText(textobject) 
 
-            pdf_writer.addPage(page)
+        c.showPage()
+        c.save()
+
+        pdf_text_reader = PyPDF2.PdfFileReader(temp_file)
+        page_text_reader = pdf_text_reader.getPage(0)
+        page.mergePage(page_text_reader)
+
+        pdf_writer.addPage(page)
 
     with open(output_pdf, "wb") as file:
         pdf_writer.write(file)
