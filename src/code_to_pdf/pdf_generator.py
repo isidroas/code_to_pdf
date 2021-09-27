@@ -24,8 +24,8 @@ PDFKIT_OPTIONS = {
 
 class PDFCreator:
     def __init__(self):
-        self.page_number=0
-        self.full_pdf = tempfile.NamedTemporaryFile(suffix='.pdf').name
+        self.page_number=1
+        self.full_pdf = tempfile.NamedTemporaryFile(suffix='.pdf', delete=False).name
         print(self.full_pdf)
 
     
@@ -42,8 +42,9 @@ class PDFCreator:
         pdf_writer = PyPDF2.PdfFileWriter()
 
         
-        #if os.path.isfile(self.full_pdf) and os.path.getsize(self.full_pdf)>0:
-        if self.page_number:
+        if os.path.isfile(self.full_pdf) and os.path.getsize(self.full_pdf)>0:
+            # It is a non empty file
+
             pdf_reader_full = PyPDF2.PdfFileReader(self.full_pdf)
             pdf_writer.appendPagesFromReader(pdf_reader_full)
 
