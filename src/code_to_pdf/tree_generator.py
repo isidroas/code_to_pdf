@@ -11,7 +11,7 @@ class TreeGenerator(object):
     display_parent_prefix_middle = "    "
     display_parent_prefix_last = "│   "
 
-    def __init__(self, path, parent_path, is_last):
+    def __init__(self, path: Path, parent_path: Path, is_last: bool):
         self.path = Path(str(path))
         self.parent = parent_path
         self.is_last = is_last
@@ -82,6 +82,7 @@ class TreeGenerator(object):
                     file.read()
             except UnicodeDecodeError:
                 return False
+
         return True
 
     @classmethod
@@ -91,7 +92,7 @@ class TreeGenerator(object):
         else:
             return str(path).lower()
 
-    def displayable(self):
+    def displayable(self) -> str:
         if self.parent is None:
             return ""
 

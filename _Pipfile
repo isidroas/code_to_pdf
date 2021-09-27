@@ -4,6 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+code_to_pdf =  {editable = true,path="./"}
 
 [dev-packages]
 

@@ -14,7 +14,7 @@ REGEX_SUB = """
 """
 
 
-def code_to_html(input_code, output_html):
+def code_to_html(input_code: str):
     with open(input_code) as file:
         file_str = file.read()
 
@@ -40,5 +40,4 @@ def code_to_html(input_code, output_html):
         lexer = get_lexer_by_name("python")
     output_str = highlight(file_str, lexer, formater)
 
-    with open(output_html, "w") as output_file:
-        output_file.write(output_str)
+    return output_str

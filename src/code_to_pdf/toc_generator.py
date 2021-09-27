@@ -1,9 +1,10 @@
 import pdfkit
 import os
 import re
+import logging
 from art import text2art
 from jinja2 import Template
-from code_to_pdf.pdf_generator import add_blank_page, number_of_pages
+from code_to_pdf.pdf_generator import PDFCreator
 from code_to_pdf.pdf_generator import PDFKIT_OPTIONS
 
 
@@ -19,7 +20,9 @@ class TocGenerator:
         tree = re.sub(" ", "&nbsp;&nbsp;", tree)
         if is_dir:
             template = Template(ENTRY_DIR)
+            logging.info(depth * "   " + "Folder: {}".format(name))
         else:
+            logging.info((depth + 1) * "   " + "File: {}: {}".format(name, page))
             template = Template(ENTRY_FILE)
         self.entries = (
             self.entries
@@ -41,5 +44,5 @@ class TocGenerator:
         options = {"quiet": ""}
         pdfkit.from_string(output_html, output_pdf, options=PDFKIT_OPTIONS)
 
-        if number_of_pages(output_pdf) % 2:
-            add_blank_page(output_pdf)
+        if PDFCreator.number_of_pages(output_pdf) % 2:
+            PDFCreator.add_blank_page(output_pdf)
