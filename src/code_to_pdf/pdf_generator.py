@@ -26,6 +26,7 @@ class PDFCreator:
     def __init__(self):
         self.page_number=0
         self.full_pdf = tempfile.NamedTemporaryFile(suffix='.pdf').name
+        print(self.full_pdf)
 
     
     def add_html(self, input_html: str,  header_name: str):
@@ -41,13 +42,10 @@ class PDFCreator:
         pdf_writer = PyPDF2.PdfFileWriter()
 
         
-        # TODO: Check if empty
-        print('hello')
-        if os.path.isfile(self.full_pdf) and os.path.getsize(self.full_pdf)>0:
-            with open(self.full_pdf, 'rb') as file:
-                import pdb; pdb.set_trace()
-                pdf_reader_full = PyPDF2.PdfFileReader(file)
-                pdf_writer.appendPagesFromReader(pdf_reader_full)
+        #if os.path.isfile(self.full_pdf) and os.path.getsize(self.full_pdf)>0:
+        if self.page_number:
+            pdf_reader_full = PyPDF2.PdfFileReader(self.full_pdf)
+            pdf_writer.appendPagesFromReader(pdf_reader_full)
 
         n_pages = pdf_reader.getNumPages()
 
@@ -55,42 +53,49 @@ class PDFCreator:
             page = pdf_reader.getPage(n_page)
 
             ## Create
-            with tempfile.NamedTemporaryFile(suffix="pdf") as temp_file:
-                c = canvas.Canvas(temp_file)
-                width, height = A4
-                y = height * 0.03
-                self.page_number += n_page
-                x = width * 0.92
-                c.drawString(x, y, str(self.page_number))
+            temp_file =  tempfile.NamedTemporaryFile(suffix="pdf", delete=False)
+            c = canvas.Canvas(temp_file.name)
+            width, height = A4
+            y = height * 0.03
+            self.page_number += n_page
+            x = width * 0.92
+            c.drawString(x, y, str(self.page_number))
 
-                if n_page==0:
-                    # Print file header for the first page
-                    # TODO: add this header in html. This is not mantenible because
-                    # the positions depends on the margins
-                    textobject = c.beginText(width*0.075, height*0.97)
-                    textobject.setFillGray(0.8)
-                    c.setFont("Helvetica", 10)
-                    textobject.textLine("#")
-                    textobject.textLine('# ' + header_name)
-                    textobject.textLine("#")
-                    c.drawText(textobject)
+            if n_page==0:
+                # Print file header for the first page
+                # TODO: add this header in html. This is not mantenible because
+                # the positions depends on the margins
+                textobject = c.beginText(width*0.075, height*0.97)
+                textobject.setFillGray(0.8)
+                c.setFont("Helvetica", 10)
+                textobject.textLine("#")
+                textobject.textLine('# ' + header_name)
+                textobject.textLine("#")
+                c.drawText(textobject)
 
-                c.showPage()
-                c.save()
+            c.showPage()
+            c.save()
 
-                # temp_file + pdf_text_reader => pdf_writer
-                pdf_text_reader = PyPDF2.PdfFileReader(temp_file)
-                page_text_reader = pdf_text_reader.getPage(0)
-                page.mergePage(page_text_reader)
+            # temp_file + pdf_text_reader => pdf_writer
+            pdf_text_reader = PyPDF2.PdfFileReader(temp_file.name)
+            page_text_reader = pdf_text_reader.getPage(0)
+            page.mergePage(page_text_reader)
 
-                pdf_writer.addPage(page)
+            pdf_writer.addPage(page)
+
+            self.page_number +=1
 
 
 
         with open(self.full_pdf, 'wb') as file:
             pdf_writer.write(file)
 
-        self.page_number +=1
+
+
+
+
+
+
 
     def save_in_path(self, path:str):
         shutil.copyfile(self.full_pdf, path)
@@ -150,6 +155,14 @@ if __name__=="__main__":
 </body>
 </html>
 """
+    html_3 = """
+<html>
+<body>
+    this is page 3
+</body>
+</html>
+"""
     pdfcreator.add_html(html_1, 'HTML 1')
     pdfcreator.add_html(html_2, 'HTML 2')
+    pdfcreator.add_html(html_3, 'HTML 3')
     pdfcreator.save_in_path('./pruebapdf.pdf')
