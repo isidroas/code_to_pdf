@@ -20,16 +20,13 @@ PDFKIT_OPTIONS = {
 }
 
 
-
-
 class PDFCreator:
     def __init__(self):
-        self.page_number=1
-        self.full_pdf = tempfile.NamedTemporaryFile(suffix='.pdf', delete=False).name
+        self.page_number = 1
+        self.full_pdf = tempfile.NamedTemporaryFile(suffix=".pdf", delete=False).name
         print(self.full_pdf)
 
-    
-    def add_html(self, input_html: str,  header_name: str):
+    def add_html(self, input_html: str, header_name: str):
         """Generate numerized pdf pages from a html file
 
         :param input_html: html in string
@@ -41,8 +38,7 @@ class PDFCreator:
         pdf_reader = PyPDF2.PdfFileReader(input_pdf)
         pdf_writer = PyPDF2.PdfFileWriter()
 
-        
-        if os.path.isfile(self.full_pdf) and os.path.getsize(self.full_pdf)>0:
+        if os.path.isfile(self.full_pdf) and os.path.getsize(self.full_pdf) > 0:
             # It is a non empty file
 
             pdf_reader_full = PyPDF2.PdfFileReader(self.full_pdf)
@@ -54,7 +50,7 @@ class PDFCreator:
             page = pdf_reader.getPage(n_page)
 
             ## Create
-            temp_file =  tempfile.NamedTemporaryFile(suffix="pdf", delete=False)
+            temp_file = tempfile.NamedTemporaryFile(suffix="pdf", delete=False)
             c = canvas.Canvas(temp_file.name)
             width, height = A4
             y = height * 0.03
@@ -62,15 +58,15 @@ class PDFCreator:
             x = width * 0.92
             c.drawString(x, y, str(self.page_number))
 
-            if n_page==0:
+            if n_page == 0:
                 # Print file header for the first page
                 # TODO: add this header in html. This is not mantenible because
                 # the positions depends on the margins
-                textobject = c.beginText(width*0.075, height*0.97)
+                textobject = c.beginText(width * 0.075, height * 0.97)
                 textobject.setFillGray(0.8)
                 c.setFont("Helvetica", 10)
                 textobject.textLine("#")
-                textobject.textLine('# ' + header_name)
+                textobject.textLine("# " + header_name)
                 textobject.textLine("#")
                 c.drawText(textobject)
 
@@ -84,21 +80,12 @@ class PDFCreator:
 
             pdf_writer.addPage(page)
 
-            self.page_number +=1
+            self.page_number += 1
 
-
-
-        with open(self.full_pdf, 'wb') as file:
+        with open(self.full_pdf, "wb") as file:
             pdf_writer.write(file)
 
-
-
-
-
-
-
-
-    def save_in_path(self, path:str):
+    def save_in_path(self, path: str):
         shutil.copyfile(self.full_pdf, path)
 
     @staticmethod
@@ -119,7 +106,6 @@ class PDFCreator:
         with open(output_pdf, "wb") as file:
             pdf_writer.write(file)
 
-
     @staticmethod
     def add_blank_page(pdf_file):
         pdf_reader = PyPDF2.PdfFileReader(pdf_file)
@@ -132,7 +118,6 @@ class PDFCreator:
         with open(pdf_file, "wb") as file:
             pdf_writer.write(file)
 
-
     @staticmethod
     def number_of_pages(pdf_file):
         """ Get number of pages of a PDF """
@@ -140,7 +125,7 @@ class PDFCreator:
         return pdf_reader.getNumPages()
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     pdfcreator = PDFCreator()
     html_1 = """
 <html>
@@ -163,7 +148,7 @@ if __name__=="__main__":
 </body>
 </html>
 """
-    pdfcreator.add_html(html_1, 'HTML 1')
-    pdfcreator.add_html(html_2, 'HTML 2')
-    pdfcreator.add_html(html_3, 'HTML 3')
-    pdfcreator.save_in_path('./pruebapdf.pdf')
+    pdfcreator.add_html(html_1, "HTML 1")
+    pdfcreator.add_html(html_2, "HTML 2")
+    pdfcreator.add_html(html_3, "HTML 3")
+    pdfcreator.save_in_path("./pruebapdf.pdf")

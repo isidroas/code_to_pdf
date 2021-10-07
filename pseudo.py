@@ -4,7 +4,8 @@ class PDFCreator:
 
     def get_pages(self):
         return 0
-    
+
+
 class TOC:
     def add_entry(self, relative_path, n_page):
         pass
@@ -14,12 +15,10 @@ def code_to_html(file):
     return ""
 
 
-
-
 def main(path_to_code, output_pdf):
     pdf_creator = PDFCreator()
     toc = TOC()
-    
+
     for file, relative_path in os.walk(path_to_code):
 
         html = code_to_html(file)
@@ -30,4 +29,3 @@ def main(path_to_code, output_pdf):
 
     # toc + pdf_creator => output_pdf
     join_PDFs(pdf_creator.full_output, toc.render_page(), output_pdf)
-
