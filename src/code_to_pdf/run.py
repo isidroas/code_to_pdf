@@ -2,13 +2,12 @@ import os
 import argparse
 import logging
 
-logging.basicConfig(level=logging.DEBUG)
-from pathlib import Path
 from code_to_pdf.html_generator import code_to_html
 from code_to_pdf.pdf_generator import PDFCreator
 from code_to_pdf.toc_generator import TocGenerator
-from code_to_pdf.temporal import Temporal
 from code_to_pdf.tree_generator import TreeGenerator
+
+logging.basicConfig(level=logging.DEBUG)
 
 
 def argument_parser(raw_args):
@@ -36,10 +35,6 @@ def argument_parser(raw_args):
 def main(raw_args=None):
     toc = TocGenerator()
     pdf_creator = PDFCreator()
-
-    temp = Temporal()
-    temp_folder = temp.get_temp_folder()
-
     args = argument_parser(raw_args)
 
     for (

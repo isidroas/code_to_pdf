@@ -49,7 +49,7 @@ class PDFCreator:
         for n_page in range(n_pages):
             page = pdf_reader.getPage(n_page)
 
-            ## Create
+            # Create
             temp_file = tempfile.NamedTemporaryFile(suffix="pdf", delete=False)
             c = canvas.Canvas(temp_file.name)
             width, height = A4
@@ -110,7 +110,6 @@ class PDFCreator:
     def add_blank_page(pdf_file):
         pdf_reader = PyPDF2.PdfFileReader(pdf_file)
         pdf_writer = PyPDF2.PdfFileWriter()
-        n_pages = pdf_reader.getNumPages()
 
         pdf_writer.appendPagesFromReader(pdf_reader)
         pdf_writer.addBlankPage()

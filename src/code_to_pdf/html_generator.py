@@ -21,7 +21,7 @@ def code_to_html(input_code: str):
     # Remove copyright and add header
     license_match = re.search(REGEX_PATTERN, file_str)
 
-    new_header = REGEX_SUB.format(input_code)
+    # new_header = REGEX_SUB.format(input_code)
     #    sub_str = new_header + sub_str
     starting_line = 1
 
