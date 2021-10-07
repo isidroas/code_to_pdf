@@ -1,6 +1,6 @@
-import os
 import argparse
 import logging
+import os
 
 from code_to_pdf.html_generator import code_to_html
 from code_to_pdf.pdf_generator import PDFCreator

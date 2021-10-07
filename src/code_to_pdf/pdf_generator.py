@@ -1,11 +1,11 @@
-import pdfkit
-import PyPDF2
 import os
 import shutil
 import tempfile
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import A4
 
+import pdfkit
+import PyPDF2
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
 
 PDFKIT_OPTIONS = {
     "quiet": "",

@@ -1,5 +1,6 @@
-from git import Repo
 import os
+
+from git import Repo
 
 PATH = "/home/isidro/wat"
 

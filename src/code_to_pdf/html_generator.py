@@ -1,10 +1,11 @@
 # coding: utf-8
-import re
-import pygments
 import logging
+import re
+
+import pygments
 from pygments import highlight
-from pygments.lexers import get_lexer_for_filename, get_lexer_by_name
 from pygments.formatters import HtmlFormatter
+from pygments.lexers import get_lexer_by_name, get_lexer_for_filename
 
 REGEX_PATTERN = "#\n#..-+\n#...Gurux.Ltd(\n.*){30}"
 REGEX_SUB = """

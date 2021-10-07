@@ -1,13 +1,13 @@
-import pdfkit
+import logging
 import os
 import re
-import logging
 import tempfile
+
+import pdfkit
 from art import text2art
 from jinja2 import Template
-from code_to_pdf.pdf_generator import PDFCreator
-from code_to_pdf.pdf_generator import PDFKIT_OPTIONS
 
+from code_to_pdf.pdf_generator import PDFKIT_OPTIONS, PDFCreator
 
 ENTRY_DIR = """<div class=row>{{ 157*'.' }}<span class="row_text"> {{tree}}<span class="dir">{{ name }} </span>&nbsp</span><span class="right">{{ page }}</div>"""
 ENTRY_FILE = """<div class=row>{{ 157*'.' }}<span class="row_text">{{tree}} <span class="file">{{ name }}&nbsp</span></span><span class="right">{{ page }}</div>"""
