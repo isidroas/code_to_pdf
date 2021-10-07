@@ -1,6 +1,7 @@
 import os
 import argparse
 import logging
+
 logging.basicConfig(level=logging.DEBUG)
 from pathlib import Path
 from code_to_pdf.html_generator import code_to_html
@@ -27,10 +28,7 @@ def argument_parser(raw_args):
         else os.path.basename(args["source_code"])  # TODO: this fails if not end by '/'
     )
     args["output_pdf"] = (
-        args_obj.output_pdf
-
-        if args_obj.output_pdf
-        else args["project_name"] + ".pdf"
+        args_obj.output_pdf if args_obj.output_pdf else args["project_name"] + ".pdf"
     )
     return args
 
@@ -44,7 +42,6 @@ def main(raw_args=None):
 
     args = argument_parser(raw_args)
 
-
     for (
         path_str,
         file_name,
@@ -53,20 +50,23 @@ def main(raw_args=None):
         parent,
         current_folder,
         tree_string,
-    ) in TreeGenerator.get_iterable(args['source_code']):
+    ) in TreeGenerator.get_iterable(args["source_code"]):
 
-        
-        toc.add_entry(file_name, depth + 1, pdf_creator.page_number, tree_string, is_dir=is_dir)
+        toc.add_entry(
+            file_name, depth + 1, pdf_creator.page_number, tree_string, is_dir=is_dir
+        )
 
         if not is_dir:
-            path_rel = os.path.relpath(path_str, args['source_code']) 
+            # TODO: Calculate this in iterator
+            path_rel = os.path.relpath(path_str, args["source_code"])
+
             output_html = code_to_html(path_str)
             pdf_creator.add_html(output_html, path_rel)
 
-    output_toc_pdf = os.path.join(temp_folder, "output_toc.pdf")
-    toc.render_toc(output_toc_pdf, args['project_name'])
+    toc_pdf = toc.render_toc(args["project_name"])
 
-    PDFCreator.merge_pdfs([output_toc_pdf, pdf_creator.full_pdf], args['output_pdf'])
+    # toc + pdf_creator => output_pdf
+    PDFCreator.merge_pdfs([toc_pdf, pdf_creator.full_pdf], args["output_pdf"])
 
     print("Success!")
     print(f"File written in {args['output_pdf']}")
