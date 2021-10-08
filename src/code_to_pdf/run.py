@@ -54,7 +54,7 @@ def main(raw_args=None):
             output_html = code_to_html(path_str, path_rel)
             pdf_creator.add_html(output_html)
 
-    toc_pdf = toc.render_toc(args["project_name"])
+    toc_pdf = toc.render_toc(args["project_name"], args["source_code"])
 
     # toc + pdf_creator => output_pdf
     PDFCreator.merge_pdfs([toc_pdf, pdf_creator.full_pdf], args["output_pdf"])

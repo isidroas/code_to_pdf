@@ -28,7 +28,7 @@ setuptools.setup(
         "reportlab",
         "jinja2",
         "art",
-        "git",
+        "gitpython",
     ],
     entry_points={"console_scripts": ["code_to_pdf=code_to_pdf.__main__:main"]},
     include_package_data=True,
