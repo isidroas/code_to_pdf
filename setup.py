@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="code_to_pdf",  # Replace with your own username
-    version="0.0.2",
+    version="0.1.0",
     author="Isidro Arias",
     author_email="isidroariass@hotmail.es",
     description="This convert a software proyect to a pdf book",
