@@ -42,9 +42,8 @@ def main(raw_args=None):
         file_name,
         is_dir,
         depth,
-        parent,
-        current_folder,
         tree_string,
+        path_rel,
     ) in TreeGenerator.get_iterable(args["source_code"]):
 
         toc.add_entry(
@@ -52,9 +51,6 @@ def main(raw_args=None):
         )
 
         if not is_dir:
-            # TODO: Calculate this in iterator
-            path_rel = os.path.relpath(path_str, args["source_code"])
-
             output_html = code_to_html(path_str)
             pdf_creator.add_html(output_html, path_rel)
 
@@ -63,8 +59,8 @@ def main(raw_args=None):
     # toc + pdf_creator => output_pdf
     PDFCreator.merge_pdfs([toc_pdf, pdf_creator.full_pdf], args["output_pdf"])
 
-    print("Success!")
-    print(f"File written in {args['output_pdf']}")
+    logging.info("Success!")
+    logging.info(f"File written in {args['output_pdf']}")
 
 
 if __name__ == "__main__":

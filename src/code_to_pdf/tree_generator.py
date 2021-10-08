@@ -1,6 +1,7 @@
 # author: https://stackoverflow.com/questions/9727673/list-directory-tree-structure-in-python
 
 
+import os
 import re
 from pathlib import Path
 
@@ -124,8 +125,10 @@ class TreeGenerator(object):
             file_name = path_object.displayname
             is_dir = path_object.path.is_dir()
             depth = path_object.depth
-            parent = path_object.parent
-            current_folder = str(parent.path) if parent else "."
+            # parent = path_object.parent
+            # current_folder = str(parent.path) if parent else "."
             tree_string = path_object.displayable()
 
-            yield path_str, file_name, is_dir, depth, parent, current_folder, tree_string
+            path_rel = os.path.relpath(path_str, path)
+
+            yield path_str, file_name, is_dir, depth, tree_string, path_rel
