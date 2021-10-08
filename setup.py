@@ -21,7 +21,15 @@ setuptools.setup(
     package_dir={"": "src"},
     packages=setuptools.find_packages(where="src"),
     python_requires=">=3.6",
-    install_requires=["pygments", "pdfkit", "PyPDF2", "reportlab", "jinja2", "art"],
+    install_requires=[
+        "pygments",
+        "pdfkit",
+        "PyPDF2",
+        "reportlab",
+        "jinja2",
+        "art",
+        "git",
+    ],
     entry_points={"console_scripts": ["code_to_pdf=code_to_pdf.__main__:main"]},
     include_package_data=True,
 )
