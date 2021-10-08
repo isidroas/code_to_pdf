@@ -51,8 +51,8 @@ def main(raw_args=None):
         )
 
         if not is_dir:
-            output_html = code_to_html(path_str)
-            pdf_creator.add_html(output_html, path_rel)
+            output_html = code_to_html(path_str, path_rel)
+            pdf_creator.add_html(output_html)
 
     toc_pdf = toc.render_toc(args["project_name"])
 

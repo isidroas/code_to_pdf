@@ -18,7 +18,7 @@ REGEX_SUB = """
 """
 
 
-def code_to_html(input_code: str):
+def code_to_html(input_code: str, name_in_header: str):
     with open(input_code) as file:
         file_str = file.read()
 
@@ -50,7 +50,7 @@ def code_to_html(input_code: str):
         lexer = get_lexer_by_name("python")
     output_str = highlight(file_str, lexer, formater)
 
-    new_header = REGEX_SUB.format(input_code)
+    new_header = REGEX_SUB.format(name_in_header)
     index = output_str.find("<body>") + len("<body>")
     output_str_header = output_str[:index] + new_header + output_str[index:]
 

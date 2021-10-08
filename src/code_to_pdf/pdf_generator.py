@@ -26,7 +26,7 @@ class PDFCreator:
         self.full_pdf = tempfile.NamedTemporaryFile(suffix=".pdf", delete=False).name
         print(self.full_pdf)
 
-    def add_html(self, input_html: str, header_name: str):
+    def add_html(self, input_html: str):
         """Generate numerized pdf pages from a html file
 
         :param input_html: html in string
@@ -54,7 +54,7 @@ class PDFCreator:
             c = canvas.Canvas(temp_file.name)
             width, height = A4
             y = height * 0.03
-            self.page_number += n_page
+            # self.page_number += n_page
             x = width * 0.92
             c.drawString(x, y, str(self.page_number))
 
