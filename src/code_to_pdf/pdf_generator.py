@@ -58,18 +58,6 @@ class PDFCreator:
             x = width * 0.92
             c.drawString(x, y, str(self.page_number))
 
-            if n_page == 0:
-                # Print file header for the first page
-                # TODO: add this header in html. This is not mantenible because
-                # the positions depends on the margins
-                textobject = c.beginText(width * 0.075, height * 0.97)
-                textobject.setFillGray(0.8)
-                c.setFont("Helvetica", 10)
-                textobject.textLine("#")
-                textobject.textLine("# " + header_name)
-                textobject.textLine("#")
-                c.drawText(textobject)
-
             c.showPage()
             c.save()
 
