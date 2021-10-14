@@ -15,6 +15,7 @@ jobs:
             - name: Install dependencies
               run: |
                   python -m pip install --upgrade setuptools wheel
+                  sudo apt update
                   sudo apt install wkhtmltopdf
             - name: Install package
               run: python -m pip install  ./
