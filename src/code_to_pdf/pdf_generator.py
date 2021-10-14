@@ -111,6 +111,27 @@ class PDFCreator:
         pdf_reader = PyPDF2.PdfFileReader(pdf_file)
         return pdf_reader.getNumPages()
 
+    def extract_pages(pdf_path: str, min_page=None, max_page=None):
+        pdf_reader = PyPDF2.PdfFileReader(pdf_path)
+        pdf_writer = PyPDF2.PdfFileWriter()
+
+        n_pages = pdf_reader.getNumPages()
+
+        for n_page in range(n_pages):
+            if min_page is not None and n_page < min_page:
+                continue
+            if max_page is not None and n_page > min_page:
+                continue
+            page = pdf_reader.getPage(n_page)
+            pdf_writer.addPage(page)
+
+        temp_file = tempfile.NamedTemporaryFile(suffix="pdf", delete=False)
+
+        # with open(temp_file.name, "wb") as file:
+        pdf_writer.write(temp_file)
+
+        return temp_file.name
+
 
 if __name__ == "__main__":
     pdfcreator = PDFCreator()

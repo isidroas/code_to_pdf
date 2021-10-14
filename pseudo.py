@@ -28,4 +28,5 @@ def main(path_to_code, output_pdf):
         toc.add_entry(relative_path, pdf_creator.get_pages())
 
     # toc + pdf_creator => output_pdf
-    join_PDFs(pdf_creator.full_output, toc.render_page(), output_pdf)
+    #    join_PDFs(pdf_creator.full_output, toc.render_page(), output_pdf)
+    toc.generate_volumes(max_pages_per_volume=max_pages_per_volume)
