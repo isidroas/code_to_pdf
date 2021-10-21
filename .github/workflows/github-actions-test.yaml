@@ -24,7 +24,9 @@ jobs:
             - name: Run coverage
               run: |
                    python -m pip install --upgrade coverage
-                   python -m coverage run --source=code_to_pdf -m code_to_pdf ./
+                   # python -m coverage run --source=code_to_pdf -m code_to_pdf ./
+                   cd tests
+                   python -m coverage run --source=code_to_pdf test_cli.py
                    python -m coverage xml -i
             - uses: codecov/codecov-action@v1
               with:
