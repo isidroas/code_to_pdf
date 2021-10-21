@@ -144,8 +144,8 @@ class TocGenerator:
         project_name,
         output_pdf: str,
         contents: str,
+        max_pages_per_volume: int,
         version_control_folder: str = None,
-        max_pages_per_volume=10,
     ):
 
         total_pages = PDFCreator.number_of_pages(contents)

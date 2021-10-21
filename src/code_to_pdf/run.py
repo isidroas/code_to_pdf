@@ -17,6 +17,11 @@ def argument_parser(raw_args):
     parser.add_argument(
         "--output-pdf", type=str, help="Path where pdf will be generated"
     )
+    parser.add_argument(
+        "--max-pages-per-volume",
+        type=int,
+        help="If given, it will generate more than one pdf when the total pages are greater than the given number",
+    )
     args_obj = parser.parse_args(raw_args)
 
     args = {}
@@ -29,6 +34,7 @@ def argument_parser(raw_args):
     args["output_pdf"] = (
         args_obj.output_pdf if args_obj.output_pdf else args["project_name"] + ".pdf"
     )
+    args["max_pages_per_volume"] = args_obj.max_pages_per_volume
     return args
 
 
@@ -54,16 +60,18 @@ def main(raw_args=None):
             output_html = code_to_html(path_str, path_rel)
             pdf_creator.add_html(output_html)
 
-    # toc_pdf = toc.render_toc(args["project_name"], args["source_code"])
-
-    # toc + pdf_creator => output_pdf
-    # PDFCreator.merge_pdfs([toc_pdf, pdf_creator.full_pdf], args["output_pdf"])
-    toc.generate_volumes(
-        args["project_name"],
-        args["output_pdf"],
-        pdf_creator.full_pdf,
-        args["source_code"],
-    )
+    if args["max_pages_per_volume"]:
+        toc.generate_volumes(
+            args["project_name"],
+            args["output_pdf"],
+            pdf_creator.full_pdf,
+            args["max_pages_per_volume"],
+            version_control_folder=args["source_code"],
+        )
+    else:
+        toc_pdf = toc.render_toc(args["project_name"], args["source_code"])
+        # toc + pdf_creator => output_pdf
+        PDFCreator.merge_pdfs([toc_pdf, pdf_creator.full_pdf], args["output_pdf"])
 
     logging.info("Success!")
     logging.info(f"File written in {args['output_pdf']}")
