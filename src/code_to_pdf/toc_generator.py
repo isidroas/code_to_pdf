@@ -65,7 +65,6 @@ class Entry:
 
 class TocGenerator:
     def __init__(self):
-        self.entries = ""
         self.entries_list: List[Entry] = []
 
     def add_entry(self, name, depth, page, tree, is_dir=False):
@@ -130,9 +129,6 @@ class TocGenerator:
         )
 
         pdfkit.from_string(output_html, output_pdf, options=PDFKIT_OPTIONS)
-
-        with open("temporal_toc.html", "wt") as file:
-            file.write(output_html)
 
         if PDFCreator.number_of_pages(output_pdf) % 2:
             PDFCreator.add_blank_page(output_pdf)
