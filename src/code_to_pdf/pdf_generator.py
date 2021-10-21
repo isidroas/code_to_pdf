@@ -1,3 +1,4 @@
+import logging
 import os
 import shutil
 import tempfile
@@ -120,15 +121,17 @@ class PDFCreator:
         for n_page in range(n_pages):
             if min_page is not None and n_page < min_page:
                 continue
-            if max_page is not None and n_page > min_page:
+            if max_page is not None and n_page > max_page - 1:
                 continue
             page = pdf_reader.getPage(n_page)
             pdf_writer.addPage(page)
 
-        temp_file = tempfile.NamedTemporaryFile(suffix="pdf", delete=False)
+        temp_file = tempfile.NamedTemporaryFile(suffix=".pdf", delete=False)
 
         # with open(temp_file.name, "wb") as file:
         pdf_writer.write(temp_file)
+
+        logging.debug(f"[extract_pages] {min_page:} {max_page:} {temp_file.name:}")
 
         return temp_file.name
 
