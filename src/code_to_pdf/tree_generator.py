@@ -66,6 +66,7 @@ class TreeGenerator(object):
             ".pylintrc",
             "LICENSE",
             "requirements.txt",
+            "venv",
         ):
             return False
         if path.name == "__init__.py":
