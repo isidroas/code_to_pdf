@@ -76,8 +76,10 @@ class TreeGenerator(object):
             return False
 
         if not path.is_dir():
+            # TODO: remove the next condition to support more lenguages
             if not re.search(r".*\.py", path.name):
                 return False
+
             # detect if it is a binary file, instead of text file
             try:
                 with open(path, "r") as file:
