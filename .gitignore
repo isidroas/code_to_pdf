@@ -10,3 +10,4 @@ Gurux.DLMS.Python
 Gurux.DLMS.python
 docs/build/doctrees/
 *.egg-info
+.coverage
