@@ -112,6 +112,7 @@ class PDFCreator:
         pdf_reader = PyPDF2.PdfFileReader(pdf_file)
         return pdf_reader.getNumPages()
 
+    @staticmethod
     def extract_pages(pdf_path: str, min_page=None, max_page=None):
         pdf_reader = PyPDF2.PdfFileReader(pdf_path)
         pdf_writer = PyPDF2.PdfFileWriter()
@@ -159,7 +160,7 @@ if __name__ == "__main__":
 </body>
 </html>
 """
-    pdfcreator.add_html(html_1, "HTML 1")
-    pdfcreator.add_html(html_2, "HTML 2")
-    pdfcreator.add_html(html_3, "HTML 3")
+    pdfcreator.add_html(html_1)
+    pdfcreator.add_html(html_2)
+    pdfcreator.add_html(html_3)
     pdfcreator.save_in_path("./pruebapdf.pdf")

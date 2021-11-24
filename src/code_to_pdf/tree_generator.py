@@ -12,14 +12,11 @@ class TreeGenerator(object):
     display_parent_prefix_middle = "    "
     display_parent_prefix_last = "│   "
 
-    def __init__(self, path: Path, parent_path: Path, is_last: bool):
+    def __init__(self, path: Path, parent_path, is_last: bool):
         self.path = Path(str(path))
         self.parent = parent_path
         self.is_last = is_last
-        if self.parent:
-            self.depth = self.parent.depth + 1
-        else:
-            self.depth = 0
+        self.depth = self.parent.depth + 1 if self.parent else 0  # type: ignore
 
     @property
     def displayname(self):
