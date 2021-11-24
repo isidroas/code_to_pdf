@@ -1,5 +1,6 @@
 [![codecov](https://codecov.io/gh/isidroas/code_to_pdf/branch/main/graph/badge.svg)](https://codecov.io/gh/isidroas/code_to_pdf)
 [![example workflow](https://github.com/isidroas/code_to_pdf/actions/workflows/github-actions-test.yaml/badge.svg)](https://github.com/isidroas/code_to_pdf/actions/workflows/github-actions-test.yaml)
+[![Checked with mypy](http://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/)
 
 
 # PDF code proyect generator
