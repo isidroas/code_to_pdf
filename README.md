@@ -4,6 +4,17 @@
 
 # PDF code proyect generator
 
-Passing a lot of hours in front of a screen is tired. Sometimes we need to analyze libraries that used in our application and in order to give a rest to our eyes this program could be usefull. Its imput is a folder that contain files of code, generating pdf pages of highlighted source. Also, at the beginning an index is added. To known the name of every file a header is added in all of them
+Spending many hours in front of a screen can be tiring. Sometimes we need to analyze libraries that are used in our application and to give our eyes a break, this program could be usefull. Its input is a folder that contains files of code, and the output is a pdf document of highlighted source. Also, at the beginning an index is added, which indicates the page number per each file of code.
 
 ![Image conversion](conversion.svg)
+
+## Installation
+```bash
+pip install code_to_pdf
+```
+
+## Usage
+```
+code_to_pdf --project-name output_document  path/to/project/dir/
+```
+It will generate a file named "ouptut_document.pdf"
