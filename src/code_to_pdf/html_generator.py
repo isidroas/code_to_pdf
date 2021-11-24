@@ -58,6 +58,6 @@ def code_to_html(input_code: str, name_in_header: str):
 
 
 if __name__ == "__main__":
-    res = code_to_html(__file__)
+    res = code_to_html(__file__, "this file")
     with open("res.html", "wt") as file:
         file.write(res)
