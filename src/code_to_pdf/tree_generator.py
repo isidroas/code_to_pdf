@@ -4,6 +4,7 @@
 import os
 import re
 from pathlib import Path
+from typing import List
 
 
 class TreeGenerator(object):
@@ -155,41 +156,46 @@ def _sorter_key(key: Path):
         return key.name.lower()
 
 
-def iterate_over_dir(folder: Path, depth: int, is_last=False):
+def _calculate_prefix(parents: List[bool]):
+    if not parents:
+        return ""
+
+    prefix = ""
+    for is_last2 in parents[:-1]:
+        prefix += (
+            display_parent_prefix_last if not is_last2 else display_parent_prefix_middle
+        )
+
+    prefix += (
+        display_filename_prefix_last if parents[-1] else display_filename_prefix_middle
+    )
+    return prefix
+
+
+def iterate_over_dir(folder: Path, is_last_list: List[bool] = []):
     folder = folder.resolve()
-    if depth == 0:
-        yield folder.name
-    else:
-        tchar = (
-            display_filename_prefix_last if is_last else display_filename_prefix_middle
-        )
-        #       yield depth*display_parent_prefix_last + tchar + folder.name
-        yield depth * display_parent_prefix_middle + tchar + folder.name
 
-    contents = folder.iterdir()
+    prefix = _calculate_prefix(is_last_list)
 
-    # filter
-    contents = iter(it for it in contents if _filter(it))
+    yield prefix + folder.name
 
-    # sort
-    contents = sorted(contents, key=_sorter_key)
+    if folder.is_dir():
+        contents = folder.iterdir()
 
-    #    pprint(contents)
-    for index, c in enumerate(contents):
-        is_last = index == len(contents) - 1
+        # filter
+        contents = iter(it for it in contents if _filter(it))
 
-        tchar = (
-            display_filename_prefix_last if is_last else display_filename_prefix_middle
-        )
-        if c.is_file():
-            # yield (depth+1)* display_parent_prefix_last + tchar + str(c.name)
-            yield (depth + 1) * display_parent_prefix_middle + tchar + str(c.name)
-        else:
-            #            print(f"found not file {c}")
-            for i in iterate_over_dir(c, depth + 1, is_last):
-                yield i
+        # sort
+        contents = sorted(contents, key=_sorter_key)
+
+        for index, c in enumerate(contents):
+            is_last2 = index == len(contents) - 1
+            is_last_list2 = is_last_list[:]
+            is_last_list2.append(is_last2)
+
+            yield from iterate_over_dir(c, is_last_list2)
 
 
 if __name__ == "__main__":
-    for i in iterate_over_dir(Path("../../"), depth=0):
+    for i in iterate_over_dir(Path("../../")):
         print(i)
