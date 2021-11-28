@@ -132,3 +132,64 @@ class TreeGenerator(object):
             path_rel = os.path.relpath(path_str, path)
 
             yield path_str, file_name, is_dir, depth, tree_string, path_rel
+
+
+display_filename_prefix_middle = "├──"
+display_filename_prefix_last = "└──"
+display_parent_prefix_middle = "    "
+display_parent_prefix_last = "│   "
+
+
+def _filter(path: Path):
+    return not path.is_symlink() and path.name not in (".git", "venv", ".mypy_cache")
+
+
+def _sorter_key(key: Path):
+    """
+    This guarantiees that folders will appear last
+    """
+
+    if key.is_dir():
+        return "z" + key.name.lower()
+    else:
+        return key.name.lower()
+
+
+def iterate_over_dir(folder: Path, depth: int, is_last=False):
+    folder = folder.resolve()
+    if depth == 0:
+        yield folder.name
+    else:
+        tchar = (
+            display_filename_prefix_last if is_last else display_filename_prefix_middle
+        )
+        #       yield depth*display_parent_prefix_last + tchar + folder.name
+        yield depth * display_parent_prefix_middle + tchar + folder.name
+
+    contents = folder.iterdir()
+
+    # filter
+    contents = iter(it for it in contents if _filter(it))
+
+    # sort
+    contents = sorted(contents, key=_sorter_key)
+
+    #    pprint(contents)
+    for index, c in enumerate(contents):
+        is_last = index == len(contents) - 1
+
+        tchar = (
+            display_filename_prefix_last if is_last else display_filename_prefix_middle
+        )
+        if c.is_file():
+            # yield (depth+1)* display_parent_prefix_last + tchar + str(c.name)
+            yield (depth + 1) * display_parent_prefix_middle + tchar + str(c.name)
+        else:
+            #            print(f"found not file {c}")
+            for i in iterate_over_dir(c, depth + 1, is_last):
+                yield i
+
+
+if __name__ == "__main__":
+    for i in iterate_over_dir(Path("../../"), depth=0):
+        print(i)
