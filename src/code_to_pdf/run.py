@@ -12,6 +12,49 @@ from code_to_pdf.tree_generator import walk_tree
 logging.basicConfig(level=logging.DEBUG)
 
 
+class Parameters:
+    # def __init__(self, exclude_list: List[str] = [], copyright_regex: str = None):
+    #    self.exclude_list = exclude_list
+    #    self.copyright_regex = copyright_regex
+
+    def __init__(self):
+        self.exclude_list = [
+            "__pycache__/",
+            "*.swp",
+            "*.pdf",
+            "*.pyc",
+            "/*.html",
+            "/*.pdf",
+            "*.egg-info",
+            ".coverage",
+            "venv",
+            ".mypy_cache",
+            ".git",
+            "*~",
+            "*.svg",
+            "tags",
+        ]
+        self.copyright_regex = """
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+"""
+
+
 def argument_parser(raw_args):
     parser = argparse.ArgumentParser(description="Code to PDF generator")
     parser.add_argument("source", type=str, help="Source code folder")
@@ -45,8 +88,10 @@ def main(raw_args=None):
     pdf_creator = PDFCreator()
     args = argument_parser(raw_args)
 
+    params = Parameters()
+
     for (path_str, file_name, is_dir, depth, tree_string, path_rel) in walk_tree(
-        args["source_code"]
+        args["source_code"], excluded_files=params.exclude_list
     ):
 
         toc.add_entry(

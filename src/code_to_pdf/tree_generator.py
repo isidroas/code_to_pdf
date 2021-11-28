@@ -161,11 +161,11 @@ BLACK_LIST = [
 ]
 
 
-def _filter(path: Path):
+def _filter(path: Path, excluded_files):
     # TODO: use pathlib.Path.match?
     if path.is_symlink():
         return False
-    for i in BLACK_LIST:
+    for i in excluded_files:
         if fnmatchcase(path.name, i):
             return False
     return True
@@ -198,7 +198,7 @@ def _calculate_prefix(parents: List[bool]):
     return prefix
 
 
-def iterate_over_dir(folder: Path, is_last_list: List[bool] = []):
+def iterate_over_dir(folder: Path, is_last_list: List[bool] = [], excluded_files=[]):
     folder = folder.resolve()
 
     prefix = _calculate_prefix(is_last_list)
@@ -209,7 +209,7 @@ def iterate_over_dir(folder: Path, is_last_list: List[bool] = []):
         contents = folder.iterdir()
 
         # filter
-        contents = iter(it for it in contents if _filter(it))
+        contents = iter(it for it in contents if _filter(it, excluded_files))
 
         # sort
         contents = sorted(contents, key=_sorter_key)
@@ -219,17 +219,19 @@ def iterate_over_dir(folder: Path, is_last_list: List[bool] = []):
             is_last_list2 = is_last_list[:]
             is_last_list2.append(is_last2)
 
-            yield from iterate_over_dir(c, is_last_list2)
+            yield from iterate_over_dir(c, is_last_list2, excluded_files=excluded_files)
 
 
-def walk_tree(path: str):
+def walk_tree(path: str, excluded_files: List = BLACK_LIST):
     """
     User friendly wrapper for `iterate_over_dir`
     ret: tree_prefix, name,
     """
     path = Path(path).resolve()
 
-    for tree_string, path_object in iterate_over_dir(path):
+    for tree_string, path_object in iterate_over_dir(
+        path, excluded_files=excluded_files
+    ):
 
         path_str = str(path_object)
         is_dir = path_object.is_dir()
@@ -245,8 +247,10 @@ def walk_tree(path: str):
 
 
 if __name__ == "__main__":
-    for i in iterate_over_dir(Path("../../")):
-        print(i)
+    # for i in iterate_over_dir(Path("../../")):
+    #    #print(i)
+    #    pass
 
     for i in walk_tree("../../"):
         print(i)
+        # pass

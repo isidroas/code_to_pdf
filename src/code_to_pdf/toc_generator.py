@@ -46,7 +46,7 @@ class Entry:
     def __init__(self, name="", depth=0, page=0, tree="", is_dir=False):
         self.name = name
         self.depth = depth
-        self.page = depth
+        self.page = page
 
         tree = re.sub(" ", "&nbsp;&nbsp;", tree)
         self.tree = tree
@@ -58,9 +58,10 @@ class Entry:
             template = Template(self.ENTRY_DIR)
         else:
             template = Template(self.ENTRY_FILE)
-        return template.render(
-            name=self.name, depth=self.depth, page=self.page, tree=self.tree
-        )
+        return template.render(name=self.name, page=self.page, tree=self.tree)
+
+    def __repr__(self):
+        return f"Entry({self.name}, page={self.page})"
 
 
 class TocGenerator:
