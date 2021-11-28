@@ -5,7 +5,9 @@ import os
 from code_to_pdf.html_generator import code_to_html
 from code_to_pdf.pdf_generator import PDFCreator
 from code_to_pdf.toc_generator import TocGenerator
-from code_to_pdf.tree_generator import TreeGenerator
+
+# from code_to_pdf.tree_generator import TreeGenerator
+from code_to_pdf.tree_generator import walk_tree
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -43,14 +45,9 @@ def main(raw_args=None):
     pdf_creator = PDFCreator()
     args = argument_parser(raw_args)
 
-    for (
-        path_str,
-        file_name,
-        is_dir,
-        depth,
-        tree_string,
-        path_rel,
-    ) in TreeGenerator.get_iterable(args["source_code"]):
+    for (path_str, file_name, is_dir, depth, tree_string, path_rel) in walk_tree(
+        args["source_code"]
+    ):
 
         toc.add_entry(
             file_name, depth + 1, pdf_creator.page_number, tree_string, is_dir=is_dir
