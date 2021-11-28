@@ -3,8 +3,11 @@
 
 import os
 import re
+from fnmatch import fnmatchcase
 from pathlib import Path
 from typing import List
+
+###
 
 
 class TreeGenerator(object):
@@ -140,9 +143,32 @@ display_filename_prefix_last = "└──"
 display_parent_prefix_middle = "    "
 display_parent_prefix_last = "│   "
 
+BLACK_LIST = [
+    "__pycache__/",
+    "*.swp",
+    "*.pdf",
+    "*.pyc",
+    "/*.html",
+    "/*.pdf",
+    "*.egg-info",
+    ".coverage",
+    "venv",
+    ".mypy_cache",
+    ".git",
+    "*~",
+    "*.svg",
+    "tags",
+]
+
 
 def _filter(path: Path):
-    return not path.is_symlink() and path.name not in (".git", "venv", ".mypy_cache")
+    # TODO: use pathlib.Path.match?
+    if path.is_symlink():
+        return False
+    for i in BLACK_LIST:
+        if fnmatchcase(path.name, i):
+            return False
+    return True
 
 
 def _sorter_key(key: Path):
@@ -177,7 +203,7 @@ def iterate_over_dir(folder: Path, is_last_list: List[bool] = []):
 
     prefix = _calculate_prefix(is_last_list)
 
-    yield prefix + folder.name
+    yield prefix, folder
 
     if folder.is_dir():
         contents = folder.iterdir()
@@ -196,6 +222,31 @@ def iterate_over_dir(folder: Path, is_last_list: List[bool] = []):
             yield from iterate_over_dir(c, is_last_list2)
 
 
+def walk_tree(path: str):
+    """
+    User friendly wrapper for `iterate_over_dir`
+    ret: tree_prefix, name,
+    """
+    path = Path(path).resolve()
+
+    for tree_string, path_object in iterate_over_dir(path):
+
+        path_str = str(path_object)
+        is_dir = path_object.is_dir()
+        file_name = path_object.name
+        if is_dir:
+            file_name += "/"
+
+        depth = len(path_object.parts)
+
+        path_rel = path_object.relative_to(path)
+
+        yield path_str, file_name, is_dir, depth, tree_string, path_rel
+
+
 if __name__ == "__main__":
     for i in iterate_over_dir(Path("../../")):
+        print(i)
+
+    for i in walk_tree("../../"):
         print(i)
