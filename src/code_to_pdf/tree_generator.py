@@ -209,25 +209,25 @@ def iterate_over_dir(folder: Path, is_last_list: List[bool] = [], excluded_files
         contents = folder.iterdir()
 
         # filter
-        contents = iter(it for it in contents if _filter(it, excluded_files))
+        contents_filtered = iter(it for it in contents if _filter(it, excluded_files))
 
         # sort
-        contents = sorted(contents, key=_sorter_key)
+        contents_sorted = sorted(contents_filtered, key=_sorter_key)
 
-        for index, c in enumerate(contents):
-            is_last2 = index == len(contents) - 1
+        for index, c in enumerate(contents_sorted):
+            is_last2 = index == len(contents_sorted) - 1
             is_last_list2 = is_last_list[:]
             is_last_list2.append(is_last2)
 
             yield from iterate_over_dir(c, is_last_list2, excluded_files=excluded_files)
 
 
-def walk_tree(path: str, excluded_files: List = BLACK_LIST):
+def walk_tree(path_str: str, excluded_files: List = BLACK_LIST):
     """
     User friendly wrapper for `iterate_over_dir`
     ret: tree_prefix, name,
     """
-    path = Path(path).resolve()
+    path = Path(path_str).resolve()
 
     for tree_string, path_object in iterate_over_dir(
         path, excluded_files=excluded_files
