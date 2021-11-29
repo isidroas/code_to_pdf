@@ -1,7 +1,9 @@
+import timeit
+
 from code_to_pdf.run import main
 
 main(["../", "--max-pages-per-volume", "3"])
-main(["../"])
 
+t = timeit.timeit('main(["../"])', setup="from code_to_pdf.run import main", number=1)
 
-# os.system("code_to_pdf ../")
+print(f"Time of execution: {t:.2f} s")
