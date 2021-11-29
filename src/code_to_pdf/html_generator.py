@@ -45,9 +45,11 @@ def code_to_html(input_code: str, name_in_header: str):
         lexer = get_lexer_for_filename(input_code)
     except pygments.util.ClassNotFound:
         logging.warning(
-            "Unable to guess lexer for file {}, using python".format(input_code)
+            "Unable to guess lexer for file {}, skipping highlighting".format(
+                input_code
+            )
         )
-        lexer = get_lexer_by_name("python")
+        lexer = get_lexer_by_name("text")
     output_str = highlight(file_str, lexer, formater)
 
     new_header = REGEX_SUB.format(name_in_header)
