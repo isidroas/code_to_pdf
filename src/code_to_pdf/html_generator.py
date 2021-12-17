@@ -7,8 +7,6 @@ from pygments import highlight
 from pygments.formatters import HtmlFormatter
 from pygments.lexers import get_lexer_by_name, get_lexer_for_filename
 
-REGEX_PATTERN = "#\n#..-+\n#...Gurux.Ltd(\n.*){30}"
-
 REGEX_SUB = """
 <h3>
 <span class="c1">
@@ -18,19 +16,22 @@ REGEX_SUB = """
 """
 
 
-def code_to_html(input_code: str, name_in_header: str):
+def code_to_html(input_code: str, name_in_header: str, regex_pattern=None):
+
     with open(input_code) as file:
         file_str = file.read()
 
     # Remove copyright and add header
-    license_match = re.search(REGEX_PATTERN, file_str)
+    license_match = (
+        re.search(regex_pattern, file_str, flags=re.DOTALL) if regex_pattern else None
+    )
 
     starting_line = 1
 
     if license_match:
         if license_match.start() == 0:
             starting_line = len(re.findall("\n", license_match[0])) + 2
-            file_str = re.sub(REGEX_PATTERN, "", file_str)
+            file_str = re.sub(regex_pattern, "", file_str, flags=re.DOTALL)
 
     formater = HtmlFormatter(
         full=True,

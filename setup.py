@@ -29,6 +29,7 @@ setuptools.setup(
         "jinja2",
         "art",
         "gitpython",
+        "pyyaml",
     ],
     entry_points={"console_scripts": ["code_to_pdf=code_to_pdf.__main__:main"]},
     include_package_data=True,
