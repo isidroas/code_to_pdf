@@ -88,9 +88,10 @@ def config_parser(args: dict) -> Parameters:
     config_file = args.pop("config_file")
 
     if config_file:
-        file_dict = yaml.load("config_file")
-        # merge dicts
-        # arguments will overwrite file options
+        with open(config_file) as file:
+            file_dict = yaml.load(file.read(), Loader=yaml.Loader)
+            # merge dicts
+            # arguments will overwrite file options
         args = {**file_dict, **args}
 
     params = Parameters(**args)
