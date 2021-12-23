@@ -16,4 +16,4 @@ exclude_list:
   - "tags"
 
 copyright_regex: "MIT.* MERCHANTABILITY,"
-title: some title from file
+title: testing yaml configuration

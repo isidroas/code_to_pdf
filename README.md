@@ -16,6 +16,6 @@ pip install code_to_pdf
 
 ## Usage
 ```
-code_to_pdf --output-file output_document.pdf  path/to/project/dir/
+code_to_pdf --title output_document  path/to/project/dir/
 ```
 It will generate a file named "ouptut_document.pdf"

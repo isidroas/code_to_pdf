@@ -139,7 +139,7 @@ class TocGenerator:
     def generate_volumes(
         self,
         project_name,
-        output_pdf: str,
+        output_folder: str,
         contents: str,
         max_pages_per_volume: int,
         version_control_folder: str = None,
@@ -157,6 +157,6 @@ class TocGenerator:
                 max_page=(i + 1) * max_pages_per_volume,
             )
 
-            name_aux = output_pdf + ".vol" + str(i) + ".pdf"
+            output_file = output_folder / (project_name + ".vol" + str(i) + ".pdf")
 
-            PDFCreator.merge_pdfs([toc_aux, contents_aux], name_aux)
+            PDFCreator.merge_pdfs([toc_aux, contents_aux], output_file)

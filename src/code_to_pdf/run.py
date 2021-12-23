@@ -1,6 +1,7 @@
 import argparse
 import logging
 import os
+from pathlib import Path
 
 import yaml
 
@@ -39,7 +40,7 @@ class Parameters:
         copyright_regex="MIT.* MERCHANTABILITY,",
         title=None,
         max_pages_per_volume=0,
-        output_file="",
+        output_folder="",
     ):
         self.source_folder = source_folder
 
@@ -51,7 +52,10 @@ class Parameters:
             title if title else os.path.basename(self.source_folder)
         )  # TODO: this fails if not end by '/'
 
-        self.output_file = output_file if output_file else self.title + ".pdf"
+        # TODO: put absolute path using path lib?
+        self.output_folder: Path = Path(
+            output_folder if output_folder else "./"
+        ).absolute()
 
 
 def argument_parser(raw_args):
@@ -59,7 +63,7 @@ def argument_parser(raw_args):
     parser.add_argument("source_folder", type=str, help="Source code folder")
     parser.add_argument("--title", type=str, help="Title of the document")
     parser.add_argument(
-        "--output-file", type=str, help="Path where pdf will be generated"
+        "--output-folder", type=str, help="Path where pdf will be generated"
     )
     parser.add_argument(
         "--max-pages-per-volume",
@@ -73,8 +77,8 @@ def argument_parser(raw_args):
     args["source_folder"] = os.path.abspath(args_obj.source_folder)
     if args_obj.title:
         args["title"] = args_obj.title
-    if args_obj.output_file:
-        args["output_file"] = args_obj.output_file
+    if args_obj.output_folder:
+        args["output_folder"] = args_obj.output_folder
     if args_obj.max_pages_per_volume:
         args["max_pages_per_volume"] = args_obj.max_pages_per_volume
 
@@ -123,18 +127,19 @@ def main(raw_args=None):
     if params.max_pages_per_volume:
         toc.generate_volumes(
             params.title,
-            params.output_file,
+            params.output_folder,
             pdf_creator.full_pdf,
             params.max_pages_per_volume,
             version_control_folder=params.source_folder,
         )
     else:
         toc_pdf = toc.render_toc(params.title, params.source_folder)
-        # toc + pdf_creator => output_file
-        PDFCreator.merge_pdfs([toc_pdf, pdf_creator.full_pdf], params.output_file)
+        # toc + pdf_creator => output_folder
+        output_file = params.output_folder / (params.title + ".pdf")
+        PDFCreator.merge_pdfs([toc_pdf, pdf_creator.full_pdf], output_file)
 
     logging.info("Success!")
-    logging.info(f"File written in {params.output_file}")
+    logging.info(f"File written in {params.output_folder}")
 
 
 if __name__ == "__main__":
