@@ -106,13 +106,14 @@ class TocGenerator:
         page_range_min=0,
         page_range_max=None,
         header_css_style="",
+        ascii_font="standard",
     ):
         folder, _ = os.path.split(__file__)
         template_path = os.path.join(folder, "template.html")
         with open(template_path, "r") as html_temp:
             template = Template(html_temp.read())
 
-        ascii_title = text2art(project_name)
+        ascii_title = text2art(project_name, font=ascii_font)
 
         output_pdf = tempfile.NamedTemporaryFile(suffix=".pdf").name
 

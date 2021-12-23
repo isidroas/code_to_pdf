@@ -42,6 +42,7 @@ class Parameters:
         max_pages_per_volume=0,
         output_folder="",
         header_css_style="",
+        ascii_font="standard",
     ):
         self.source_folder = source_folder
 
@@ -59,6 +60,8 @@ class Parameters:
         ).absolute()
 
         self.header_css_style = header_css_style
+        # all possibilities are in art.FONT_NAMES
+        self.ascii_font = ascii_font
 
 
 def argument_parser(raw_args):
@@ -135,10 +138,14 @@ def main(raw_args=None):
             params.max_pages_per_volume,
             version_control_folder=params.source_folder,
             header_css_style=params.header_css_style,
+            ascii_font=params.ascii_font,
         )
     else:
         toc_pdf = toc.render_toc(
-            params.title, params.source_folder, header_css_style=params.header_css_style
+            params.title,
+            params.source_folder,
+            header_css_style=params.header_css_style,
+            ascii_font=params.ascii_font,
         )
         # toc + pdf_creator => output_folder
         output_file = params.output_folder / (params.title + ".pdf")
