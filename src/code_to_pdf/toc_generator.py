@@ -13,7 +13,7 @@ from jinja2 import Template
 
 from code_to_pdf.pdf_generator import PDFKIT_OPTIONS, PDFCreator
 
-GitInfo = namedtuple("GitInfo", "commit datetime branch")
+GitInfo = namedtuple("GitInfo", "commit datetime branch remote_name remote_url")
 
 
 class Entry:
@@ -89,7 +89,15 @@ class TocGenerator:
         commit += "*" if is_dirty else ""
         datetime = repo.head.commit.committed_datetime.strftime("%Y-%m-%d %H:%M:%S")
         branch = repo.active_branch.name
-        return GitInfo(commit, datetime, branch)
+
+        # picking the first one, usually there is only the 'origin' remote
+        remote = repo.remotes[0]
+        remote_name = remote.name
+
+        # remove whether http or ssh is used
+        remote_url = remote.url.split("@")[-1]
+
+        return GitInfo(commit, datetime, branch, remote_name, remote_url)
 
     def render_toc(
         self,
