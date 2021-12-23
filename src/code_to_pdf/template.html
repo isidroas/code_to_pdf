@@ -25,9 +25,8 @@
   </style>
 </head>
 <body>
-<pre><code>
+<pre style="{{header_css_style}}"><code>
 {{ ascii_title }}
-
 
 </code></pre>
 </br>
@@ -36,8 +35,9 @@
 {# 'Git Info: ' + f"{git_info.branch} {git_info.commit} {git_info.datetime}" if git_info else "" #}
 {% if git_info %}
 branch: {{git_info.branch }}</br>
-date: {{git_info.datetime }}</br>
 commit: {{git_info.commit }}</br>
+commit_date: {{git_info.datetime }}</br>
+remote: {{git_info.remote_url + " [" + git_info.remote_name + "]" }}</br>
 {% endif %}
 </br>
 {{ entries }}

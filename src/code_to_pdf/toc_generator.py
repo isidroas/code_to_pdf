@@ -13,7 +13,7 @@ from jinja2 import Template
 
 from code_to_pdf.pdf_generator import PDFKIT_OPTIONS, PDFCreator
 
-GitInfo = namedtuple("GitInfo", "commit datetime branch")
+GitInfo = namedtuple("GitInfo", "commit datetime branch remote_name remote_url")
 
 
 class Entry:
@@ -89,7 +89,15 @@ class TocGenerator:
         commit += "*" if is_dirty else ""
         datetime = repo.head.commit.committed_datetime.strftime("%Y-%m-%d %H:%M:%S")
         branch = repo.active_branch.name
-        return GitInfo(commit, datetime, branch)
+
+        # TODO: handle when there is no remote?
+        # picking the first one, usually there is only the 'origin' remote
+        remote = repo.remotes[0]
+        remote_name = remote.name
+        # remove whether http or ssh is used
+        remote_url = remote.url.split("@")[-1]
+
+        return GitInfo(commit, datetime, branch, remote_name, remote_url)
 
     def render_toc(
         self,
@@ -97,13 +105,15 @@ class TocGenerator:
         version_control_folder: str = None,
         page_range_min=0,
         page_range_max=None,
+        header_css_style="",
+        ascii_font="standard",
     ):
         folder, _ = os.path.split(__file__)
         template_path = os.path.join(folder, "template.html")
         with open(template_path, "r") as html_temp:
             template = Template(html_temp.read())
 
-        ascii_title = text2art(project_name)
+        ascii_title = text2art(project_name, font=ascii_font)
 
         output_pdf = tempfile.NamedTemporaryFile(suffix=".pdf").name
 
@@ -127,6 +137,7 @@ class TocGenerator:
             page_number_pos=800,
             ascii_title=ascii_title,
             git_info=git_info,
+            header_css_style=header_css_style,
         )
 
         pdfkit.from_string(output_html, output_pdf, options=PDFKIT_OPTIONS)
@@ -139,10 +150,11 @@ class TocGenerator:
     def generate_volumes(
         self,
         project_name,
-        output_pdf: str,
+        output_folder: str,
         contents: str,
         max_pages_per_volume: int,
         version_control_folder: str = None,
+        **args,
     ):
 
         total_pages = PDFCreator.number_of_pages(contents)
@@ -150,13 +162,13 @@ class TocGenerator:
         for i in range(total_pages // max_pages_per_volume + 1):
 
             project_name_aux = project_name + f" Vol {i}"
-            toc_aux = self.render_toc(project_name_aux, version_control_folder)
+            toc_aux = self.render_toc(project_name_aux, version_control_folder, **args)
             contents_aux = PDFCreator.extract_pages(
                 contents,
                 min_page=i * max_pages_per_volume,
                 max_page=(i + 1) * max_pages_per_volume,
             )
 
-            name_aux = output_pdf + ".vol" + str(i) + ".pdf"
+            output_file = output_folder / (project_name + ".vol" + str(i) + ".pdf")
 
-            PDFCreator.merge_pdfs([toc_aux, contents_aux], name_aux)
+            PDFCreator.merge_pdfs([toc_aux, contents_aux], output_file)

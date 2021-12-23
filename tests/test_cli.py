@@ -1,20 +1,15 @@
-import timeit
+from time import time
 
 from code_to_pdf.run import main
 
-main(
-    [
-        "../",
-        "--output-file",
-        "generated_from_parameters.pdf",
-        "--config-file",
-        "./params.yaml",
-    ]
-)
-
-t = timeit.timeit('main(["../"])', setup="from code_to_pdf.run import main", number=1)
-
-main(["../", "--max-pages-per-volume", "3"])
+t1 = time()
+main(["../", "--output-folder", "./", "--config-file", "./params.yaml"])
+t2 = time()
+main(["../"])
+t3 = time()
+main(["../", "--max-pages-per-volume", "3", "--title", "testing_volumes"])
+t4 = time()
 
 
-print(f"Time of execution: {t:.2f} s")
+for diff in (t2 - t1, t3 - t2, t4 - t3):
+    print(f"Time of execution: {diff:.2f} s")
