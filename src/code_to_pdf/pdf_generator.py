@@ -25,7 +25,7 @@ class PDFCreator:
     def __init__(self):
         self.page_number = 1
         self.full_pdf = tempfile.NamedTemporaryFile(suffix=".pdf", delete=False).name
-        print(self.full_pdf)
+        logging.debug(self.full_pdf)
 
     def add_html(self, input_html: str):
         """Generate numerized pdf pages from a html file

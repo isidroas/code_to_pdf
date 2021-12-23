@@ -41,6 +41,7 @@ class Parameters:
         title=None,
         max_pages_per_volume=0,
         output_folder="",
+        header_css_style="",
     ):
         self.source_folder = source_folder
 
@@ -56,6 +57,8 @@ class Parameters:
         self.output_folder: Path = Path(
             output_folder if output_folder else "./"
         ).absolute()
+
+        self.header_css_style = header_css_style
 
 
 def argument_parser(raw_args):
@@ -131,9 +134,12 @@ def main(raw_args=None):
             pdf_creator.full_pdf,
             params.max_pages_per_volume,
             version_control_folder=params.source_folder,
+            header_css_style=params.header_css_style,
         )
     else:
-        toc_pdf = toc.render_toc(params.title, params.source_folder)
+        toc_pdf = toc.render_toc(
+            params.title, params.source_folder, header_css_style=params.header_css_style
+        )
         # toc + pdf_creator => output_folder
         output_file = params.output_folder / (params.title + ".pdf")
         PDFCreator.merge_pdfs([toc_pdf, pdf_creator.full_pdf], output_file)
