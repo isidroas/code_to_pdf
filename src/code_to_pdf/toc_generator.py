@@ -107,6 +107,7 @@ class TocGenerator:
         page_range_max=None,
         header_css_style="",
         ascii_font="standard",
+        volume="",
     ):
         folder, _ = os.path.split(__file__)
         template_path = os.path.join(folder, "template.html")
@@ -138,6 +139,7 @@ class TocGenerator:
             ascii_title=ascii_title,
             git_info=git_info,
             header_css_style=header_css_style,
+            volume=volume,
         )
 
         pdfkit.from_string(output_html, output_pdf, options=PDFKIT_OPTIONS)
@@ -161,8 +163,9 @@ class TocGenerator:
 
         for i in range(total_pages // max_pages_per_volume + 1):
 
-            project_name_aux = project_name + f" Vol {i}"
-            toc_aux = self.render_toc(project_name_aux, version_control_folder, **args)
+            toc_aux = self.render_toc(
+                project_name, version_control_folder, volume=f"Volume {i}", **args
+            )
             contents_aux = PDFCreator.extract_pages(
                 contents,
                 min_page=i * max_pages_per_volume,
