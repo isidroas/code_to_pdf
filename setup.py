@@ -31,6 +31,11 @@ setuptools.setup(
         "gitpython",
         "pyyaml",
     ],
-    entry_points={"console_scripts": ["code_to_pdf=code_to_pdf.__main__:main"]},
+    entry_points={
+        "console_scripts": [
+            "code_to_pdf=code_to_pdf.__main__:main",
+            "code_to_pdf_parameter_example_file=code_to_pdf.run:print_yaml_example",
+        ]
+    },
     include_package_data=True,
 )

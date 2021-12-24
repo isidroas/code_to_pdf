@@ -157,3 +157,31 @@ def main(raw_args=None):
 
 if __name__ == "__main__":
     main()
+
+
+def print_yaml_example():
+    print(
+        """
+max_pages_per_volume: 0
+exclude_list:
+  - __pycache__/
+  - "*.swp"
+  - "*.pdf"
+  - "*.pyc"
+  - "/*.html"
+  - "/*.pdf"
+  - "*.egg-info"
+  - ".coverage"
+  - "venv"
+  - ".mypy_cache"
+  - ".git"
+  - "*~"
+  - "*.svg"
+  - "tags"
+
+copyright_regex: "MIT.* MERCHANTABILITY,"
+title: testing yaml configuration
+header_css_style: "color:#EF476F;background-color:#06D6A0;font-weight: bolder; font-size:40%"
+ascii_font: sub-zero
+"""
+    )
