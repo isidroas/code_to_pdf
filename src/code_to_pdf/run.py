@@ -130,7 +130,11 @@ def main(raw_args=None):
             )
             pdf_creator.add_html(output_html)
 
-    if params.max_pages_per_volume:
+    # TODO: check this expresion for corner cases
+    if (
+        params.max_pages_per_volume
+        and pdf_creator.page_number > params.max_pages_per_volume - 1
+    ):
         toc.generate_volumes(
             params.title,
             params.output_folder,
