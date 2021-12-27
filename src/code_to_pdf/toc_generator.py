@@ -88,7 +88,7 @@ class TocGenerator:
         commit = str(repo.head.commit)[:9]
         commit += "*" if is_dirty else ""
         datetime = repo.head.commit.committed_datetime.strftime("%Y-%m-%d %H:%M:%S")
-        branch = repo.active_branch.name
+        branch = repo.active_branch.name if not repo.head.is_detached else None
 
         # TODO: handle when there is no remote?
         # picking the first one, usually there is only the 'origin' remote

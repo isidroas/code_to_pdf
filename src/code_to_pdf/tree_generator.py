@@ -1,6 +1,5 @@
 # author: https://stackoverflow.com/questions/9727673/list-directory-tree-structure-in-python
-
-
+import logging
 from fnmatch import fnmatchcase
 from pathlib import Path
 from typing import List
@@ -39,8 +38,13 @@ def _filter(path: Path, excluded_files):
         # detect if it is a binary file, instead of text file
         try:
             with open(path, "r") as file:
-                file.read()
+                str_ = file.read()
+                if not str_:
+                    logging.warn("Skipping empty file %s" % str(path))
+                    return False
+
         except UnicodeDecodeError:
+            logging.warn("Decode error for file %s" % str(path))
             return False
     return True
 
