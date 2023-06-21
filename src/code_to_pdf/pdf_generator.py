@@ -36,19 +36,19 @@ class PDFCreator:
         input_pdf = tempfile.NamedTemporaryFile()
         pdfkit.from_string(input_html, input_pdf.name, options=PDFKIT_OPTIONS)
 
-        pdf_reader = PyPDF2.PdfFileReader(input_pdf)
-        pdf_writer = PyPDF2.PdfFileWriter()
+        pdf_reader = PyPDF2.PdfReader(input_pdf)
+        pdf_writer = PyPDF2.PdfWriter()
 
         if os.path.isfile(self.full_pdf) and os.path.getsize(self.full_pdf) > 0:
             # It is a non empty file
 
-            pdf_reader_full = PyPDF2.PdfFileReader(self.full_pdf)
-            pdf_writer.appendPagesFromReader(pdf_reader_full)
+            pdf_reader_full = PyPDF2.PdfReader(self.full_pdf)
+            pdf_writer.append_pages_from_reader(pdf_reader_full)
 
-        n_pages = pdf_reader.getNumPages()
+        n_pages = len(pdf_reader.pages)
 
         for n_page in range(n_pages):
-            page = pdf_reader.getPage(n_page)
+            page = pdf_reader.pages[n_page]
 
             # Create
             temp_file = tempfile.NamedTemporaryFile(suffix="pdf", delete=False)
@@ -63,11 +63,11 @@ class PDFCreator:
             c.save()
 
             # temp_file + pdf_text_reader => pdf_writer
-            pdf_text_reader = PyPDF2.PdfFileReader(temp_file.name)
-            page_text_reader = pdf_text_reader.getPage(0)
-            page.mergePage(page_text_reader)
+            pdf_text_reader = PyPDF2.PdfReader(temp_file.name)
+            page_text_reader = pdf_text_reader.pages[0]
+            page.merge_page(page_text_reader)
 
-            pdf_writer.addPage(page)
+            pdf_writer.add_page(page)
 
             self.page_number += 1
 
@@ -85,23 +85,23 @@ class PDFCreator:
         :param output_pdf: Path of generated pdf
         :type output_pdf: str"""
 
-        pdf_writer = PyPDF2.PdfFileWriter()
+        pdf_writer = PyPDF2.PdfWriter()
         for pdf in pdf_list:
-            pdf_reader = PyPDF2.PdfFileReader(pdf)
-            n_pages = pdf_reader.getNumPages()
+            pdf_reader = PyPDF2.PdfReader(pdf)
+            n_pages = len(pdf_reader.pages)
             for n_page in range(n_pages):
-                pdf_writer.addPage(pdf_reader.getPage(n_page))
+                pdf_writer.add_page(pdf_reader.pages[n_page])
 
         with open(output_pdf, "wb") as file:
             pdf_writer.write(file)
 
     @staticmethod
     def add_blank_page(pdf_file):
-        pdf_reader = PyPDF2.PdfFileReader(pdf_file)
-        pdf_writer = PyPDF2.PdfFileWriter()
+        pdf_reader = PyPDF2.PdfReader(pdf_file)
+        pdf_writer = PyPDF2.PdfWriter()
 
-        pdf_writer.appendPagesFromReader(pdf_reader)
-        pdf_writer.addBlankPage()
+        pdf_writer.append_pages_from_reader(pdf_reader)
+        pdf_writer.add_blank_page()
 
         with open(pdf_file, "wb") as file:
             pdf_writer.write(file)
@@ -109,23 +109,23 @@ class PDFCreator:
     @staticmethod
     def number_of_pages(pdf_file):
         """ Get number of pages of a PDF """
-        pdf_reader = PyPDF2.PdfFileReader(pdf_file)
-        return pdf_reader.getNumPages()
+        pdf_reader = PyPDF2.PdfReader(pdf_file)
+        return len(pdf_reader.pages)
 
     @staticmethod
     def extract_pages(pdf_path: str, min_page=None, max_page=None):
-        pdf_reader = PyPDF2.PdfFileReader(pdf_path)
-        pdf_writer = PyPDF2.PdfFileWriter()
+        pdf_reader = PyPDF2.PdfReader(pdf_path)
+        pdf_writer = PyPDF2.PdfWriter()
 
-        n_pages = pdf_reader.getNumPages()
+        n_pages = len(pdf_reader.pages)
 
         for n_page in range(n_pages):
             if min_page is not None and n_page < min_page:
                 continue
             if max_page is not None and n_page > max_page - 1:
                 continue
-            page = pdf_reader.getPage(n_page)
-            pdf_writer.addPage(page)
+            page = pdf_reader.pages[n_page]
+            pdf_writer.add_page(page)
 
         temp_file = tempfile.NamedTemporaryFile(suffix=".pdf", delete=False)
 
