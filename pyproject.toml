@@ -51,6 +51,7 @@ namespaces = false
 
 [tool.mypy]
 ignore_missing_imports = true
+no_strict_optional = true
 
 [tool.isort]
 profile = "black"
