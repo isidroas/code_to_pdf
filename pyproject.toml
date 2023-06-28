@@ -1,6 +1,6 @@
 [project]
 name = "code_to_pdf"
-version = "0.4.3"
+version = "0.5"
 authors = [{name = "Isidro Arias", email = "isidroariass@hotmail.es"}]
 description = "This convert a software proyect to a pdf book"
 classifiers = [
