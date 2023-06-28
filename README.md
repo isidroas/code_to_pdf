@@ -14,6 +14,11 @@ Spending many hours in front of a screen can be tiring. Sometimes we need to ana
 pip install code_to_pdf
 ```
 
+You will also need [wkhtmltopdf](https://github.com/JazzCore/python-pdfkit#installation). In Ubuntu:
+```
+sudo apt install wkhtmltopdf
+```
+
 ## Usage
 ```
 code_to_pdf --title output_document  path/to/project/dir/
