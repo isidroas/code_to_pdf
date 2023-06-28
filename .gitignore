@@ -11,3 +11,4 @@ Gurux.DLMS.python
 docs/build/doctrees/
 *.egg-info
 .coverage
+venv/
