@@ -3,11 +3,16 @@ on: push
 jobs:
     test-1:
         runs-on: ubuntu-latest
+        strategy:
+        matrix:
+          python-version: ["3.8", "3.9", "3.10", "3.11"]
         steps:
             - name: Check out repository code
               uses: actions/checkout@v2
+            - name: Setup Python ${{ marix.python-version }}
+              uses: actions/setup-python@V4
               with:
-                python-version: '3.11'
+                python-version: ${{ marix.python-version }}
             - name: Install dependencies
               run: |
                   python -m pip install --upgrade setuptools wheel
