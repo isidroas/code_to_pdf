@@ -26,7 +26,8 @@ dev = [
     "black",
     "pylint",
     "coverage",
-    "types-PyYAML"
+    "types-PyYAML",
+    "pre-commit",
 ]
 
 [project.readme]
