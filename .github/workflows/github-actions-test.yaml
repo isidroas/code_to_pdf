@@ -39,7 +39,7 @@ jobs:
                    python -m pip install mypy types-PyYAML
                    python -m mypy ./src/
             - name: Pre-commit
-              run:
-                - pip install pre-commit
-                - pre-commit install --install-hooks
-                - pre-commit run --all-files
+              run: |
+                   pip install pre-commit
+                   pre-commit install --install-hooks
+                   pre-commit run --all-files
