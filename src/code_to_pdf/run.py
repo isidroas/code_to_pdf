@@ -94,7 +94,6 @@ def argument_parser(raw_args):
 
 
 def config_parser(args: dict) -> Parameters:
-
     config_file = args.pop("config_file")
 
     if config_file:
@@ -116,10 +115,9 @@ def main(raw_args=None):
     toc = TocGenerator()
     pdf_creator = PDFCreator()
 
-    for (path_str, file_name, is_dir, depth, tree_string, path_rel) in walk_tree(
+    for path_str, file_name, is_dir, depth, tree_string, path_rel in walk_tree(
         params.source_folder, excluded_files=params.exclude_list
     ):
-
         toc.add_entry(
             file_name, depth + 1, pdf_creator.page_number, tree_string, is_dir=is_dir
         )

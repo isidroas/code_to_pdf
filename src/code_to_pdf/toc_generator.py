@@ -158,11 +158,9 @@ class TocGenerator:
         version_control_folder: str = None,
         **args,
     ):
-
         total_pages = PDFCreator.number_of_pages(contents)
 
         for i in range(total_pages // max_pages_per_volume + 1):
-
             toc_aux = self.render_toc(
                 project_name, version_control_folder, volume=f"Volume {i}", **args
             )

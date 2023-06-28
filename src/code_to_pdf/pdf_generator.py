@@ -108,7 +108,7 @@ class PDFCreator:
 
     @staticmethod
     def number_of_pages(pdf_file):
-        """ Get number of pages of a PDF """
+        """Get number of pages of a PDF"""
         pdf_reader = PyPDF2.PdfReader(pdf_file)
         return len(pdf_reader.pages)
 

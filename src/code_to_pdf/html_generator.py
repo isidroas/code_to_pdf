@@ -17,7 +17,6 @@ REGEX_SUB = """
 
 
 def code_to_html(input_code: str, name_in_header: str, regex_pattern=None):
-
     with open(input_code) as file:
         file_str = file.read()
 

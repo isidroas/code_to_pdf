@@ -110,7 +110,6 @@ def walk_tree(path_str: str, excluded_files: List = BLACK_LIST):
     for tree_string, path_object in iterate_over_dir(
         path, excluded_files=excluded_files
     ):
-
         path_str = str(path_object)
         is_dir = path_object.is_dir()
         file_name = path_object.name
