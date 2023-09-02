@@ -2,7 +2,7 @@
 name = "code_to_pdf"
 version = "0.4.3"
 authors = [{name = "Isidro Arias", email = "isidroariass@hotmail.es"}]
-description = "This convert a software proyect to a pdf book"
+description = "Convert a software project to a pdf book"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
