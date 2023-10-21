@@ -181,7 +181,9 @@ exclude_list:
   - "*.svg"
   - "tags"
 
+# Pattern of the header to remove
 copyright_regex: "MIT.* MERCHANTABILITY,"
+
 title: testing yaml configuration
 header_css_style: "color:#EF476F;background-color:#06D6A0;font-weight: bolder; font-size:40%"
 ascii_font: sub-zero
