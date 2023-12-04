@@ -2,10 +2,10 @@
 \documentclass{article}
 \usepackage{dirtree}
 \usepackage{minted}
+\setminted{fontsize=\footnotesize,linenos,breaklines,mathescape}
+\usepackage[margin=2cm]{geometry}
 \title{Flask}
 \begin{document}
-%\renewcommand*\DTstylecomment{\rmfamily\color{green}\textsc}
-%\renewcommand*\DTstyle{\ttfamily\textcolor{red}}
 \maketitle
 \dirtree{%
   .1 /.
@@ -14,16 +14,20 @@
   .3 jeancome.
   .4 texmf.
   .5 tex.
+  .2 \textbf{src}\DTcomment{}.
   .3 jeancomeson\DTcomment{Guillaume }.
   .3 jeancomedaughter\DTcomment{Mathilde}.
+  .3 run.py\DTcomment{\pageref{sec:code-to-pdf:run.py}}.
+  .3 template.html\DTcomment{\pageref{sec:code-to-pdf:template.html}}.
   .2 usr.
   .3 bin.
 }
 
-Mira la seccion \ref{sec:simu}
 
-\section{code\_to\_pdf/run.py}\label{sec:simu}
-
-
+\newpage
+\section{code\_to\_pdf/run.py}\label{sec:code-to-pdf:run.py}
 \inputminted[bgcolor=black!5!white]{python}{/home/isidro/mp/code_to_pdf/src/code_to_pdf/run.py}
+\newpage
+\section{code\_to\_pdf/template.html}\label{sec:code-to-pdf:template.html}
+\inputminted[bgcolor=black!5!white]{html}{/home/isidro/mp/code_to_pdf/src/code_to_pdf/template.html}
 \end{document}
