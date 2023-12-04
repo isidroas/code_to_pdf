@@ -1,6 +1,7 @@
 %\documentclass{article}
 \documentclass{article}
 \usepackage{dirtree}
+\usepackage{minted}
 \title{Flask}
 \begin{document}
 %\renewcommand*\DTstylecomment{\rmfamily\color{green}\textsc}
@@ -13,9 +14,16 @@
   .3 jeancome.
   .4 texmf.
   .5 tex.
-  .3 jeancomeson\DTcomment{Guillaume}.
+  .3 jeancomeson\DTcomment{Guillaume }.
   .3 jeancomedaughter\DTcomment{Mathilde}.
   .2 usr.
   .3 bin.
 }
+
+Mira la seccion \ref{sec:simu}
+
+\section{code\_to\_pdf/run.py}\label{sec:simu}
+
+
+\inputminted[bgcolor=black!5!white]{python}{/home/isidro/mp/code_to_pdf/src/code_to_pdf/run.py}
 \end{document}
