@@ -1,17 +1,21 @@
 %\documentclass{article}
 \documentclass{article}
-\usepackage[postscript]{ucs}
-\usepackage[utf8x]{inputenc}
-%\usepackage[utf8]{inputenc}
-%\usepackage{ucs}
-%\DeclareUnicodeCharacter{"251C}{}
-\usepackage{pst-node,pst-plot}
+\usepackage{dirtree}
+\title{Flask}
 \begin{document}
-
-hola \texteuro \"a adios €
-%\myarrow
-
-the\_project
-├── setup.py .......
-├── .precommit.yaml .......
+%\renewcommand*\DTstylecomment{\rmfamily\color{green}\textsc}
+%\renewcommand*\DTstyle{\ttfamily\textcolor{red}}
+\maketitle
+\dirtree{%
+  .1 /.
+  .2 bin.
+  .2 home.
+  .3 jeancome.
+  .4 texmf.
+  .5 tex.
+  .3 jeancomeson\DTcomment{Guillaume}.
+  .3 jeancomedaughter\DTcomment{Mathilde}.
+  .2 usr.
+  .3 bin.
+}
 \end{document}

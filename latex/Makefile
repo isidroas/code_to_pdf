@@ -1,5 +1,4 @@
 main.pdf: main.tex
-	latex $^
-	#pdflatex $^
+	pdflatex $^
 clean:
 	rm -f main.aux  main.log  main.pdf
