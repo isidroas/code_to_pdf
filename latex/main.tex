@@ -9,20 +9,30 @@
 \begin{document}
 \maketitle
 \dirtree{%
-  .1 /.
-  .2 bin.
-  .2 home.
-  .3 jeancome.
-  .4 texmf.
-  .5 tex.
-  .2 {\bf \color{black}src}\DTcomment{}.
-  .3 jeancomeson\DTcomment{Guillaume }.
-  .3 jeancomedaughter\DTcomment{Mathilde}.
-  .3 run.py\DTcomment{\pageref{sec:code-to-pdf:run.py}}.
-  .3 template.html\DTcomment{\pageref{sec:code-to-pdf:template.html}}.
-  .2 usr.
-  .3 bin.
+  .1 {code\_to\_pdf} .
+    .2 {LICENSE} .
+    .2 {MANIFEST.in} .
+    .2 {README.md} .
+    .2 {\color{purple} conversion.svg} .
+    .2 {pyproject.toml} .
+    .2 {latex} .
+      .3 {Makefile} .
+      .3 {main.tex} .
+    .2 {\bf src}\DTcomment{}.
+      .3 {code\_to\_pdf} .
+        .4 {\_\_init\_\_.py} .
+        .4 {\_\_main\_\_.py} .
+        .4 {html\_generator.py} .
+        .4 {pdf\_generator.py} .
+        .4 {run.py}\DTcomment{\pageref{sec:code-to-pdf:run.py}}.
+        .4 {template.html}\DTcomment{\pageref{sec:code-to-pdf:template.html}}.
+        .4 {toc\_generator.py} .
+        .4 {tree\_generator.py} .
+    .2 {tests} .
+      .3 {params.yaml} .
+      .3 {test\_cli.py} .
 }
+
 
 
 \newpage
