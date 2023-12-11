@@ -2,4 +2,38 @@
 
 %- block body
 Hello, \VAR{name|e}.
+\maketitle
+\dirtree{%
+  .1 {code\_to\_pdf} .
+    .2 {LICENSE} .
+    .2 {MANIFEST.in} .
+    .2 {README.md} .
+    .2 {\color{purple} conversion.svg} .
+    .2 {pyproject.toml} .
+    .2 {latex} .
+      .3 {Makefile} .
+      .3 {main.tex} .
+    .2 {\bf src}\DTcomment{}.
+      .3 {code\_to\_pdf} .
+        .4 {\_\_init\_\_.py} .
+        .4 {\_\_main\_\_.py} .
+        .4 {html\_generator.py} .
+        .4 {pdf\_generator.py} .
+        .4 {run.py}\DTcomment{\pageref{sec:code-to-pdf:run.py}}.
+        .4 {template.html}\DTcomment{\pageref{sec:code-to-pdf:template.html}}.
+        .4 {toc\_generator.py} .
+        .4 {tree\_generator.py} .
+    .2 {tests} .
+      .3 {params.yaml} .
+      .3 {test\_cli.py} .
+}
+
+
+
+\newpage
+\section{code\_to\_pdf/run.py}\label{sec:code-to-pdf:run.py}
+\inputminted[bgcolor=black!5!white]{python}{/home/isidro/mp/code_to_pdf/src/code_to_pdf/run.py}
+\newpage
+\section{code\_to\_pdf/template.html}\label{sec:code-to-pdf:template.html}
+\inputminted[bgcolor=black!5!white]{html}{/home/isidro/mp/code_to_pdf/src/code_to_pdf/template.html}
 %- endblock
