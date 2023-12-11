@@ -29,11 +29,10 @@ Hello, \VAR{name|e}.
 }
 
 
+%- for code in codes
+\newpage
+\section{\VAR{code[0]}}\label{\VAR{code[1]}}
+\inputminted[bgcolor=black!5!white]{python}{\VAR{code[2]}}
+%- endfor
 
-\newpage
-\section{code\_to\_pdf/run.py}\label{sec:code-to-pdf:run.py}
-\inputminted[bgcolor=black!5!white]{python}{/home/isidro/mp/code_to_pdf/src/code_to_pdf/run.py}
-\newpage
-\section{code\_to\_pdf/template.html}\label{sec:code-to-pdf:template.html}
-\inputminted[bgcolor=black!5!white]{html}{/home/isidro/mp/code_to_pdf/src/code_to_pdf/template.html}
 %- endblock
