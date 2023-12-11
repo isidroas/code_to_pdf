@@ -28,6 +28,12 @@ Hello, \VAR{name|e}.
       .3 {test\_cli.py} .
 }
 
+\dirtree{%
+%- for node in nodes
+  .\VAR{node[0]} {\VAR{node[1]}}\DTcomment{\pageref{\VAR{node[2]}}}.
+%- endfor
+}
+
 
 %- for code in codes
 \newpage

@@ -17,10 +17,15 @@ codes = [  # section; label; absolute_path
     ),
 ]
 
+nodes = [
+    (1, "run.py", "sec:code-to-pdf:run.py"),
+    (2, "template.html", "sec:code-to-pdf:template.html"),
+]
+
 env = make_env(loader=FileSystemLoader("."))
 tpl = env.get_template("doc.tex")
 
-generated = tpl.render(name="Alice", codes=codes)
+generated = tpl.render(name="Alice", codes=codes, nodes=nodes)
 
 
 pdf = build_pdf(generated)
