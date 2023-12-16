@@ -1,7 +1,6 @@
 %- extends "base.tex"
 
 %- block body
-Hello, \VAR{name|e}.
 \maketitle
 \dirtree{%
   .1 {code\_to\_pdf} .
@@ -37,7 +36,7 @@ Hello, \VAR{name|e}.
 
 %- for code in codes
 \newpage
-\section{\VAR{code[0]}}\label{\VAR{code[1]}}
+\section{\VAR{code[0]|e}}\label{\VAR{code[1]}}
 \inputminted[bgcolor=black!5!white]{python}{\VAR{code[2]}}
 %- endfor
 

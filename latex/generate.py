@@ -6,12 +6,12 @@ from latex.jinja2 import make_env
 
 codes = [  # section; label; absolute_path
     (
-        r"code\_to\_pdf/run.py",
+        "code_to_pdf/run.py",
         "sec:code-to-pdf:run.py",
         "/home/isidro/mp/code_to_pdf/src/code_to_pdf/run.py",
     ),
     (
-        r"code\_to\_pdf/template.html",
+        r"code_to_pdf/template.html",
         "sec:code-to-pdf:template.html",
         "/home/isidro/mp/code_to_pdf/src/code_to_pdf/template.html",
     ),
@@ -25,7 +25,7 @@ nodes = [
 env = make_env(loader=FileSystemLoader("."))
 tpl = env.get_template("doc.tex")
 
-generated = tpl.render(name="Alice", codes=codes, nodes=nodes)
+generated = tpl.render(codes=codes, nodes=nodes)
 
 
 pdf = build_pdf(generated)
