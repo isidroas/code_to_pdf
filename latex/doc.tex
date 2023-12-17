@@ -9,15 +9,15 @@
   %- if node[2]
         \pageref{sec:\VAR{node[2]}}
   %- endif
-       }. %# TODO: support dirs
+       }.
 %- endfor
 }
 
 
 %- for code in codes
 \newpage
-\section{\VAR{code|e}}\label{sec:\VAR{code}}
-\inputminted[bgcolor=black!5!white]{python}{\VAR{code}}
+\section{\VAR{code.rel|e}}\label{sec:\VAR{code.abs}}
+\inputminted[bgcolor=black!5!white]{python}{\VAR{code.abs}}
 %- endfor
 
 %- endblock
