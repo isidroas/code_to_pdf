@@ -5,11 +5,11 @@
 
 \dirtree{%
 %- for node in nodes
-  .\VAR{node[0]} {\VAR{node[1]|e}}\DTcomment{
-  %- if node[2]
-        \pageref{sec:\VAR{node[2]}}
+  %- if node.is_file
+  .\VAR{node.depth} {\VAR{node.name|e}}\DTcomment{\pageref{sec:\VAR{node.path}}}.
+  %- else
+  .\VAR{node.depth} {\bf \color{blue} \VAR{node.name|e}}\DTcomment{}.
   %- endif
-       }.
 %- endfor
 }
 

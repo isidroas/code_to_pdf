@@ -28,12 +28,16 @@ def get_codes_and_nodes(root):
         relative = path.relative_to(root)
         if path.is_file():
             codes.append({"abs": str(path), "rel": str(relative)})
-        node = (
-            len(relative.parts) + 1,
-            path.name,
-            str(path) if path.is_file() else None,
+        node = dict(
+            depth=len(relative.parts) + 1,
+            name=path.name,
+            path=str(path),
+            is_file=path.is_file(),
         )
         nodes.append(node)
+    from pprint import pprint
+
+    pprint(nodes)
     return codes, nodes
 
 
@@ -49,5 +53,6 @@ if __name__ == "__main__":
     with open("/tmp/out.tex", "wt") as file:
         file.write(generated)
 
+    # quit()
     pdf = build_pdf(generated)
     pdf.save_to("generated.pdf")
