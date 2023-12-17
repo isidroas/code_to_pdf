@@ -2,42 +2,19 @@
 
 %- block body
 \maketitle
-\dirtree{%
-  .1 {code\_to\_pdf} .
-    .2 {LICENSE} .
-    .2 {MANIFEST.in} .
-    .2 {README.md} .
-    .2 {\color{purple} conversion.svg} .
-    .2 {pyproject.toml} .
-    .2 {latex} .
-      .3 {Makefile} .
-      .3 {main.tex} .
-    .2 {\bf src}\DTcomment{}.
-      .3 {code\_to\_pdf} .
-        .4 {\_\_init\_\_.py} .
-        .4 {\_\_main\_\_.py} .
-        .4 {html\_generator.py} .
-        .4 {pdf\_generator.py} .
-        .4 {run.py}\DTcomment{\pageref{sec:code-to-pdf:run.py}}.
-        .4 {template.html}\DTcomment{\pageref{sec:code-to-pdf:template.html}}.
-        .4 {toc\_generator.py} .
-        .4 {tree\_generator.py} .
-    .2 {tests} .
-      .3 {params.yaml} .
-      .3 {test\_cli.py} .
-}
 
 \dirtree{%
+  .1 {code\_to\_pdf} .
 %- for node in nodes
-  .\VAR{node[0]} {\VAR{node[1]}}\DTcomment{\pageref{\VAR{node[2]}}}.
+  .\VAR{node[0]} {\VAR{node[1]|e}}\DTcomment{\pageref{sec:\VAR{node[2]}}}. %# TODO: support dirs
 %- endfor
 }
 
 
 %- for code in codes
 \newpage
-\section{\VAR{code[0]|e}}\label{\VAR{code[1]}}
-\inputminted[bgcolor=black!5!white]{python}{\VAR{code[2]}}
+\section{\VAR{code|e}}\label{sec:\VAR{code}}
+\inputminted[bgcolor=black!5!white]{python}{\VAR{code}}
 %- endfor
 
 %- endblock
