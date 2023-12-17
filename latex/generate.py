@@ -2,7 +2,7 @@
 from pathlib import Path
 
 from jinja2.loaders import FileSystemLoader
-from walkfind import walkdir as walkfind
+from walkfind import walkfind
 
 from latex import build_pdf
 from latex.jinja2 import make_env
@@ -29,20 +29,30 @@ codes = []
 nodes = []
 
 for path in walkfind(
-    Path("/home/isidro/mp/code_to_pdf"),
-    git_tracked=True,
+    Path("/home/isidro/mp/code_to_pdf/src"),
+    # git_tracked=True,
     also_dirs=True,
-    exclude_files=["tree_generator.py"],
+    exclude_files=[
+        "tree_generator.py",
+        "*.pyc",
+        "*.pdf",
+        "tree.py",
+        ".coverage",
+        "output.html",
+    ],
+    exclude_dirs=["venv", "build", ".git", "*.egg-info"],
 ):
+    print(path)
     if path.is_file():
         code = str(path)
         codes.append(code)
-        # print(code)
-    node = (len(path.parts) - 5, path.name, str(path))
-    nodes.append(node)
+    node = (
+        len(path.parts) - 4,
+        path.name,
+        str(path) if path.is_file() else None,
+    )  # TODO: remove hard depth
     # print(node)
-
-print(nodes)
+    nodes.append(node)
 env = make_env(loader=FileSystemLoader("."))
 tpl = env.get_template("doc.tex")
 

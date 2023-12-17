@@ -4,9 +4,12 @@
 \maketitle
 
 \dirtree{%
-  .1 {code\_to\_pdf} .
 %- for node in nodes
-  .\VAR{node[0]} {\VAR{node[1]|e}}\DTcomment{\pageref{sec:\VAR{node[2]}}}. %# TODO: support dirs
+  .\VAR{node[0]} {\VAR{node[1]|e}}\DTcomment{
+  %- if node[2]
+        \pageref{sec:\VAR{node[2]}}
+  %- endif
+       }. %# TODO: support dirs
 %- endfor
 }
 
