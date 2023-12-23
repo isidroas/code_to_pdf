@@ -1,6 +1,8 @@
 from pathlib import Path
 
+import pygments
 from jinja2.loaders import FileSystemLoader
+from pygments.lexers import get_lexer_for_filename
 from walkfind import walkfind
 
 from latex import build_pdf
@@ -27,7 +29,12 @@ def get_codes_and_nodes(root):
     ):
         relative = path.relative_to(root)
         if path.is_file():
-            codes.append({"abs": str(path), "rel": str(relative)})
+            try:
+                lang = get_lexer_for_filename(path.name).aliases[0]
+            except pygments.util.ClassNotFound:
+                lang = "text"
+
+            codes.append({"abs": str(path), "rel": str(relative), "lang": lang})
         node = dict(
             depth=len(relative.parts) + 1,
             name=path.name,
@@ -35,9 +42,7 @@ def get_codes_and_nodes(root):
             is_file=path.is_file(),
         )
         nodes.append(node)
-    from pprint import pprint
 
-    pprint(nodes)
     return codes, nodes
 
 
