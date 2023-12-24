@@ -1,3 +1,4 @@
+import sys
 from pathlib import Path
 
 import pygments
@@ -24,8 +25,10 @@ def get_codes_and_nodes(root):
             "tree.py",
             ".coverage",
             "output.html",
+            "LICENSE",
         ],
         exclude_dirs=["venv", "build", ".git", "*.egg-info"],
+        binary=False,
     ):
         relative = path.relative_to(root)
         if path.is_file():
@@ -47,12 +50,13 @@ def get_codes_and_nodes(root):
 
 
 if __name__ == "__main__":
-    codes, nodes = get_codes_and_nodes(Path("/home/isidro/mp/code_to_pdf/"))
+    path = Path(sys.argv[1] if len(sys.argv)>1 else "/home/isidro/mp/code_to_pdf/")
+    codes, nodes = get_codes_and_nodes(path)
 
     env = make_env(loader=FileSystemLoader("."))
     tpl = env.get_template("doc.tex")
 
-    generated = tpl.render(codes=codes, nodes=nodes)
+    generated = tpl.render(codes=codes, nodes=nodes, title=path.name)
 
     # for debugging
     with open("/tmp/out.tex", "wt") as file:
