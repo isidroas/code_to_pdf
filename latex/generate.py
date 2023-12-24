@@ -19,15 +19,15 @@ def get_codes_and_nodes(root):
         # git_tracked=True,
         also_dirs=True,
         exclude_files=[
-            "tree_generator.py",
+            # "tree_generator.py",
             "*.pyc",
             "*.pdf",
-            "tree.py",
+            # "tree.py",
             ".coverage",
             "output.html",
             "LICENSE",
         ],
-        exclude_dirs=["venv", "build", ".git", "*.egg-info"],
+        exclude_dirs=["venv", "build", ".git", "*.egg-info", "HTML"],
         binary=False,
     ):
         relative = path.relative_to(root)
@@ -63,5 +63,5 @@ if __name__ == "__main__":
         file.write(generated)
 
     # quit()
-    pdf = build_pdf(generated)
+    pdf = build_pdf(generated, builder = 'xelatexmk')
     pdf.save_to("generated.pdf")
