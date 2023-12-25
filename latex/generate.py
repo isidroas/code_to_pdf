@@ -19,10 +19,7 @@ def get_codes_and_nodes(root):
         # git_tracked=True,
         also_dirs=True,
         exclude_files=[
-            # "tree_generator.py",
-            "*.pyc",
             "*.pdf",
-            # "tree.py",
             ".coverage",
             "output.html",
             "LICENSE",
