@@ -4,7 +4,7 @@ from pathlib import Path
 import pygments
 from jinja2.loaders import FileSystemLoader
 from pygments.lexers import get_lexer_for_filename
-from walkfind import walkfind
+from walkfind import walkfind, Sort
 
 from latex import build_pdf
 from latex.jinja2 import make_env
@@ -24,8 +24,9 @@ def get_codes_and_nodes(root):
             "output.html",
             "LICENSE",
         ],
-        exclude_dirs=["venv", "build", ".git", "*.egg-info", "HTML"],
+        exclude_dirs=["venv", "build", ".git", "*.egg-info", "HTML", "docs"],
         binary=False,
+        sort=[Sort.FILES_FIRST, Sort.ALPHA]
     ):
         relative = path.relative_to(root)
         if path.is_file():
