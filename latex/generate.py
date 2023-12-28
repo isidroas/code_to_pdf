@@ -23,6 +23,7 @@ def get_codes_and_nodes(root):
             ".coverage",
             "output.html",
             "LICENSE",
+            "*.svg",
         ],
         exclude_dirs=["venv", "build", ".git", "*.egg-info", "HTML", "docs"],
         binary=False,
