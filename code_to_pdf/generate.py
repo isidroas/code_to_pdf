@@ -57,7 +57,7 @@ def get_arguments():
     )
     return parser.parse_args()
 
-if __name__ == "__main__":
+def main():
     args = get_arguments()
     path = args.source_folder
     codes, nodes = get_codes_and_nodes(path)
@@ -65,7 +65,7 @@ if __name__ == "__main__":
     env = make_env(loader=FileSystemLoader("."))
     tpl = env.get_template("doc.tex")
 
-    generated = tpl.render(codes=codes, nodes=nodes, title=path.name, monofont='Hack Nerd Font Mono', mainfont='Hack Nerd Font')
+    generated = tpl.render(codes=codes, nodes=nodes, title=path.name,monofont = 'SauceCodePro Nerd Font', mainfont = 'SauceCodePro Nerd Font Mono')# monofont='Hack Nerd Font Mono', mainfont='Hack Nerd Font')
 
     # for debugging
     with open("/tmp/out.tex", "wt") as file:
@@ -74,3 +74,6 @@ if __name__ == "__main__":
     # quit()
     pdf = build_pdf(generated, builder = 'xelatexmk')
     pdf.save_to("generated.pdf")
+
+if __name__ == "__main__":
+    main()

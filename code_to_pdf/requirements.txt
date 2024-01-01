@@ -1,4 +1,0 @@
-latex
-Pygments
-Jinja2
-walkfind
