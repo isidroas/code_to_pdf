@@ -1,0 +1,6 @@
+[submodule "tests/flask"]
+	path = tests/flask
+	url = https://github.com/pallets/flask
+[submodule "tests/code_to_pdf"]
+	path = tests/code_to_pdf
+	url = https://github.com/isidroas/code_to_pdf

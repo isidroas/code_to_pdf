@@ -52,6 +52,7 @@ def get_arguments():
     parser = argparse.ArgumentParser(description="Code to PDF generator")
     parser.add_argument("source_folder", help="Source code folder", type=Path)
     parser.add_argument("--title", type=str, help="Title of the document")
+    parser.add_argument("--output", "-o", type=Path)
     parser.add_argument(
         "--output-folder", type=str, help="Path where pdf will be generated"
     )
@@ -73,7 +74,7 @@ def main():
 
     # quit()
     pdf = build_pdf(generated, builder = 'xelatexmk')
-    pdf.save_to("generated.pdf")
+    pdf.save_to(args.output if args.output else "generated.pdf")
 
 if __name__ == "__main__":
     main()
