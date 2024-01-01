@@ -35,16 +35,13 @@ Homepage = "https://github.com/isidroas/code_to_pdf"
 "Bug Tracker" = "https://github.com/isidroas/code_to_pdf/issues"
 
 [project.scripts]
-code_to_pdf = "code_to_pdf.__main__:main"
-code_to_pdf_parameter_example_file = "code_to_pdf.run:print_yaml_example"
+code_to_pdf = "code_to_pdf.generate:main"
 
 [tool.setuptools]
-package-dir = {"" = "src"}
-include-package-data = true
+packages = ["code_to_pdf"]
 
-[tool.setuptools.packages.find]
-where = ["src"]
-namespaces = false
+[tool.setuptools.package-data]
+code_to_pdf = ["templates/*.tex"]
 
 [tool.mypy]
 ignore_missing_imports = true

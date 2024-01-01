@@ -3,7 +3,7 @@ import argparse
 from pathlib import Path
 
 import pygments
-from jinja2.loaders import FileSystemLoader
+from jinja2.loaders import FileSystemLoader, PackageLoader
 from pygments.lexers import get_lexer_for_filename
 from walkfind import walkfind, Sort
 
@@ -62,7 +62,7 @@ def main():
     path = args.source_folder
     codes, nodes = get_codes_and_nodes(path)
 
-    env = make_env(loader=FileSystemLoader("."))
+    env = make_env(loader=PackageLoader("code_to_pdf", 'templates'))
     tpl = env.get_template("doc.tex")
 
     generated = tpl.render(codes=codes, nodes=nodes, title=path.name,monofont = 'SauceCodePro Nerd Font', mainfont = 'SauceCodePro Nerd Font Mono')# monofont='Hack Nerd Font Mono', mainfont='Hack Nerd Font')
