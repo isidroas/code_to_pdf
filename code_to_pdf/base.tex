@@ -1,7 +1,11 @@
 \documentclass{article}
 \usepackage{fontspec}
-\setmonofont{EB Garamond Initials}
-\setmainfont{NotoSans Nerd Font}
+%- if monofont
+  \setmonofont{\VAR{monofont}}
+%- endif
+%- if mainfont
+  \setmainfont{\VAR{mainfont}}
+%- endif
 \usepackage{dirtree}
 \usepackage[]{minted}
 \setminted{fontsize=\footnotesize,linenos,breaklines}

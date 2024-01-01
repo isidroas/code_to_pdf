@@ -1,4 +1,5 @@
 import sys
+import argparse
 from pathlib import Path
 
 import pygments
@@ -47,15 +48,24 @@ def get_codes_and_nodes(root):
 
     return codes, nodes
 
+def get_arguments():
+    parser = argparse.ArgumentParser(description="Code to PDF generator")
+    parser.add_argument("source_folder", help="Source code folder", type=Path)
+    parser.add_argument("--title", type=str, help="Title of the document")
+    parser.add_argument(
+        "--output-folder", type=str, help="Path where pdf will be generated"
+    )
+    return parser.parse_args()
 
 if __name__ == "__main__":
-    path = Path(sys.argv[1] if len(sys.argv)>1 else "/home/isidro/mp/code_to_pdf/")
+    args = get_arguments()
+    path = args.source_folder
     codes, nodes = get_codes_and_nodes(path)
 
     env = make_env(loader=FileSystemLoader("."))
     tpl = env.get_template("doc.tex")
 
-    generated = tpl.render(codes=codes, nodes=nodes, title=path.name)
+    generated = tpl.render(codes=codes, nodes=nodes, title=path.name, monofont='Hack Nerd Font Mono', mainfont='Hack Nerd Font')
 
     # for debugging
     with open("/tmp/out.tex", "wt") as file:
