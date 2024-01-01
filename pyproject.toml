@@ -1,8 +1,8 @@
 [project]
 name = "code_to_pdf"
-version = "0.4.3"
+version = "0.5"
 authors = [{name = "Isidro Arias", email = "isidroariass@hotmail.es"}]
-description = "Convert a software project to a pdf book"
+description = "Convert a software project to a pdf book" # Generates a PDF book from any given code project
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
@@ -10,14 +10,10 @@ classifiers = [
 ]
 requires-python = ">=3.6"
 dependencies = [
-    "pygments",
-    "pdfkit",
-    "PyPDF2",
-    "reportlab",
-    "jinja2",
-    "art",
-    "gitpython",
-    "pyyaml",
+  "latex",
+  "Pygments",
+  "Jinja2",
+  "walkfind",
 ]
 
 [project.optional-dependencies]
@@ -56,3 +52,6 @@ no_strict_optional = true
 
 [tool.isort]
 profile = "black"
+
+[tool.vulture]
+paths = ["code_to_pdf"]
