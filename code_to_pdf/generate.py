@@ -9,26 +9,23 @@ from walkfind import walkfind, Sort
 
 from latex.jinja2 import make_env
 
+class StdinIter:
 
-def get_codes_and_nodes(root):
+    # TODO: use fileinput.FileInput and inherit
+    def __next__(self):
+        path = next(sys.stdin)
+        path = path.strip() # remove trailing newline
+        path= Path(path)
+        assert path.exists()
+        return Path(path)
+    def __iter__(self):
+        return self
+
+def get_codes_and_nodes(iter, root):
     codes = []
     nodes = []
 
-    for path in walkfind(
-        root,
-        # git_tracked=True,
-        also_dirs=True,
-        exclude_files=[
-            "*.pdf",
-            ".coverage",
-            "output.html",
-            "LICENSE",
-            "*.svg",
-        ],
-        exclude_dirs=["venv", "build", ".git", "*.egg-info", "HTML", "docs"],
-        binary=False,
-        sort=[Sort.FILES_FIRST, Sort.ALPHA]
-    ):
+    for path in iter:
         relative = path.relative_to(root)
         if path.is_file():
             try:
@@ -47,21 +44,15 @@ def get_codes_and_nodes(root):
 
     return codes, nodes
 
-def get_arguments():
-    parser = argparse.ArgumentParser(description="Code to PDF generator")
-    parser.add_argument("source_folder", help="Source code folder", type=Path)
-    parser.add_argument("--title", type=str, help="Title of the document")
-    return parser.parse_args()
-
 def main():
-    args = get_arguments()
-    path = args.source_folder
-    codes, nodes = get_codes_and_nodes(path)
+    paths = StdinIter()
+    root = next(paths)
+    codes, nodes = get_codes_and_nodes(paths, root)
 
     env = make_env(loader=PackageLoader("code_to_pdf", 'templates'))
     template = env.get_template("doc.tex")
 
-    generated = template.render(codes=codes, nodes=nodes, title=path.name,monofont = 'SauceCodePro Nerd Font', mainfont = 'SauceCodePro Nerd Font Mono')# monofont='Hack Nerd Font Mono', mainfont='Hack Nerd Font')
+    generated = template.render(codes=codes, nodes=nodes, title=root.name,monofont = 'SauceCodePro Nerd Font', mainfont = 'SauceCodePro Nerd Font Mono')# monofont='Hack Nerd Font Mono', mainfont='Hack Nerd Font')
 
     sys.stdout.write(generated)
 
