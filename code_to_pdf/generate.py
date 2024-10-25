@@ -3,11 +3,10 @@ import argparse
 from pathlib import Path
 
 import pygments
-from jinja2.loaders import FileSystemLoader, PackageLoader
+from jinja2.loaders import PackageLoader
 from pygments.lexers import get_lexer_for_filename
 from walkfind import walkfind, Sort
 
-from latex import build_pdf
 from latex.jinja2 import make_env
 
 
@@ -52,10 +51,6 @@ def get_arguments():
     parser = argparse.ArgumentParser(description="Code to PDF generator")
     parser.add_argument("source_folder", help="Source code folder", type=Path)
     parser.add_argument("--title", type=str, help="Title of the document")
-    parser.add_argument("--output", "-o", type=Path)
-    parser.add_argument(
-        "--output-folder", type=str, help="Path where pdf will be generated"
-    )
     return parser.parse_args()
 
 def main():
@@ -64,17 +59,12 @@ def main():
     codes, nodes = get_codes_and_nodes(path)
 
     env = make_env(loader=PackageLoader("code_to_pdf", 'templates'))
-    tpl = env.get_template("doc.tex")
+    template = env.get_template("doc.tex")
 
-    generated = tpl.render(codes=codes, nodes=nodes, title=path.name,monofont = 'SauceCodePro Nerd Font', mainfont = 'SauceCodePro Nerd Font Mono')# monofont='Hack Nerd Font Mono', mainfont='Hack Nerd Font')
+    generated = template.render(codes=codes, nodes=nodes, title=path.name,monofont = 'SauceCodePro Nerd Font', mainfont = 'SauceCodePro Nerd Font Mono')# monofont='Hack Nerd Font Mono', mainfont='Hack Nerd Font')
 
-    # for debugging
-    with open("/tmp/out.tex", "wt") as file:
-        file.write(generated)
+    sys.stdout.write(generated)
 
-    # quit()
-    pdf = build_pdf(generated, builder = 'xelatexmk')
-    pdf.save_to(args.output if args.output else "generated.pdf")
 
 if __name__ == "__main__":
     main()
