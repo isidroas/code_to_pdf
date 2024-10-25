@@ -10,19 +10,13 @@ from walkfind import walkfind, Sort
 from latex.jinja2 import make_env
 
 
-class StdinIter:
-
-    # TODO: use fileinput.FileInput and inherit
-    def __next__(self):
-        path = next(sys.stdin)
+# TODO: use fileinput.FileInput and inherit
+def get_paths_from_stdin():
+    for path in sys.stdin:
         path = path.strip()  # remove trailing newline
         path = Path(path)
         assert path.exists()
-        return Path(path)
-
-    def __iter__(self):
-        return self
-
+        yield Path(path)
 
 def get_codes_and_nodes(iter, root):
     codes = []
@@ -49,7 +43,7 @@ def get_codes_and_nodes(iter, root):
 
 
 def main():
-    paths = StdinIter()
+    paths = get_paths_from_stdin()
     root = next(paths)
     codes, nodes = get_codes_and_nodes(paths, root)
 
