@@ -9,17 +9,20 @@ from walkfind import walkfind, Sort
 
 from latex.jinja2 import make_env
 
+
 class StdinIter:
 
     # TODO: use fileinput.FileInput and inherit
     def __next__(self):
         path = next(sys.stdin)
-        path = path.strip() # remove trailing newline
-        path= Path(path)
+        path = path.strip()  # remove trailing newline
+        path = Path(path)
         assert path.exists()
         return Path(path)
+
     def __iter__(self):
         return self
+
 
 def get_codes_and_nodes(iter, root):
     codes = []
@@ -44,15 +47,22 @@ def get_codes_and_nodes(iter, root):
 
     return codes, nodes
 
+
 def main():
     paths = StdinIter()
     root = next(paths)
     codes, nodes = get_codes_and_nodes(paths, root)
 
-    env = make_env(loader=PackageLoader("code_to_pdf", 'templates'))
+    env = make_env(loader=PackageLoader("code_to_pdf", "templates"))
     template = env.get_template("doc.tex")
 
-    generated = template.render(codes=codes, nodes=nodes, title=root.name,monofont = 'SauceCodePro Nerd Font', mainfont = 'SauceCodePro Nerd Font Mono')# monofont='Hack Nerd Font Mono', mainfont='Hack Nerd Font')
+    generated = template.render(
+        codes=codes,
+        nodes=nodes,
+        title=root.name,
+        monofont="SauceCodePro Nerd Font",
+        mainfont="SauceCodePro Nerd Font Mono",
+    )  # monofont='Hack Nerd Font Mono', mainfont='Hack Nerd Font')
 
     sys.stdout.write(generated)
 
