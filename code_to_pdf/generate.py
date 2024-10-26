@@ -57,7 +57,8 @@ def main():
         title=root.name,
         monofont="SauceCodePro Nerd Font",
         mainfont="SauceCodePro Nerd Font Mono",
-    )  # monofont='Hack Nerd Font Mono', mainfont='Hack Nerd Font')
+        filename_in_header=False,
+    )  # monofont='Hack Nerd Font Mono', mainfont='Hack Nerd Font'
 
     sys.stdout.write(generated)
 

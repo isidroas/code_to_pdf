@@ -17,6 +17,10 @@
 %- for code in codes
 \newpage
 \section*{\VAR{code.rel|e}}\label{sec:\VAR{code.abs}}
+%- if filename_in_header
+\markboth{\VAR{code.rel|e}}{\VAR{code.rel|e}} %# source https://tex.stackexchange.com/a/222385
+\thispagestyle{HideSectionInHeader}
+%- endif
 \inputminted[]{\VAR{code.lang}}{\VAR{code.abs}}
 %- endfor
 
