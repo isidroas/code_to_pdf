@@ -1,3 +1,4 @@
+import itertools
 import sys
 import argparse
 from pathlib import Path
@@ -22,7 +23,7 @@ def get_codes_and_nodes(iter, root):
     codes = []
     nodes = []
 
-    for path in iter:
+    for path in itertools.chain([root], iter):
         relative = path.relative_to(root)
         if path.is_file():
             try:
