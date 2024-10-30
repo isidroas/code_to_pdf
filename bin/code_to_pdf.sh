@@ -18,5 +18,6 @@ walkfind --also-dirs \
 	--no-binary \
 	$1 | code_to_pdf >out.tex
 
+# we need xelatex instead of pdflatex to display the unicode.
 xelatex -shell-escape out.tex
 xelatex -shell-escape out.tex

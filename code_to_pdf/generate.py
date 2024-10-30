@@ -45,7 +45,7 @@ def get_codes_and_nodes(iter, root):
 
 def main():
     paths = get_paths_from_stdin()
-    root = next(paths)
+    root = next(paths) # allow override in argument
     codes, nodes = get_codes_and_nodes(paths, root)
 
     env = make_env(loader=PackageLoader("code_to_pdf", "templates"))
@@ -57,7 +57,7 @@ def main():
         title=root.name,
         monofont="SauceCodePro Nerd Font",
         mainfont="SauceCodePro Nerd Font Mono",
-        filename_in_header=False,
+        filename_in_header=True,
     )  # monofont='Hack Nerd Font Mono', mainfont='Hack Nerd Font'
 
     sys.stdout.write(generated)
