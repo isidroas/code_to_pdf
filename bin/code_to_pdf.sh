@@ -1,6 +1,8 @@
 #!/usr/bin/bash
 set -xue -o pipefail
 
+# the output of `git ls-files` won't work because directories are ommited. But you can clean the repository with 'git stash; git clean -fXd'
+
 walkfind --also-dirs \
 	--exclude-file '*.pdf' \
 	--exclude-file '.coverage' \
@@ -16,7 +18,7 @@ walkfind --also-dirs \
 	--sort files_first \
 	--sort alpha \
 	--no-binary \
-	$1 | code_to_pdf >out.tex
+	$1 | tee /tmp/debug | code_to_pdf >out.tex
 
 # we need xelatex instead of pdflatex to display the unicode.
 xelatex -shell-escape out.tex
