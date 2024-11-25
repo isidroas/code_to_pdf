@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+from typing import NamedTuple
 
 import pygments
 from jinja2.loaders import PackageLoader
@@ -14,12 +15,8 @@ def filter_path(path):
 def walk(root: Path):
     yield root
     if root.is_dir():
-        # yield from [walk(child) for child in filter(filter_path,root.iterdir())]
         for child in filter(filter_path, root.iterdir()):
             yield from walk(child)
-
-
-from typing import NamedTuple
 
 
 class Code(NamedTuple):
