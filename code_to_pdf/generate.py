@@ -1,59 +1,68 @@
-import itertools
 import sys
-import argparse
 from pathlib import Path
 
 import pygments
 from jinja2.loaders import PackageLoader
-from pygments.lexers import get_lexer_for_filename
-from walkfind import walkfind, Sort
-
 from latex.jinja2 import make_env
+from pygments.lexers import get_lexer_for_filename
 
 
-# TODO: use fileinput.FileInput and inherit
-def get_paths_from_stdin():
-    for path in sys.stdin:
-        path = path.strip()  # remove trailing newline
-        path = Path(path)
-        assert path.exists()
-        yield Path(path)
+def filter_path(path):
+    return not path.name == ".git"
 
-def get_codes_and_nodes(iter, root):
+
+def walk(root: Path):
+    yield root
+    if root.is_dir():
+        # yield from [walk(child) for child in filter(filter_path,root.iterdir())]
+        for child in filter(filter_path, root.iterdir()):
+            yield from walk(child)
+
+
+from typing import NamedTuple
+
+
+class Code(NamedTuple):
+    abs: str
+    rel: str
+    lang: str
+
+
+class TocEntry(NamedTuple):
+    depth: str
+    name: str
+    path: str
+    is_file: bool
+
+
+def main():
     codes = []
-    nodes = []
-
-    for path in itertools.chain([root], iter):
+    toc_entries = []
+    root = Path(sys.argv[1])
+    for path in walk(root):
+        print(path, file=sys.stderr)
         relative = path.relative_to(root)
-        if path.is_file():
+        if not path.is_dir():
             try:
                 lang = get_lexer_for_filename(path.name).aliases[0]
             except pygments.util.ClassNotFound:
                 lang = "text"
-
-            codes.append({"abs": str(path), "rel": str(relative), "lang": lang})
-        node = dict(
-            depth=len(relative.parts) + 1,
-            name=path.name,
-            path=str(path),
-            is_file=path.is_file(),
+            codes.append(Code(abs=str(path), rel=str(relative), lang=lang))
+        toc_entries.append(
+            TocEntry(
+                depth=len(relative.parts) + 1,
+                name=path.name,
+                path=str(path),
+                is_file=path.is_file(),
+            )
         )
-        nodes.append(node)
-
-    return codes, nodes
-
-
-def main():
-    paths = get_paths_from_stdin()
-    root = next(paths) # allow override in argument
-    codes, nodes = get_codes_and_nodes(paths, root)
 
     env = make_env(loader=PackageLoader("code_to_pdf", "templates"))
     template = env.get_template("doc.tex")
 
     generated = template.render(
         codes=codes,
-        nodes=nodes,
+        nodes=toc_entries,
         title=root.name,
         monofont="SauceCodePro Nerd Font",
         mainfont="SauceCodePro Nerd Font Mono",
