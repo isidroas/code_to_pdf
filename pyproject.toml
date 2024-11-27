@@ -13,7 +13,6 @@ dependencies = [
   "latex",
   "Pygments",
   "Jinja2",
-  "walkfind",
 ]
 
 [project.optional-dependencies]
