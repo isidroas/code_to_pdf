@@ -39,7 +39,11 @@ def walk(root: Path, filter_predicate):
 
 class Code(NamedTuple):
     # TODO: no usar abreviaciones
+
+    # en realidad no necesita ser absoluto, sino relativo a cwd
     abs: str
+
+    # relative to root
     rel: str
 
     lang: str
@@ -53,6 +57,9 @@ class TocEntry(NamedTuple):
 
 
 def generate(root: Path, filter_predicate: Callable[Path, bool] = default_filter_predicate):
+    """
+    if `root` is absolute, the resulting tex file can be moved.
+    """
     codes = []
     toc_entries = []
     for path in walk(root, filter_predicate):
