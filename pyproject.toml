@@ -34,7 +34,7 @@ Homepage = "https://github.com/isidroas/code_to_pdf"
 "Bug Tracker" = "https://github.com/isidroas/code_to_pdf/issues"
 
 [project.scripts]
-code_to_pdf = "code_to_pdf.generate:main"
+code_to_pdf = "code_to_pdf.__main__:main"
 
 [tool.setuptools]
 packages = ["code_to_pdf"]
