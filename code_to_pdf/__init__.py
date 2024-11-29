@@ -16,19 +16,55 @@ class PathSelector:
     DEFAULT_EXCLUDE = ('.git', 'venv', '*.pyc')
 
     # TODO: exclude is acutally: extend_exclude
-    def __init__(self, exclude = [], include = [], exclude_binary=False):
+    def __init__(self, exclude = [], include = [], exclude_binary=False, exclude_empty=False):
         self.include = list(re.compile(fnmatch.translate(name)) for name in include)
         self.exclude = list(re.compile(fnmatch.translate(name)) for name in (*self.DEFAULT_EXCLUDE, *exclude))
-        # TODO: exclude empty files, like __init__.py
-        
+        self.exclude_empty = exclude_empty
+        self.exclude_binary = exclude_binary
 
-    def select(self, path: Path)-> bool:
-        if self.include and not any(pattern.match(path.name) for pattern in self.include):
-            return False
-        if any(pattern.match(path.name) for pattern in self.exclude):
-            return False
-        return True
-        # one expression: return not is_excluded and (not include or is_included) and (not exclude_empty or not is_empty)
+    # def select(self, path: Path)-> bool:
+    #     if self.include and not any(pattern.match(path.name) for pattern in self.include):
+    #         return False
+    #     if any(pattern.match(path.name) for pattern in self.exclude):
+    #         return False
+    #     return True
+    def select(self, path: Path) -> bool:
+        # TODO: revert bool more concise?
+        # TODO: fmt: block
+        # fmt: off
+        # return (
+        #     not self.is_excluded(path)
+        #     and (not self.include or self.is_included(path))
+        #     and (not self.exclude_binary or not self.is_binary(path))
+        #     and (not self.exclude_emtpy or not self.is_empty(path))
+        #     # not any(pattern.match(path.name) for pattern in self.exclude)
+        #     # and (not self.include or any(pattern.match(path.name) for pattern in self.include))
+        # )
+        # reverted bool more concise?
+        return not (
+            self.is_excluded(path)
+            or (self.include and not self.is_included(path))
+            or (self.exclude_binary and path.is_file() and self.is_binary(path))
+            or (self.exclude_empty and self.is_empty(path))
+            # or any(pattern.match(path.name) for pattern in self.exclude)
+            # or not (self.include or any(pattern.match(path.name) for pattern in self.include))
+        )
+        # fmt: on
+    def is_included(self, path)-> bool:
+        return any(pattern.match(path.name) for pattern in self.include)
+    def is_excluded(self, path)-> bool:
+        return any(pattern.match(path.name) for pattern in self.exclude)
+
+    @staticmethod
+    def is_empty(path)-> bool:
+        return (path.is_dir() and len(list(path.iterdir()))==0) or (path.is_file() and path.stat().st_size ==0)
+    @staticmethod
+    def is_binary(path)->bool:
+        try:
+            path.read_text()
+        except UnicodeError:
+            return True
+        return False
 
 default_filter_predicate = PathSelector().select
 
