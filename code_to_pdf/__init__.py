@@ -56,7 +56,7 @@ class TocEntry(NamedTuple):
     is_file: bool
 
 
-def generate(root: Path, filter_predicate: Callable[Path, bool] = default_filter_predicate):
+def generate(root: Path, filter_predicate: Callable[Path, bool] = default_filter_predicate, title = None):
     """
     if `root` is absolute, the resulting tex file can be moved.
     """
@@ -88,7 +88,7 @@ def generate(root: Path, filter_predicate: Callable[Path, bool] = default_filter
     generated = template.render(
         codes=codes,
         nodes=toc_entries,
-        title=root.name,
+        title=title or root.name,
         monofont="SauceCodePro Nerd Font",
         mainfont="SauceCodePro Nerd Font Mono",
         filename_in_header=True,

@@ -6,10 +6,10 @@ TheAlgorithms-Python.tar.gz:
 # the project does not have releases, but using some random commit to have an stable output
 	curl -L https://github.com/TheAlgorithms/Python/tarball/fc33c505935e9927cffb6142591891f721a7bcd9 > $@
 
+# TODO sufix .d to make common recipe to all tars?
 TheAlgorithms-Python: TheAlgorithms-Python.tar.gz
-	rm -rf TheAlgorithms-Python
-	tar xvf $^
-	mv TheAlgorithms-Python-* $@
+	mkdir -p $@
+	tar --strip-components=1 --directory=$@ -xvf $^
 
 TheAlgorithms-Python-hash.tex: TheAlgorithms-Python
 # code2pdfbook $^/data_structures/hashing > $@
