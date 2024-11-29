@@ -12,9 +12,11 @@ TheAlgorithms-Python: TheAlgorithms-Python.tar.gz
 	mkdir -p $@
 	tar --strip-components=1 --directory=$@ -xvf $^
 
+CODE2TEX=code_to_pdf --monofont "SauceCodePro Nerd Font Mono" --mainfont "SauceCodePro Nerd Font"
+# CODE2TEX=code_to_pdf --monofont "Hack Nerd Font Mono" --mainfont "Hack Nerd Font"
+# podría hacer una common %.tex: %.d extracted para cuando no necesite custom title
 TheAlgorithms-Python-hash.tex: TheAlgorithms-Python
-# code2pdfbook $^/data_structures/hashing > $@
-	code_to_pdf $^/data_structures/hashing --title 'TheAlgorithms/data_structures/hashing' > $@
+	$(CODE2TEX)  $^/data_structures/hashing --title 'TheAlgorithms/data_structures/hashing' > $@
 
 
 TEX=xelatex -shell-escape

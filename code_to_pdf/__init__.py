@@ -15,9 +15,11 @@ LOG = logging.getLogger(__name__)
 class PathSelector:
     DEFAULT_EXCLUDE = ('.git', 'venv', '*.pyc')
 
+    # TODO: exclude is acutally: extend_exclude
     def __init__(self, exclude = [], include = [], exclude_binary=False):
         self.include = list(re.compile(fnmatch.translate(name)) for name in include)
         self.exclude = list(re.compile(fnmatch.translate(name)) for name in (*self.DEFAULT_EXCLUDE, *exclude))
+        # TODO: exclude empty files, like __init__.py
         
 
     def select(self, path: Path)-> bool:
@@ -26,6 +28,7 @@ class PathSelector:
         if any(pattern.match(path.name) for pattern in self.exclude):
             return False
         return True
+        # one expression: return not is_excluded and (not include or is_included) and (not exclude_empty or not is_empty)
 
 default_filter_predicate = PathSelector().select
 
@@ -56,7 +59,7 @@ class TocEntry(NamedTuple):
     is_file: bool
 
 
-def generate(root: Path, filter_predicate: Callable[Path, bool] = default_filter_predicate, title = None):
+def generate(root: Path, filter_predicate: Callable[Path, bool] = default_filter_predicate, title = None, monofont=None, mainfont=None):
     """
     if `root` is absolute, the resulting tex file can be moved.
     """
@@ -89,8 +92,8 @@ def generate(root: Path, filter_predicate: Callable[Path, bool] = default_filter
         codes=codes,
         nodes=toc_entries,
         title=title or root.name,
-        monofont="SauceCodePro Nerd Font",
-        mainfont="SauceCodePro Nerd Font Mono",
+        monofont=monofont,
+        mainfont=mainfont,
         filename_in_header=True,
     )  # monofont='Hack Nerd Font Mono', mainfont='Hack Nerd Font'
 
