@@ -1,4 +1,5 @@
 .DELETE_ON_ERROR:
+# TODO: download and install fonts
 
 all: TheAlgorithms-Python-hash.pdf
 
