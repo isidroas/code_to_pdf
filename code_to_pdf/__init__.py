@@ -60,6 +60,8 @@ def generate(root: Path, filter_predicate: Callable[Path, bool] = default_filter
     """
     if `root` is absolute, the resulting tex file can be moved.
     """
+    if not root.exists():
+        raise FileNotFoundError(root)
     codes = []
     toc_entries = []
     for path in walk(root, filter_predicate):
