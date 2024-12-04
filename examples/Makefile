@@ -27,7 +27,9 @@ TheAlgorithms-Python.tar.gz:
 TheAlgorithms-Python-hash.tex: TheAlgorithms-Python.d
 	$(CODE2TEX)  $^/data_structures/hashing --title 'TheAlgorithms/data_structures/hashing' > $@
 
-
+# TODO: st.1 -> man page to pdf
+simple-terminal.tar.gz:
+	curl -L https://dl.suckless.org/st/st-0.9.2.tar.gz > $@
 
 
 #### build your own-x

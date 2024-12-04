@@ -5,3 +5,4 @@ for file in $(find  $1  -name '*.md' | sort); do
     rm $(basename $file)
     popd
 done
+# TODO: markdown lua plugin to decrease margin?
