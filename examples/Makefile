@@ -45,7 +45,7 @@ mini-arm-os.tar.gz:
 raspberry-pi-os.tar.gz:
 	curl -L https://github.com/s-matyukevich/raspberry-pi-os/tarball/master > $@
 
-# ! Dimension too large. First 
+# ! Dimension too large. First
 acwj.tar.gz:
 	curl -L https://github.com/DoctorWkt/acwj/tarball/master > $@
 # TODO: include main README.md? overlapping with TOC?
