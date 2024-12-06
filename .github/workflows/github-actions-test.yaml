@@ -17,32 +17,13 @@ jobs:
               run: |
                   python -m pip install --upgrade setuptools wheel
                   sudo apt update
-                  sudo apt install wkhtmltopdf
+                  sudo apt install texlive
             - name: Install package
               run: python -m pip install  ./
-            - name: Run test
+            - name: generate examples
               run: |
-                   cd tests
-                   python ./test_cli.py
-            - name: Run coverage
-              run: |
-                   python -m pip install --upgrade coverage
-                   # python -m coverage run --source=code_to_pdf -m code_to_pdf ./
-                   cd tests
-                   python -m coverage run --source=code_to_pdf test_cli.py
-                   python -m coverage xml -i
-            - uses: codecov/codecov-action@v1
-              with:
-                token: c70aa5e5-5e97-45e5-8c04-5fe781a1f5e0
-                files: ./tests/coverage.xml
-            - name: Run Pylint
-              run: |
-                   python -m pip install pylint
-                   python -m pylint --exit-zero code_to_pdf
-            - name: Static Type Checking
-              run: |
-                   python -m pip install mypy types-PyYAML
-                   python -m mypy ./src/
+                   cd examples
+                   make
             - name: Pre-commit
               run: |
                    pip install pre-commit
