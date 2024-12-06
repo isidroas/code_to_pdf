@@ -96,7 +96,7 @@ class TocEntry(NamedTuple):
     is_file: bool
 
 
-def generate(root: Path, filter_predicate: Callable[Path, bool] = default_filter_predicate, title = None, monofont=None, mainfont=None):
+def generate(root: Path, filter_predicate: Callable[[Path], bool] = default_filter_predicate, title = None, monofont=None, mainfont=None):
     """
     if `root` is absolute, the resulting tex file can be moved.
     """
