@@ -15,8 +15,9 @@ LOG = logging.getLogger(__name__)
 class PathSelector:
     DEFAULT_EXCLUDE = ('.git', 'venv', '*.pyc')
 
+    # TODO: `include` use case? por ahora no lo he necesitado. En todo caso tendría más sentido sin contar directories?
     # TODO: exclude is acutally: extend_exclude
-    def __init__(self, exclude = [], include = [], exclude_binary=False, exclude_empty=False):
+    def __init__(self, exclude = [], include = [], exclude_binary=True, exclude_empty=False):
         self.include = list(re.compile(fnmatch.translate(name)) for name in include)
         self.exclude = list(re.compile(fnmatch.translate(name)) for name in (*self.DEFAULT_EXCLUDE, *exclude))
         self.exclude_empty = exclude_empty
@@ -29,7 +30,6 @@ class PathSelector:
     #         return False
     #     return True
     def select(self, path: Path) -> bool:
-        # TODO: revert bool more concise?
         # TODO: fmt: block
         # fmt: off
         # return (
@@ -57,7 +57,8 @@ class PathSelector:
 
     @staticmethod
     def is_empty(path)-> bool:
-        return (path.is_dir() and len(list(path.iterdir()))==0) or (path.is_file() and path.stat().st_size ==0)
+        # return (path.is_dir() and len(list(path.iterdir()))==0) or (path.is_file() and path.stat().st_size ==0)
+        return len(list(path.iterdir()))==0 if path.is_dir() else path.stat().st_size ==0
     @staticmethod
     def is_binary(path)->bool:
         try:
