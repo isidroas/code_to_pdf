@@ -12,14 +12,20 @@ from pygments.lexers import get_lexer_for_filename
 
 LOG = logging.getLogger(__name__)
 
+
 class PathSelector:
-    DEFAULT_EXCLUDE = ('.git', 'venv', '*.pyc')
+    DEFAULT_EXCLUDE = (".git", "venv", "*.pyc")
 
     # TODO: `include` use case? por ahora no lo he necesitado. En todo caso tendría más sentido sin contar directories?
     # TODO: exclude is acutally: extend_exclude
-    def __init__(self, exclude = [], include = [], exclude_binary=True, exclude_empty=False):
+    def __init__(
+        self, exclude=[], include=[], exclude_binary=True, exclude_empty=False
+    ):
         self.include = list(re.compile(fnmatch.translate(name)) for name in include)
-        self.exclude = list(re.compile(fnmatch.translate(name)) for name in (*self.DEFAULT_EXCLUDE, *exclude))
+        self.exclude = list(
+            re.compile(fnmatch.translate(name))
+            for name in (*self.DEFAULT_EXCLUDE, *exclude)
+        )
         self.exclude_empty = exclude_empty
         self.exclude_binary = exclude_binary
 
@@ -50,22 +56,30 @@ class PathSelector:
             # or not (self.include or any(pattern.match(path.name) for pattern in self.include))
         )
         # fmt: on
-    def is_included(self, path)-> bool:
+
+    def is_included(self, path) -> bool:
         return any(pattern.match(path.name) for pattern in self.include)
-    def is_excluded(self, path)-> bool:
+
+    def is_excluded(self, path) -> bool:
         return any(pattern.match(path.name) for pattern in self.exclude)
 
     @staticmethod
-    def is_empty(path)-> bool:
+    def is_empty(path) -> bool:
         # return (path.is_dir() and len(list(path.iterdir()))==0) or (path.is_file() and path.stat().st_size ==0)
-        return len(list(path.iterdir()))==0 if path.is_dir() else path.stat().st_size ==0
+        return (
+            len(list(path.iterdir())) == 0
+            if path.is_dir()
+            else path.stat().st_size == 0
+        )
+
     @staticmethod
-    def is_binary(path)->bool:
+    def is_binary(path) -> bool:
         try:
             path.read_text()
         except UnicodeError:
             return True
         return False
+
 
 default_filter_predicate = PathSelector().select
 
@@ -96,7 +110,13 @@ class TocEntry(NamedTuple):
     is_file: bool
 
 
-def generate(root: Path, filter_predicate: Callable[[Path], bool] = default_filter_predicate, title = None, monofont=None, mainfont=None):
+def generate(
+    root: Path,
+    filter_predicate: Callable[[Path], bool] = default_filter_predicate,
+    title=None,
+    monofont=None,
+    mainfont=None,
+):
     """
     if `root` is absolute, the resulting tex file can be moved.
     """
