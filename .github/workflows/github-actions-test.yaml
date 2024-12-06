@@ -5,7 +5,8 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
           matrix:
-            python-version: ["3.8", "3.11", "3.12", "3.13"]
+            # python-version: ["3.8", "3.11", "3.12", "3.13"]
+            python-version: ["3.11"]
         steps:
             - name: Check out repository code
               uses: actions/checkout@v2
@@ -15,10 +16,12 @@ jobs:
                 python-version: ${{ matrix.python-version }}
             - name: Install dependencies
               run: |
-                  python -m pip install --upgrade setuptools wheel
                   # sudo apt update
                   sudo apt install texlive-full
+                  # python -m pip install --upgrade setuptools wheel
                   ./examples/install_nerd_fonts.sh
+                  ls ~/.local/share/fonts
+                  fc-match  'SauceCodePro Nerd Font'
             - name: Install package
               run: python -m pip install  ./
             - name: generate examples
