@@ -16,8 +16,9 @@ jobs:
             - name: Install dependencies
               run: |
                   python -m pip install --upgrade setuptools wheel
-                  sudo apt update
+                  # sudo apt update
                   sudo apt install texlive-full
+                  ./examples/install_nerd_fonts.sh
             - name: Install package
               run: python -m pip install  ./
             - name: generate examples
