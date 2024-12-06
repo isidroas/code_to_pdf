@@ -1,9 +1,9 @@
-import logging
-import sys
-import re
 import fnmatch
+import logging
+import re
+import sys
 from pathlib import Path
-from typing import NamedTuple, Callable
+from typing import Callable, NamedTuple
 
 import pygments
 from jinja2.loaders import PackageLoader

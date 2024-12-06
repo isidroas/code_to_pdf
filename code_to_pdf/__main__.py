@@ -1,7 +1,8 @@
 import sys
-from code_to_pdf import generate
-from pathlib import Path
 from argparse import ArgumentParser
+from pathlib import Path
+
+from code_to_pdf import generate
 
 
 def main():
