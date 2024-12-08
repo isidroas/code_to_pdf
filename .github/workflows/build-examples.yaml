@@ -1,7 +1,7 @@
 name: Code to pdf test
 on: push
 jobs:
-    test-1:
+    build-examples:
         runs-on: ubuntu-latest
         strategy:
           matrix:
