@@ -14,18 +14,17 @@ all: TheAlgorithms-Python.pdf acwj_chapters_1-2.pdf flask_without_docs.pdf
 # - eliminar binary: find -type f | ./filter_binary.sh | xargs rm
 # esos los puedo meter aquí incondicionalmente
 
-# TODO: download and install fonts
-CODE2TEX=code_to_pdf --monofont "SauceCodePro Nerd Font Mono" --mainfont "SauceCodePro Nerd Font"
-# CODE2TEX=code_to_pdf
-# CODE2TEX=code_to_pdf --monofont "Hack Nerd Font Mono" --mainfont "Hack Nerd Font"
+# some fonts that can be downloaded from https://www.nerdfonts.com/
+# REPO2TEX_FLAGS?=--monofont "SauceCodePro Nerd Font Mono" --mainfont "SauceCodePro Nerd Font"
+# REPO2TEX_FLAGS?=--monofont "Hack Nerd Font Mono" --mainfont "Hack Nerd Font"
 # TODO: remove SUBDIR and crate *_mod.d alterantivelly?
 %.tex: %.d
-	$(CODE2TEX) --title "$(TITLE)" $^/$(SUBDIR) > $@
+	code_to_pdf $(REPO2TEX_FLAGS) --title "$(TITLE)" $^/$(SUBDIR) > $@
 
-TEX=xelatex -shell-escape
+TEX2PDF?=xelatex -shell-escape
 %.pdf: %.tex
-	$(TEX) $^
-	$(TEX) $^
+	$(TEX2PDF) $^
+	$(TEX2PDF) $^
 
 TheAlgorithms-Python.tar.gz:
 # the project does not have releases, but using some random commit to have an stable output
@@ -70,6 +69,7 @@ raspberry-pi-os.tar.gz:
 acwj.tar.gz:
 	curl -L https://github.com/DoctorWkt/acwj/tarball/master > $@
 # TODO: include main README.md? overlapping with TOC?
+# TODO: rename to chapters 0-2
 acwj_chapters_1-2.d: acwj.d
 	mkdir $@
 	cp -R $^/0{0,1,2}_*/ $@
