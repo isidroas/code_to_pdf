@@ -14,8 +14,8 @@ all: TheAlgorithms-Python-hash.pdf acwj_chapters_1-2.pdf flask_without_docs.pdf
 # esos los puedo meter aquí incondicionalmente
 
 # TODO: download and install fonts
-# CODE2TEX=code_to_pdf --monofont "SauceCodePro Nerd Font Mono" --mainfont "SauceCodePro Nerd Font"
-CODE2TEX=code_to_pdf
+CODE2TEX=code_to_pdf --monofont "SauceCodePro Nerd Font Mono" --mainfont "SauceCodePro Nerd Font"
+# CODE2TEX=code_to_pdf
 # CODE2TEX=code_to_pdf --monofont "Hack Nerd Font Mono" --mainfont "Hack Nerd Font"
 # TODO: remove SUBDIR and crate *_mod.d alterantivelly?
 %.tex: %.d
