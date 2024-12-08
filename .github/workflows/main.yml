@@ -15,6 +15,8 @@ jobs:
             - name: Install dependencies
               run: |
                   sudo apt install texlive-full
+            - name: Check out repository code
+              uses: actions/checkout@v4
             - name: Install fonts
               run: |
                   ./.github/workflows/install_nerd_fonts.sh
@@ -35,8 +37,6 @@ jobs:
         steps:
             - name: Setup Python
               uses: actions/setup-python@v4
-            - name: Check out repository code
-              uses: actions/checkout@v2
             - name: Pre-commit
               run: |
                    pip install pre-commit
