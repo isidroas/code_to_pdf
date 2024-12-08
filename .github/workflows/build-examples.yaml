@@ -21,11 +21,7 @@ jobs:
             - name: Install fonts
               run: |
                   sudo apt install fontconfig
-                  # python -m pip install --upgrade setuptools wheel
                   sudo ./examples/install_nerd_fonts.sh
-                  # ls ~/.local/share/fonts
-                  ls /usr/local/share/fonts
-                  fc-match  'SauceCodePro Nerd Font'
             - name: Install package
               run: python -m pip install  ./
             - name: Build
