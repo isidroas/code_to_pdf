@@ -9,8 +9,8 @@ set -e
 # fi
 
 
-# PREFIX=/usr/local/share/fonts
-PREFIX=~/.local/share/fonts
+PREFIX=/usr/local/share/fonts
+# PREFIX=~/.local/share/fonts
 for font in DejaVuSansMono  Hack  SourceCodePro FiraMono FiraCode; do
 
     if [ -d $PREFIX/$font ]; then
