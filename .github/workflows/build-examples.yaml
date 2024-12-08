@@ -18,24 +18,27 @@ jobs:
               run: |
                   # sudo apt update
                   sudo apt install texlive-full
+            - name: Install fonts
+              run: |
                   sudo apt install fontconfig
                   # python -m pip install --upgrade setuptools wheel
                   ./examples/install_nerd_fonts.sh
-                  ls ~/.local/share/fonts
+                  # ls ~/.local/share/fonts
+                  ls /usr/local/share/fonts
                   fc-match  'SauceCodePro Nerd Font'
             - name: Install package
               run: python -m pip install  ./
-            - name: generate examples
+            - name: Build
               run: |
                    cd examples
                    make
-            - name: Archive production artifacts
+            - name: Archive PDFs
               uses: actions/upload-artifact@v4
               with:
                 name: pdf
                 path: |
                   examples/*.pdf
-            - name: Pre-commit
+            - name: Pre-commit # TODO: move this to another job?
               run: |
                    pip install pre-commit
                    pre-commit install --install-hooks
