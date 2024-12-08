@@ -2,19 +2,24 @@
 .DELETE_ON_ERROR:
 SHELL=bash
 
-all: TheAlgorithms-Python-hash.pdf acwj_chapters_1-2.pdf
+all: TheAlgorithms-Python-hash.pdf acwj_chapters_1-2.pdf flask_without_docs.pdf
 
 
 %.d: %.tar.gz
 	mkdir -p $@
 	tar --strip-components=1 --directory=$@ -xvf $^
+# en realidad hay unos mods comunes para todos:
+# - eliminar empty
+# - eliminar binary: find -type f | ./filter_binary.sh | xargs rm
+# esos los puedo meter aquí incondicionalmente
 
 # TODO: download and install fonts
 # CODE2TEX=code_to_pdf --monofont "SauceCodePro Nerd Font Mono" --mainfont "SauceCodePro Nerd Font"
 CODE2TEX=code_to_pdf
 # CODE2TEX=code_to_pdf --monofont "Hack Nerd Font Mono" --mainfont "Hack Nerd Font"
+# TODO: remove SUBDIR and crate *_mod.d alterantivelly?
 %.tex: %.d
-	$(CODE2TEX)  $^ > $@
+	$(CODE2TEX) --title "$(TITLE)" $^/$(SUBDIR) > $@
 
 TEX=xelatex -shell-escape
 %.pdf: %.tex
@@ -25,13 +30,28 @@ TheAlgorithms-Python.tar.gz:
 # the project does not have releases, but using some random commit to have an stable output
 	curl -L https://github.com/TheAlgorithms/Python/tarball/fc33c505935e9927cffb6142591891f721a7bcd9 > $@
 
-TheAlgorithms-Python-hash.tex: TheAlgorithms-Python.d
-	$(CODE2TEX)  $^/data_structures/hashing --title 'TheAlgorithms/data_structures/hashing' > $@
+# TODO: find -empty -rm . Primero para ficheros y luego para dirs.
+TheAlgorithms-Python.tex: TITLE = TheAlgorithms/data_structures/hashing
+TheAlgorithms-Python.tex: SUBDIR = data_structures/hashing
+# TheAlgorithms-Python-hash.tex: TheAlgorithms-Python.d
+# $(CODE2TEX)  $^/data_structures/hashing --title 'TheAlgorithms/data_structures/hashing' > $@
 
 # TODO: st.1 -> man page to pdf
 simple-terminal.tar.gz:
 	curl -L https://dl.suckless.org/st/st-0.9.2.tar.gz > $@
+simple-terminal.tex: TITLE = suckless/st
 
+flask.tar.gz:
+	curl -L https://github.com/pallets/flask/tarball/3.1.0 > $@
+
+flask_without_docs.d: flask.d
+# sphinx can create better pdfs. TODO: embed pdf
+	cp -R $^ $@
+	rm -r $@/docs
+
+# flask_without_docs.tex: flask_without_docs.d
+# 	$(CODE2TEX)  $^ --title 'Flask' > $@
+flask_without_docs.tex: TITLE = Flask
 
 #### build your own-x
 
@@ -54,8 +74,9 @@ acwj_chapters_1-2.d: acwj.d
 	cp -R $^/0{0,1,2}_*/ $@
 	./convert_bulk_markdown_to_pdf.sh $@
 	find $@ -name '*.png' | xargs rm
-acwj_chapters_1-2.tex: acwj_chapters_1-2.d
-	$(CODE2TEX)  $^ --title 'A Compiler Writing Journey - Chapters 0-2' > $@
+# acwj_chapters_1-2.tex: acwj_chapters_1-2.d
+# 	$(CODE2TEX)  $^ --title 'A Compiler Writing Journey - Chapters 0-2' > $@
+acwj_chapters_1-2.tex: TITLE = A Compiler Writing Journey - Chapters 0-2
 
 # es casi todo un conjunto de readmes
 write-a-hash-table.tar.gz:
