@@ -34,7 +34,11 @@ jobs:
                 name: pdf
                 path: |
                   examples/*.pdf
-            - name: Pre-commit # TODO: move this to another job?
+    pre-commit:
+        runs-on: ubuntu-latest
+            - name: Setup Python
+              uses: actions/setup-python@v4
+            - name: Pre-commit
               run: |
                    pip install pre-commit
                    pre-commit install --install-hooks
