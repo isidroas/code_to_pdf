@@ -18,9 +18,9 @@ for font in DejaVuSansMono  Hack  SourceCodePro FiraMono FiraCode; do
         continue
     fi
 
-    mkdir -p $PREFIX/$font
     curl -L https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/${font}.zip > /tmp/${font}.zip
-    # unzip -o /tmp/${font}.zip -d $PREFIX/$font
+    mkdir -p $PREFIX/$font
+    unzip -o /tmp/${font}.zip -d $PREFIX/$font
 done
 
 
