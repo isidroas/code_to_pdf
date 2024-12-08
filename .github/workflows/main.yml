@@ -2,7 +2,7 @@ name: Code to pdf test
 on: push
 jobs:
     build-examples:
-        runs-on: ubuntu-latest
+        runs-on: dante-ev/docker-texlive
         strategy:
           matrix:
             # python-version: ["3.8", "3.11", "3.12", "3.13"]
@@ -12,9 +12,9 @@ jobs:
               uses: actions/setup-python@v5
               with:
                 python-version: ${{ matrix.python-version }}
-            - uses: xu-cheng/texlive-action@v2
-              with:
-                scheme: full
+            # - uses: xu-cheng/texlive-action@v2
+            #   with:
+            #     scheme: full
             - name: Check out repository code
               uses: actions/checkout@v4
             - name: Install fonts
