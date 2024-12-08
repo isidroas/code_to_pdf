@@ -21,10 +21,10 @@ all: TheAlgorithms-Python.pdf acwj_chapters_1-2.pdf flask_without_docs.pdf
 %.tex: %.d
 	code_to_pdf $(REPO2TEX_FLAGS) --title "$(TITLE)" $^/$(SUBDIR) > $@
 
-TEX2PDF?=xelatex -shell-escape
+TEX2PDF?=xelatex
 %.pdf: %.tex
-	$(TEX2PDF) $^
-	$(TEX2PDF) $^
+	$(TEX2PDF)  -shell-escape $^
+	$(TEX2PDF)  -shell-escape $^
 
 TheAlgorithms-Python.tar.gz:
 # the project does not have releases, but using some random commit to have an stable output
