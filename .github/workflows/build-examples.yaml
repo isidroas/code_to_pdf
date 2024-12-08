@@ -22,7 +22,7 @@ jobs:
               run: |
                   sudo apt install fontconfig
                   # python -m pip install --upgrade setuptools wheel
-                  ./examples/install_nerd_fonts.sh
+                  sudo ./examples/install_nerd_fonts.sh
                   # ls ~/.local/share/fonts
                   ls /usr/local/share/fonts
                   fc-match  'SauceCodePro Nerd Font'
