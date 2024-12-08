@@ -2,7 +2,8 @@
 .DELETE_ON_ERROR:
 SHELL=bash
 
-all: TheAlgorithms-Python-hash.pdf acwj_chapters_1-2.pdf flask_without_docs.pdf
+# all: TheAlgorithms-Python-hash.pdf acwj_chapters_1-2.pdf flask_without_docs.pdf
+all: TheAlgorithms-Python.pdf acwj_chapters_1-2.pdf flask_without_docs.pdf
 
 
 %.d: %.tar.gz
