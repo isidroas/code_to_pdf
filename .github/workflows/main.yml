@@ -32,6 +32,14 @@ jobs:
                 name: pdf
                 path: |
                   examples/*.pdf
+            - name: Build with default fonts
+              run: |
+                   cd examples
+                   make
+            - name: Build with pdflatex
+              run: |
+                   cd examples
+                   TEX2PDF=pdflatex make
     pre-commit:
         runs-on: ubuntu-latest
         steps:
