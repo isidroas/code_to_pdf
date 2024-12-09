@@ -53,6 +53,20 @@ flask_without_docs.d: flask.d
 # 	$(CODE2TEX)  $^ --title 'Flask' > $@
 flask_without_docs.tex: TITLE = Flask
 
+# proyecto pequeño pero que contiene varios archivos
+heap_allocator.tar.gz:
+	curl -L https://github.com/CCareaga/heap_allocator/tarball/master > $@
+
+heap_allocator_reduced.d: heap_allocator.d
+	cp -R $^ $@
+	rm $@/LICENSE
+	rm $@/heap.c
+	rm $@/Makefile
+	./convert_bulk_markdown_to_pdf.sh $@
+
+heap_allocator_reduced_mod_embed.tex: heap_allocator_reduced.tex
+	patch $^ -o $@ < heap_allocator_reduced_mod_embed.patch
+
 #### build your own-x
 
 # aqui haría falta ordenar 00,01..
