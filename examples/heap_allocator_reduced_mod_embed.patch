@@ -1,0 +1,29 @@
+--- heap_allocator_reduced.tex	2024-12-09 15:04:37.695208726 +0100
++++ heap_allocator_reduced_mod_embed.tex	2024-12-09 17:37:23.302554253 +0100
+@@ -1,4 +1,5 @@
+ \documentclass{article}
++\usepackage{pdfpages}
+ \usepackage{fontspec}
+ \usepackage{dirtree}
+ \usepackage[margin=2cm]{geometry}
+@@ -27,6 +28,7 @@
+ 
+ \dirtree{%
+   .1 {\bf \color{blue} heap\_allocator\_reduced.d}\DTcomment{}.
++  .2 {README.pdf}\DTcomment{\pageref{sec:heap_allocator_reduced.d/README.pdf}}.
+   .2 {main.c}\DTcomment{\pageref{sec:heap_allocator_reduced.d/main.c}}.
+   .2 {llist.c}\DTcomment{\pageref{sec:heap_allocator_reduced.d/llist.c}}.
+   .2 {commented\_heap.c}\DTcomment{\pageref{sec:heap_allocator_reduced.d/commented_heap.c}}.
+@@ -35,6 +37,12 @@
+   .3 {heap.h}\DTcomment{\pageref{sec:heap_allocator_reduced.d/include/heap.h}}.
+ }
+ 
++\newpage
++\section*{README.pdf}\label{sec:heap_allocator_reduced.d/README.pdf}
++\markboth{README.pdf}{README.pdf}
++\thispagestyle{HideSectionInHeader}
++\includegraphics[width=\linewidth, page=1]{heap_allocator_reduced.d/README.pdf}
++\includepdf[pages=2-, width=\linewidth, pagecommand={\pagestyle{fancy}}]{heap_allocator_reduced.d/README.pdf}
+ 
+ \newpage
+ \section*{main.c}\label{sec:heap_allocator_reduced.d/main.c}
