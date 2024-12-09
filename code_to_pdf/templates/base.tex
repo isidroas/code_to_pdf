@@ -7,8 +7,6 @@
   \setmainfont{\VAR{mainfont}}
 %- endif
 \usepackage{dirtree}
-\usepackage[]{minted}
-\setminted{fontsize=\footnotesize,linenos,breaklines}
 \usepackage[margin=2cm]{geometry}
 \usepackage{xcolor}
 % Make TOC clickable and create outline. They are only useful in the digital
@@ -28,6 +26,8 @@
   \renewcommand{\headrulewidth}{0pt}
 }
 %- endif
+\usepackage[]{minted}
+\setminted{fontsize=\footnotesize,linenos,breaklines}
 \title{\VAR{title|e}}
 \date{}
 \begin{document}
