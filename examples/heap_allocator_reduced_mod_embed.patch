@@ -1,21 +1,30 @@
---- heap_allocator_reduced.tex	2024-12-09 15:04:37.695208726 +0100
-+++ heap_allocator_reduced_mod_embed.tex	2024-12-09 17:37:23.302554253 +0100
+--- heap_allocator_reduced.tex	2024-12-09 20:15:09.285895800 +0100
++++ heap_allocator_reduced_mod_embed.tex	2024-12-09 20:22:27.925504405 +0100
 @@ -1,4 +1,5 @@
  \documentclass{article}
 +\usepackage{pdfpages}
  \usepackage{fontspec}
- \usepackage{dirtree}
- \usepackage[margin=2cm]{geometry}
-@@ -27,6 +28,7 @@
+   \setmonofont{SauceCodePro Nerd Font Mono}
+   \setmainfont{SauceCodePro Nerd Font}
+@@ -22,13 +23,14 @@
+ }
+ \usepackage[]{minted}
+ \setminted{fontsize=\footnotesize,linenos,breaklines}
+-\title{SHMALL - Simple Heap Memory ALLocator}
++\title{SHMALL - Simple Heap Memory ALLocator \footnote{https://github.com/CCareaga/heap\_allocator} }
+ \date{}
+ \begin{document}
+ \maketitle
  
  \dirtree{%
-   .1 {\bf \color{blue} heap\_allocator\_reduced.d}\DTcomment{}.
+-  .1 {\bf \color{blue} heap\_allocator\_reduced.d}\DTcomment{}.
++  .1 {\bf \color{blue} .}\DTcomment{}.
 +  .2 {README.pdf}\DTcomment{\pageref{sec:heap_allocator_reduced.d/README.pdf}}.
    .2 {main.c}\DTcomment{\pageref{sec:heap_allocator_reduced.d/main.c}}.
+   .2 {heap\_test.stdout}\DTcomment{\pageref{sec:heap_allocator_reduced.d/heap_test.stdout}}.
    .2 {llist.c}\DTcomment{\pageref{sec:heap_allocator_reduced.d/llist.c}}.
+@@ -38,6 +40,12 @@
    .2 {commented\_heap.c}\DTcomment{\pageref{sec:heap_allocator_reduced.d/commented_heap.c}}.
-@@ -35,6 +37,12 @@
-   .3 {heap.h}\DTcomment{\pageref{sec:heap_allocator_reduced.d/include/heap.h}}.
  }
  
 +\newpage
@@ -27,3 +36,11 @@
  
  \newpage
  \section*{main.c}\label{sec:heap_allocator_reduced.d/main.c}
+@@ -48,6 +56,7 @@
+ \section*{heap\_test.stdout}\label{sec:heap_allocator_reduced.d/heap_test.stdout}
+ \markboth{heap\_test.stdout}{heap\_test.stdout}
+ \thispagestyle{HideSectionInHeader}
++Executed with \mintinline{shell}{make gcc-test && setarch x86_64 -R ./heap_test > heap_test.out}
+ \inputminted[]{text}{heap_allocator_reduced.d/heap_test.stdout}
+ \newpage
+ \section*{llist.c}\label{sec:heap_allocator_reduced.d/llist.c}
