@@ -25,7 +25,7 @@ jobs:
               # In total, it takes 5min
               uses: airvzxf/cache-anything-new-action@v1.0.1
               with:
-                script: .github/workflows/cached_install.sh
+                script: cached_install.sh
                 is_cached: ${{ steps.cache-id.outputs.cache-hit }}
                 cache: ${{ runner.temp }}/cache-directory-example
                 snapshot: '/'
