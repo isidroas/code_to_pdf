@@ -16,14 +16,15 @@ jobs:
             #   with:
             #     python-version: ${{ matrix.python-version }}
             - uses: actions/setup-python@v5
+              with:
+                python-version: 3.11
             - uses: actions/checkout@v4
             # - name: Install dependencies
             #   # TODO: find a quicker method. Currently the download is fast but the installation is slow
             #   # In total, it takes 5min
             #   run: sudo apt install texlive-full
             - name: Install fonts
-              run: |
-                  ./.github/workflows/install_nerd_fonts.sh
+              run: ./.github/workflows/install_nerd_fonts.sh
             - name: Install package
               # run: python -m pip install  ./
               run: pip install  ./
