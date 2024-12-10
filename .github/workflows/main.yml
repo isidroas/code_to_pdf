@@ -40,7 +40,7 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                 name: pdf
-                path: flask_without_docs.pdf
+                path: examples/flask_without_docs.pdf
                 # path: |
                 #   examples/*.pdf
                 #   examples/*.tex
