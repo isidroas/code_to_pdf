@@ -25,10 +25,13 @@ TEX2PDF?=xelatex
 	$(TEX2PDF)  -shell-escape $^
 
 .PHONY: clean
-clean: clean-latex-intermediate-artifacts
-	rm -rf *.tex *.pdf
+clean: clean-all-except-tarballs
+	rm -f *.tar.gz
+
+.PHONY: clean-all-except-tarballs
+clean-all-except-tarballs: clean-latex-intermediate-artifacts
+	rm -f *.tex *.pdf
 	rm -rf *.d
-	rm *.tar.gz
 
 .PHONY: clean-latex-intermediate-artifacts
 clean-latex-intermediate-artifacts:
