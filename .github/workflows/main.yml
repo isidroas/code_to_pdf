@@ -17,26 +17,10 @@ jobs:
             #     python-version: ${{ matrix.python-version }}
             - uses: actions/setup-python@v5
             - uses: actions/checkout@v4
-            - uses: actions/cache@v4
-              id: cache-id
-              with:
-                path: /
-                key: ${{ runner.os }}-cache-all-key-v1.0
-            - name: Install dependencies
-              # TODO: find a quicker method. Currently the download is fast but the installation is slow
-              # In total, it takes 5min
-              if: steps.cache-id.outputs.cache-hit != 'true'
-              env:
-                CACHE_HIT: ${{steps.cache-id.outputs.cache-hit}}
-              run: sudo apt install texlive-full
-              # run: |
-              #   if [[ "$CACHE_HIT" == 'true' ]]; then
-              #     sudo cp --verbose --force --recursive ~/texlive/* /usr/share
-              #   else
-              #     sudo apt-get install texlive-full
-              #     mkdir -p ~/valgrind
-              #     sudo cp --parents --target-directory /usr/share/* ~/texlive/
-              #   fi
+            # - name: Install dependencies
+            #   # TODO: find a quicker method. Currently the download is fast but the installation is slow
+            #   # In total, it takes 5min
+            #   run: sudo apt install texlive-full
             - name: Install fonts
               run: |
                   ./.github/workflows/install_nerd_fonts.sh
