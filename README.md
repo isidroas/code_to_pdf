@@ -1,8 +1,3 @@
-[![codecov](https://codecov.io/gh/isidroas/code_to_pdf/branch/main/graph/badge.svg)](https://codecov.io/gh/isidroas/code_to_pdf)
-[![example workflow](https://github.com/isidroas/code_to_pdf/actions/workflows/github-actions-test.yaml/badge.svg)](https://github.com/isidroas/code_to_pdf/actions/workflows/github-actions-test.yaml)
-[![Checked with mypy](http://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/)
-
-
 # PDF code project generator
 
 Spending many hours in front of a screen can be tiring. Sometimes we need to analyze libraries that are used in our application and to give our eyes a break, this program could be useful. Its input is a folder that contains files of code, and the output is a PDF document of highlighted source. Also, at the beginning an index is added, which indicates the page number per each file of code.
