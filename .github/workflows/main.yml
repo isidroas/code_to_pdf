@@ -13,6 +13,8 @@ jobs:
               with:
                 python-version: ${{ matrix.python-version }}
             - name: Install dependencies
+              # TODO: find a quicker method. Currently the download is fast but the installation is slow
+              # In total, it takes 5min
               run: |
                   sudo apt install texlive-full
             - name: Check out repository code
@@ -25,6 +27,7 @@ jobs:
             - name: Build
               run: |
                    cd examples
+                   make clean
                    REPO2TEX_FLAGS='--monofont "SauceCodePro Nerd Font Mono" --mainfont "SauceCodePro Nerd Font"' make
             - name: Archive PDFs
               uses: actions/upload-artifact@v4
@@ -35,6 +38,7 @@ jobs:
             - name: Build with default fonts
               run: |
                    cd examples
+                   make clean
                    make
             - name: Build with pdflatex
               run: |
