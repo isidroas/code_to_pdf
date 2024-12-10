@@ -34,6 +34,11 @@ clean: clean-latex-intermediate-artifacts
 clean-latex-intermediate-artifacts:
 	rm -rf _minted-* *.aux *.log *.out
 
+
+code_to_pdf.tar.gz:
+	curl -L https://github.com/isidroas/code_to_pdf/tarball/v0.5 > $@
+# TODO: filtered .d
+
 TheAlgorithms-Python.tar.gz:
 # the project does not have releases, but using some random commit to have an stable output
 	curl -L https://github.com/TheAlgorithms/Python/tarball/fc33c505935e9927cffb6142591891f721a7bcd9 > $@
