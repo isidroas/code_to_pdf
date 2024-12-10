@@ -3,6 +3,9 @@ on: push
 jobs:
     build-examples:
         runs-on: ubuntu-latest
+        # container: dante-ev/docker-texlive:latest
+        container:
+          image: danteev/texlive:latest
         # strategy:
         #   matrix:
         #     # python-version: ["3.8", "3.11", "3.12", "3.13"]
