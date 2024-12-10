@@ -109,13 +109,12 @@ db_tutorial.tar.gz:
 
 
 
-clean: clean-latex-artifacts
+.PHONY: clean
+clean: clean-latex-intermediate-artifacts
 	rm -rf *.tex *.pdf
 	rm -rf *.d
-
-# TODO: dirs are not cleaned
-clean-latex-artifacts:
-	rm -rf _minted-* *.aux *.log *.out
-
-clean-sources:
 	rm *.tar.gz
+
+.PHONY: clean-latex-intermediate-artifacts
+clean-latex-intermediate-artifacts:
+	rm -rf _minted-* *.aux *.log *.out
