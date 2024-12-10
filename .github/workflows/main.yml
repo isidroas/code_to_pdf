@@ -25,27 +25,26 @@ jobs:
             - name: Install package
               run: python -m pip install  ./
             - name: Build
+              working-directory: ./examples
               env:
                 REPO2TEX_FLAGS: --monofont "SauceCodePro Nerd Font Mono" --mainfont "SauceCodePro Nerd Font"
-              run: |
-                   cd examples
-                   make clean
-                   make
+              run: make clean all
             - name: Archive PDFs
               uses: actions/upload-artifact@v4
               with:
                 name: pdf
                 path: |
                   examples/*.pdf
+                  examples/*.tex
+                  examples/*.tar.gz
             - name: Build with default fonts
-              run: |
-                   cd examples
-                   make clean
-                   make
+              working-directory: ./examples
+              run: make clean all
             - name: Build with pdflatex
-              run: |
-                   cd examples
-                   TEX2PDF=pdflatex make
+              working-directory: ./examples
+              env:
+                TEX2PDF: pdflatex make
+              run: make clean all
     pre-commit:
         runs-on: ubuntu-latest
         steps:
