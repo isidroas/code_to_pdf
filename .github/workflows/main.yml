@@ -26,7 +26,7 @@ jobs:
               run: python -m pip install  ./
             - name: Build
               env:
-                REPO2TEX_FLAGS:--monofont "SauceCodePro Nerd Font Mono" --mainfont "SauceCodePro Nerd Font"
+                REPO2TEX_FLAGS: --monofont "SauceCodePro Nerd Font Mono" --mainfont "SauceCodePro Nerd Font"
               run: |
                    cd examples
                    make clean
