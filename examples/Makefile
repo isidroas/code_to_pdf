@@ -1,7 +1,7 @@
 .DELETE_ON_ERROR:
 SHELL=bash
 
-all: TheAlgorithms-Python-hash.pdf acwj_chapters_0-2.pdf flask_without_docs.pdf
+all: TheAlgorithms-Python-hash.pdf flask_without_docs.pdf
 
 
 # en realidad hay unos mods comunes para todos:
