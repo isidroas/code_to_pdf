@@ -152,6 +152,7 @@ def generate(
         monofont=monofont,
         mainfont=mainfont,
         filename_in_header=True,
+        break_on_each_section=True,
     )  # monofont='Hack Nerd Font Mono', mainfont='Hack Nerd Font'
 
     return generated
