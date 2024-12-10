@@ -63,9 +63,15 @@ heap_allocator_reduced.d: heap_allocator.d
 	rm $@/heap.c
 	rm $@/Makefile
 	./convert_bulk_markdown_to_pdf.sh $@
+	cp heap_test.stdout $@
 
+heap_allocator_reduced.tex: TITLE=SHMALL - Simple Heap Memory ALLocator
 heap_allocator_reduced_mod_embed.tex: heap_allocator_reduced.tex
 	patch $^ -o $@ < heap_allocator_reduced_mod_embed.patch
+
+# the reverse
+heap_allocator_reduced_mod_embed.patch: heap_allocator_reduced.tex heap_allocator_reduced_mod_embed.tex
+	diff --ignore-all-space -u $^ > $@ || test $$? -eq 1
 
 #### build your own-x
 
