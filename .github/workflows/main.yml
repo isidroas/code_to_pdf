@@ -41,7 +41,7 @@ jobs:
               working-directory: ./examples
               env:
                 REPO2TEX_FLAGS: --monofont "SauceCodePro Nerd Font Mono" --mainfont "SauceCodePro Nerd Font"
-              run: make clean all
+              run: make clean && make all
             - name: Archive PDFs
               uses: actions/upload-artifact@v4
               with:
@@ -52,12 +52,12 @@ jobs:
                   examples/*.tar.gz
             - name: Build with default fonts
               working-directory: ./examples
-              run: make clean all
+              run: make clean && make all
             - name: Build with pdflatex
               working-directory: ./examples
               env:
                 TEX2PDF: pdflatex
-              run: make clean all
+              run: make clean && make all
     pre-commit:
         runs-on: ubuntu-latest
         steps:
