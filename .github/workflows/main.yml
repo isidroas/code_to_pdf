@@ -20,6 +20,8 @@ jobs:
               with:
                 path: ${{ runner.temp }}/cache-directory-example
                 key: ${{ runner.os }}-cache-hello-world-key-v1.0
+            - name: Check out repository code
+              uses: actions/checkout@v4
             - name: Install dependencies
               # TODO: find a quicker method. Currently the download is fast but the installation is slow
               # In total, it takes 5min
@@ -30,8 +32,6 @@ jobs:
                 cache: ${{ runner.temp }}/cache-directory-example
                 snapshot: '/'
                 exclude: '/boot /data /dev /mnt /proc /run /sys'
-            - name: Check out repository code
-              uses: actions/checkout@v4
             - name: Install fonts
               run: |
                   ./.github/workflows/install_nerd_fonts.sh
