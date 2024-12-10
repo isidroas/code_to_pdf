@@ -22,7 +22,7 @@ jobs:
               with:
                 python-version: 3.11
             - uses: actions/checkout@v4
-            # - name: Install dependencies
+            - name: Install dependencies
             #   # TODO: find a quicker method. Currently the download is fast but the installation is slow
             #   # In total, it takes 5min
             #   run: sudo apt install texlive-full
