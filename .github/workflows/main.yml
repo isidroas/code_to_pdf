@@ -1,4 +1,4 @@
-name: Code to pdf test
+# name: Code to pdf test
 on: push
 jobs:
     build-examples:
