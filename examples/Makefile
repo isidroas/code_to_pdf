@@ -87,7 +87,7 @@ h11_filtered.d: h11.d
 	rm -r $@/docs
   # not original/ copied pasted
 	rm  $@/LICENSE.txt $@/.gitignore $@/CODE_OF_CONDUCT.md
-h11_filtered.tex: TITLE=h11 - A pure-Python, bring-your-own-I/O implementation of HTTP/1.1 
+h11_filtered.tex: TITLE=h11 - A pure-Python, bring-your-own-I/O implementation of HTTP/1.1
 
 h2.tar.gz:
 	curl -L https://github.com/python-hyper/h2/tarball/v4.1.0 > $@
@@ -103,7 +103,7 @@ h2_filtered.d: h2.d
 	find $@ -name '*.key' -delete
 	find $@ -type f -empty -delete
 	find $@ -type d -empty -delete
-h2_filtered.tex: TITLE=h2: HTTP/2 Protocol Stack 
+h2_filtered.tex: TITLE=h2: HTTP/2 Protocol Stack
 
 httpcore.tar.gz:
 	curl -L https://github.com/encode/httpcore/tarball/1.0.7 > $@

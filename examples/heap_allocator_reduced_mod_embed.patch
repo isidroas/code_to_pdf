@@ -15,7 +15,7 @@
  \date{}
  \begin{document}
  \maketitle
- 
+
  \dirtree{%
 -  .1 {\bf \color{blue} heap\_allocator\_reduced.d}\DTcomment{}.
 +  .1 {\bf \color{blue} .}\DTcomment{}.
@@ -26,14 +26,14 @@
 @@ -38,6 +40,12 @@
    .2 {commented\_heap.c}\DTcomment{\pageref{sec:heap_allocator_reduced.d/commented_heap.c}}.
  }
- 
+
 +\newpage
 +\section*{README.pdf}\label{sec:heap_allocator_reduced.d/README.pdf}
 +\markboth{README.pdf}{README.pdf}
 +\thispagestyle{HideSectionInHeader}
 +\includegraphics[width=\linewidth, page=1]{heap_allocator_reduced.d/README.pdf}
 +\includepdf[pages=2-, width=\linewidth, pagecommand={\pagestyle{fancy}}]{heap_allocator_reduced.d/README.pdf}
- 
+
  \newpage
  \section*{main.c}\label{sec:heap_allocator_reduced.d/main.c}
 @@ -48,6 +56,7 @@

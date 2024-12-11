@@ -82,12 +82,13 @@ class PathSelector:
 
 default_filter_predicate = PathSelector().select
 
-from code_to_pdf.sorting import sort_key
+from code_to_pdf.sorting import sort_key  # noqa: E402
+
 
 def walk(root: Path, filter_predicate):
     yield root
     if root.is_dir():
-        for child in sorted(filter(filter_predicate, root.iterdir()),key=sort_key):
+        for child in sorted(filter(filter_predicate, root.iterdir()), key=sort_key):
             yield from walk(child, filter_predicate)
 
 
